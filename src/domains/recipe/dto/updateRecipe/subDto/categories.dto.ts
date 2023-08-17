@@ -3,8 +3,8 @@ import { IsString, IsOptional } from 'class-validator';
 export class CategoriesDTO {
   @IsOptional()
   @IsString()
-  name: string;
+  name: String;
   @IsOptional()
   @IsString()
-  niceName: string;
+  niceName: String;
 }

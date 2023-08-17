@@ -1,31 +1,30 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Recipe } from '../schema';
+import { Recipe, RecipeDocument } from '../schema/subSchema';
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import QueryInterface from './interface/recipequery.interface';
+import { UpdateRecipeDto } from '../dto/updateRecipe/updateRecipe.dto';
+import { CreateRecipeDto } from '../dto/createRecipe/createRecipe.dto';
 
 @Injectable()
 export class RecipeRepository {
   constructor(@InjectModel(Recipe.name) private RecipeModel: Model<Recipe>) {}
-  async findOne(region, body) {
+
+  async findOne(
+    region: string,
+    body: CreateRecipeDto,
+  ): Promise<RecipeDocument> {
     const recipe = await this.RecipeModel.findOne({
       niceName: body.niceName,
       region: region,
     });
-    return recipe;
-  }
 
-  async fetchOne(region: string, niceName: string) {
-    const recipe = await this.RecipeModel.findOne({
-      niceName: niceName,
-      region: region,
-    });
     return recipe;
   }
-  async create(body) {
+  async create(body): Promise<RecipeDocument> {
     return await this.RecipeModel.create(body);
   }
-  async findAll(region: string, search: string) {
+  async findAll(region, search): Promise<Array<RecipeDocument>> {
     let query: QueryInterface = {};
     if (search) {
       query.$or = [
@@ -85,5 +84,22 @@ export class RecipeRepository {
       return data;
     }
     return [];
+  }
+  async fetchOne(region, niceName) {
+    const recipe = await this.RecipeModel.findOne({
+      niceName: niceName,
+      region: region,
+    });
+    return recipe;
+  }
+  async updateOne(body: UpdateRecipeDto, niceName: string) {
+    console.log(body);
+    const recipe = await this.RecipeModel.findOneAndUpdate(
+      { niceName: niceName },
+      body,
+      { new: true },
+    );
+    console.log(recipe);
+    return recipe;
   }
 }

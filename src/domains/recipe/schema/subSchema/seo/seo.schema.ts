@@ -1,8 +1,7 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import { Linkin } from './linkin.subschema';
 import { Suggestions } from './suggestions.subschema';
 import { Extra } from './extra.subschema';
-
 @Schema({ _id: false })
 export class Seo {
   @Prop()
@@ -24,17 +23,18 @@ export class Seo {
   follow: Boolean;
 
   @Prop([Linkin])
-  linkin: [Linkin];
+  linkin: Linkin[];
 
   @Prop([Suggestions])
-  suggestions: [Suggestions];
+  suggestions: Suggestions[];
 
   @Prop(Extra)
   extra: Extra;
 
   @Prop([String])
-  keywords: [String];
+  keywords: String[];
 
   @Prop([String])
-  autopublishDate: [String];
+  autopublishDate: String[];
 }
+export const SeoSchema = SchemaFactory.createForClass(Seo);

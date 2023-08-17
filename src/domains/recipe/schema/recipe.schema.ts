@@ -8,9 +8,9 @@ import {
   Info,
   Social,
   Source,
-  Grants,
-  Seo,
-} from './index';
+} from './subSchema/index';
+import { Seo } from './subSchema/seo/seo.schema';
+import { Grants } from './subSchema/grants.schema';
 
 export type RecipeDocument = HydratedDocument<Recipe>;
 
@@ -104,10 +104,9 @@ export class Recipe {
   @Prop({ type: String })
   advice: string;
 
-  @Prop({ type: Object })
+  @Prop(Grants)
   grants: Grants;
-
-  @Prop({ type: Object })
+  @Prop(Seo)
   seo: Seo;
 
   @Prop()

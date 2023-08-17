@@ -21,14 +21,10 @@ import {
 } from './subDto';
 import { Type } from 'class-transformer';
 
-export class CreateRecipeDto {
+export class UpdateRecipeDto {
   @IsOptional()
   @IsString()
   title: String;
-
-  @IsNotEmpty()
-  @IsString()
-  niceName: String;
 
   @IsOptional()
   @IsString()

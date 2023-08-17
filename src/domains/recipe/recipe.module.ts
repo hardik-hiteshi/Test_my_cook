@@ -3,7 +3,7 @@ import { RecipeController } from './recipe.controller';
 import { RecipeService } from './recipe.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RecipeRepository } from './repository/recipe.repository';
-import { Recipe, RecipeSchema } from './schema';
+import { Recipe, RecipeSchema } from './schema/subSchema';
 
 @Module({
   imports: [
