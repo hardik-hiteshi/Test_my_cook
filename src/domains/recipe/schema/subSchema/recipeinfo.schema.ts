@@ -4,7 +4,7 @@ import { Timestamp, timestamp } from 'rxjs';
 @Schema({ _id: false })
 export class Info {
   @Prop()
-  creationDate:Date;
+  creationDate: Date;
   @Prop()
   modificationDate: Date;
   @Prop()

@@ -1,10 +1,10 @@
 import { IsString, IsDateString, IsOptional } from 'class-validator';
 export class InfoDto {
   @IsOptional()
- @IsDateString()
+  @IsDateString()
   creationDate?: Date;
   @IsOptional()
- @IsDateString()
+  @IsDateString()
   modificationDate?: Date;
 
   @IsOptional()

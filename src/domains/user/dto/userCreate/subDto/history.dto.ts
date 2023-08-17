@@ -1,4 +1,9 @@
-import { IsDate, ValidateNested, IsOptional, IsDateString } from 'class-validator';
+import {
+  IsDate,
+  ValidateNested,
+  IsOptional,
+  IsDateString,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { LastLoginDto } from './lastLogin.dto';
 export class HistoryDto {

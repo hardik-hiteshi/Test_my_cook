@@ -24,7 +24,7 @@ import { AdvertisementModule } from './domains/advertisement/advertisement.modul
     FeaturedModule,
     RankModule,
     RecipeModule,
-    AdvertisementModule
+    AdvertisementModule,
   ],
   controllers: [AppController],
   providers: [AppService],

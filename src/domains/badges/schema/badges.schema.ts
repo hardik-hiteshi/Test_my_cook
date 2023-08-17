@@ -4,7 +4,7 @@ import badgesNiceNames from './subSchema/enums/BadgesNicenames.enum';
 import BadgesRegions from './subSchema/enums/BadgesRegion.enums';
 import { Translations } from './subSchema/index';
 
-export type MachineModelDocument = HydratedDocument<Badges>;
+export type BadgesDocument = HydratedDocument<Badges>;
 
 @Schema({
   shardKey: {

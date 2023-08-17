@@ -2,7 +2,7 @@ import { Schema, Prop } from '@nestjs/mongoose';
 import { HistorySubSchema } from './history.subschema';
 import LastLogin from '../lastlogin.schema';
 
-@Schema({_id:false})
+@Schema({ _id: false })
 export class History {
   @Prop()
   registration: Date;

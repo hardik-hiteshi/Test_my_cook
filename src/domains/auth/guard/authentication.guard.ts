@@ -33,8 +33,9 @@ export class AuthenticationGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
-      const user = await this.UserModel.findById(payload.sub).select('-password');
-    
+      const user = await this.UserModel.findById(payload.sub).select(
+        '-password',
+      );
 
       if (!user) {
         throw new UnauthorizedException('user not exist');

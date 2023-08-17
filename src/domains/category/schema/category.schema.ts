@@ -3,7 +3,7 @@ import { HydratedDocument } from 'mongoose';
 import CategoyRegions from './subSchema/enums/Categoryregion.enum';
 import { Translations } from './subSchema/index';
 
-export type RankDocument = HydratedDocument<Category>;
+export type CategoryDocument = HydratedDocument<Category>;
 
 @Schema()
 export class Category {

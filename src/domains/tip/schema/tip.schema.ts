@@ -2,7 +2,7 @@ import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
 import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import TipRegions from './subSchema/enums/tipregion.enum';
 
-export type FeaturedDocument = HydratedDocument<Tip>;
+export type TipDocument = HydratedDocument<Tip>;
 @Schema({
   shardKey: {
     region: 1,

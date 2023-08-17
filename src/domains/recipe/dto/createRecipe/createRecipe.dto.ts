@@ -48,7 +48,7 @@ export class CreateRecipeDto {
 
   @IsOptional()
   @IsArray()
-  @IsString({each:true})
+  @IsString({ each: true })
   course?: String;
 
   @IsOptional()

@@ -3,7 +3,7 @@ import { Schema as mongooseSchema } from 'mongoose';
 import AdvertisementRegions from './subSchema/enums/advertisementregion.enum';
 import { HydratedDocument } from 'mongoose';
 
-export type FeaturedDocument = HydratedDocument<Advertisement>;
+export type AdvertisementDocument = HydratedDocument<Advertisement>;
 
 @Schema({
   shardKey: {

@@ -18,7 +18,6 @@ import {
 
 export type UserDocument = HydratedDocument<User>;
 
-
 @Schema({
   shardKey: {
     region: 1,

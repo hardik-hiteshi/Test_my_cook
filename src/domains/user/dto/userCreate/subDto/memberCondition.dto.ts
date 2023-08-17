@@ -1,4 +1,9 @@
-import { IsDateString, IsBoolean, ValidateNested, IsOptional } from 'class-validator';
+import {
+  IsDateString,
+  IsBoolean,
+  ValidateNested,
+  IsOptional,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { ConditionHistoryDto } from './conditionHistory.dto';
 

@@ -12,7 +12,7 @@ import {
   Seo,
 } from './index';
 
-export type RankDocument = HydratedDocument<Recipe>;
+export type RecipeDocument = HydratedDocument<Recipe>;
 
 @Schema({
   shardKey: {

@@ -3,7 +3,7 @@ import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Info, Categories, Group } from './subSchema/index';
 import AlternativeRecipeCourses from './subSchema/enums/AlternativeRecipeCourses.enum';
 
-export type FeaturedDocument = HydratedDocument<AlternativeRecipe>;
+export type AlternativeRecipeDocument = HydratedDocument<AlternativeRecipe>;
 @Schema({
   shardKey: {
     region: 1,
