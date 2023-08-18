@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type MachineInfoDocument = HydratedDocument<MachineInfo>;
@@ -6,14 +6,14 @@ export type MachineInfoDocument = HydratedDocument<MachineInfo>;
 @Schema({ _id: false })
 export class MachineInfo {
   @Prop([String])
-  guests: string[];
+  public guests: string[];
 
   @Prop({ type: String, ref: 'User' })
-  owner: string;
+  public owner: string;
 
   @Prop()
-  registrationDate: Date;
+  public registrationDate: Date;
 
   @Prop()
-  region: string;
+  public region: string;
 }

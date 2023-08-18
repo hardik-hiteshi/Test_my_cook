@@ -5,38 +5,26 @@ export type MachineModelDocument = HydratedDocument<MachineModel>;
 
 @Schema()
 export class MachineModel {
-  @Prop({ required: true })
-  unique_id: string;
+  @Prop({ required: true, unique: true })
+  public uniqueId: string;
 
   @Prop({ required: true, unique: true })
-  code: string;
+  public code: string;
 
   @Prop({ required: true })
-  model: string;
+  public model: string;
 
   @Prop()
-  country: string;
+  public country: string;
 
   @Prop({ required: true })
-  distributor: string;
+  public distributor: string;
 
   @Prop({ required: true })
-  product_platform: string;
+  public productPlatform: string;
 
   @Prop({ required: true, enum: machineClodVersions })
-  clodVersion: string;
+  public clodVersion: string;
 }
 
-export const MachineModelSchema = SchemaFactory.createForClass(MachineModel);
-
-// unique_id: { type: String, required: true },
-// code: { type: String, required: true, unique: true },
-// model: { type: String, required: true },
-// country: String,
-// distributor: { type: String, required: true },
-// product_platform: { type: String, required: true },
-// cloudVersion: {
-//   type: String,
-//   required: true,
-//   enum: ["S1", "S1.1", "S2"],
-// },
+export const machineModelSchema = SchemaFactory.createForClass(MachineModel);

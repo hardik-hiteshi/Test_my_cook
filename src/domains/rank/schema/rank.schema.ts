@@ -11,27 +11,27 @@ export type RankDocument = HydratedDocument<Rank>;
 })
 export class Rank {
   @Prop({ required: true })
-  name: string;
+  public name: string;
 
   @Prop({ required: true })
-  niceName: string;
+  public niceName: string;
 
   @Prop({ default: '' })
-  image: string;
+  public image: string;
 
   @Prop({ required: true })
-  description: string;
+  public description: string;
 
   @Prop({ required: true })
-  region: string;
+  public region: string;
 
   @Prop(RankTranslations)
-  tanslations: RankTranslations;
+  public translations: RankTranslations;
   @Prop()
-  preserve: boolean;
+  public preserve: boolean;
 }
 
-export const RankSchema = SchemaFactory.createForClass(Rank);
+export const rankSchema = SchemaFactory.createForClass(Rank);
 
 // {
 //     name: { type: String, required: true },

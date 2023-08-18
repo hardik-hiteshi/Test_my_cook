@@ -1,75 +1,78 @@
+import { MachineHistory, MachineInfo, MachineSerial } from './subSchema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { MachineHistory, MachineInfo, MachineSerial } from './subSchema';
 import machinestatus from './subSchema/enums/machinestatus.enum';
 
 export type MachineDocument = HydratedDocument<Machine>;
 
 @Schema()
 export class Machine {
-  @Prop()
-  unique_id: string;
+  @Prop({ unique: true, required: true })
+  public uniqueId: string;
 
   @Prop(MachineInfo)
-  info: MachineInfo;
+  public info: MachineInfo;
 
   @Prop([MachineHistory])
-  history: MachineHistory[];
+  public history: MachineHistory[];
 
   @Prop()
-  mac: string;
+  public mac: string;
 
   @Prop()
-  manufactureDate: Date;
+  public manufactureDate: Date;
 
   @Prop()
-  model: string;
+  public model: string;
 
   @Prop()
-  purchaseDate: Date;
+  public purchaseDate: Date;
+
+  @Prop({ default: 'machine' })
+  public region: string;
 
   @Prop()
-  region: string;
+  public secret: string;
 
   @Prop()
-  secret: string;
+  public lastLogin: Date;
 
   @Prop()
-  lastLogin: Date;
+  public lastIP: string;
 
   @Prop()
-  lastIP: string;
+  public lastUser: string;
 
   @Prop()
-  lastUser: string;
-
-  @Prop()
-  lastUserAgent: string;
+  public lastUserAgent: string;
 
   @Prop({ type: Object })
-  lastGeo: {};
+  public lastGeo: object;
 
   @Prop()
-  lastLoginFail: Date;
+  public lastLoginFail: Date;
 
   @Prop()
-  lastIPFail: string;
+  public lastIPFail: string;
 
   @Prop()
-  lastUserAgentFail: string;
+  public lastUserAgentFail: string;
 
   @Prop({ type: Object })
-  lastGeoFail: {};
+  public lastGeoFail: object;
 
-  @Prop(MachineSerial)
-  serial: MachineSerial;
+  @Prop({ type: MachineSerial, required: true })
+  public serial: MachineSerial;
 
   @Prop({
     type: String,
     default: 'enabled',
     enum: machinestatus,
   })
-  status: string;
+  public status: string;
+
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 
-export const MachineSchema = SchemaFactory.createForClass(Machine);
+export const machineSchema = SchemaFactory.createForClass(Machine);

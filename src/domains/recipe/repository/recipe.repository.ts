@@ -4,7 +4,7 @@ import { CreateRecipeDto } from '../dto/createRecipe/createRecipe.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import QueryInterface from './interface/recipequery.interface';
+import { QueryInterface } from './interface/recipequery.interface';
 import { UpdateRecipeDto } from '../dto/updateRecipe/updateRecipe.dto';
 
 @Injectable()

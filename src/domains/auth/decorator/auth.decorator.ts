@@ -1,10 +1,12 @@
-import { Role } from '../roles/permission.roles';
-import { AuthenticationGuard, AuthorizationGuard } from '../guard';
 import { applyDecorators, UseGuards } from '@nestjs/common';
-import { Roles } from './roles.decorator';
-export function Auth(...roles: Role[]) {
-  return applyDecorators(
-    Roles(...roles),
+import { AuthenticationGuard, AuthorizationGuard } from '../guard';
+import { Role } from '../roles/permission.roles';
+import { ROLES } from './roles.decorator';
+
+export const AUTH = (
+  ...authRoles: Role[]
+): PropertyDecorator & MethodDecorator & ClassDecorator =>
+  applyDecorators(
+    ROLES(...authRoles),
     UseGuards(AuthenticationGuard, AuthorizationGuard),
   );
-}

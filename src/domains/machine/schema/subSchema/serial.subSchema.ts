@@ -1,19 +1,19 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type MachineSerialDocument = HydratedDocument<MachineSerial>;
 
 @Schema({ _id: false })
 export class MachineSerial {
-  @Prop()
-  batch: string;
+  @Prop({ required: true })
+  public batch: string;
 
-  @Prop()
-  compatibility: string;
+  @Prop({ required: true })
+  public compatibility: string;
 
-  @Prop()
-  counter: string;
+  @Prop({ required: true, unique: true })
+  public counter: string;
 
-  @Prop()
-  control: string;
+  @Prop({ required: true })
+  public control: string;
 }

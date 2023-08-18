@@ -1,23 +1,21 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-
-import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import mongoose from 'mongoose';
 import { SignInUserDto } from './dtos';
 import { UserRepository } from '../user/repository/user.repository';
-import mongoose from 'mongoose';
-
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(
+  public constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
     private userRepo: UserRepository,
   ) {}
 
   // need to change SignInUserDto and signJwt parameter type
-  async signIn(body: SignInUserDto): Promise<{ token: string }> {
+  public async signIn(body: SignInUserDto): Promise<{ token: string }> {
     const user = await this.userRepo.findOne({ niceName: body.niceName });
     if (!user) throw new BadRequestException('invalid user or password');
 
@@ -29,21 +27,18 @@ export class AuthService {
     return { token };
   }
 
-  async signJwt(id: mongoose.Types.ObjectId): Promise<string> {
+  public async signJwt(
+    id: mongoose.Types.ObjectId,
+    expiresIn?: string,
+  ): Promise<string> {
     const payload = {
       sub: id,
     };
-
-    //secret key need to set in env
     const token = await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_SECRET'),
-      expiresIn: '24h',
+      expiresIn: expiresIn ?? '24h',
     });
 
     return token;
-  }
-
-  async resetPassword(body) {
-    const user = await this.userRepo.findOne({});
   }
 }

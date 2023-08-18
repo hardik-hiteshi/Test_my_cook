@@ -4,5 +4,5 @@ import mongoose from 'mongoose';
 export class MongoIdDto {
   @IsNotEmpty()
   @IsMongoId()
-  id: mongoose.Types.ObjectId;
+  public id: mongoose.Types.ObjectId;
 }

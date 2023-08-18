@@ -4,12 +4,18 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UpdatePasswordDto, UserCreateDto } from './dto';
+import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
+import { HelperService } from 'src/common/services/helper.service';
+import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
+
 @Injectable()
 export class UserService {
-  public constructor(private userRepo: UserRepository) {}
+  public constructor(
+    private userRepo: UserRepository,
+    private helperService: HelperService,
+  ) {}
 
   public async create(body: UserCreateDto): Promise<UserDocument> {
     const user = await this.userRepo.findOne({ niceName: body.niceName });
@@ -20,13 +26,13 @@ export class UserService {
   }
 
   public async findOne(niceName: string): Promise<UserDocument> {
-    const user = await this.userRepo.findOne({ niceName });
+    const user = await this.userRepo.findOne({ niceName, isActive: true });
     if (!user) throw new NotFoundException('user not found');
 
     return user;
   }
   public async findAll(): Promise<UserDocument[]> {
-    const users = await this.userRepo.findAll();
+    const users = await this.userRepo.findAll({ isActive: true });
     if (users.length <= 0) throw new NotFoundException('user not found');
 
     return users;
@@ -34,18 +40,23 @@ export class UserService {
   public async findOneAndUpdate(
     user: UserDocument,
     niceName: string,
-    body,
+    body: UserUpdateDto,
   ): Promise<UserDocument> {
-    //check user role hierarchy
-    const updateUser = this.userRepo.findOneAndUpdate({ niceName }, body);
-    if (!updateUser) throw new NotFoundException('user not found');
+    const updateUser = await this.userRepo.findOneAndUpdate(
+      { niceName, isActive: true },
+      body,
+    );
 
-    return updateUser;
+    return await updateUser.save();
   }
 
   public async deleteOne(user: UserDocument, niceName: string): Promise<void> {
     //check user role hierarchy
-    const deleteUser = await this.userRepo.deleteOne({ niceName });
+    const deleteUser = await this.userRepo.deleteOne({
+      niceName,
+      isActive: true,
+      role: Role.user,
+    });
     if (!deleteUser) throw new NotFoundException('user not found');
   }
 
@@ -53,10 +64,14 @@ export class UserService {
     user: UserDocument,
     body: UpdatePasswordDto,
   ): Promise<void> {
+    if (body.currentPassword === body.newPassword)
+      throw new BadRequestException(
+        'new password and old password cannot be same',
+      );
     const currentUser = await this.userRepo.findOne({
       niceName: user.niceName,
+      isActive: true,
     });
-
     if (!currentUser) throw new NotFoundException('user not found');
     const pwMatched = await bcrypt.compare(
       body.currentPassword,

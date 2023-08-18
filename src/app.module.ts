@@ -1,17 +1,15 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './domains/user/user.module';
-import { MachineModule } from './domains/machine/machine.module';
-import { MachineModelModule } from './domains/machineModel/machineModel.module';
+import { AdvertisementModule } from './domains/advertisement/advertisement.module';
+import { CommonModule } from './common/common.module';
+import { ConfigModule } from '@nestjs/config';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
+import { MachineModelModule } from './domains/machineModel/machineModel.module';
+import { MachineModule } from './domains/machine/machine.module';
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { RankModule } from './domains/rank/rank.module';
-import { ConfigModule } from '@nestjs/config';
-import { config } from 'process';
 import { RecipeModule } from './domains/recipe/recipe.module';
-import { AdvertisementModule } from './domains/advertisement/advertisement.module';
+import { UserModule } from './domains/user/user.module';
 
 @Module({
   imports: [
@@ -25,8 +23,7 @@ import { AdvertisementModule } from './domains/advertisement/advertisement.modul
     RankModule,
     RecipeModule,
     AdvertisementModule,
+    CommonModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

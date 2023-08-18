@@ -5,9 +5,9 @@ import { ROLES_KEY } from '../decorator/roles.decorator';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  public constructor(private reflector: Reflector) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  public canActivate(context: ExecutionContext): boolean {
     const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
       context.getHandler(),
       context.getClass(),

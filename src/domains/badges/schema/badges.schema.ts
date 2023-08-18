@@ -49,8 +49,7 @@ export class Badges {
   public description: string;
 
   @Prop({ type: String, format: 'html', title: 'Prize text' })
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  public prize_txt: string;
+  public prizeTxt: string;
 
   @Prop({ type: String, title: 'Prize' })
   public prize: string;

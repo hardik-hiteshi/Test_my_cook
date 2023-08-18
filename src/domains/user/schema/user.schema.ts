@@ -84,5 +84,7 @@ export class User {
   public contactConditions: OtherConditions;
   @Prop(Translations)
   public translations: Translations;
+  @Prop({ default: true, type: Boolean, required: true })
+  public isActive: boolean;
 }
 export const userSchema = SchemaFactory.createForClass(User);

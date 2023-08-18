@@ -5,23 +5,22 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-
-import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 import { Model } from 'mongoose';
+import { Request } from 'express';
 import { User } from 'src/domains/user/schema/user.schema';
 // import { IUser } from 'src/user/schema/user.interface';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(
+  public constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
-    @InjectModel(User.name) private UserModel: Model<User>,
+    @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
@@ -29,13 +28,15 @@ export class AuthenticationGuard implements CanActivate {
     }
 
     try {
-      //secret key need to set in env
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
-      const user = await this.UserModel.findById(payload.sub).select(
-        '-password',
-      );
+      const user = await this.userModel
+        .findOne({
+          _id: payload.sub,
+          isActive: true,
+        })
+        .select('-password');
 
       if (!user) {
         throw new UnauthorizedException('user not exist');
@@ -44,8 +45,12 @@ export class AuthenticationGuard implements CanActivate {
       // 💡 We're assigning the user to the request object here
       // so that we can access it in our route handlers
       request['user'] = user;
-    } catch (e) {
-      throw new UnauthorizedException('invalid token');
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        throw new UnauthorizedException(e.message || 'invalid token');
+      } else {
+        throw new UnauthorizedException('invalid token');
+      }
     }
 
     return true;

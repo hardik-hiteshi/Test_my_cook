@@ -1,38 +1,43 @@
 import { User, UserDocument } from '../schema/user.schema';
+import { UserCreateDto, UserUpdateDto } from '../dto';
+import { BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RecursivePartial } from 'src/common/interface';
 
-type RecursivePartial<T> = {
-  [P in keyof T]?: RecursivePartial<T[P]>;
-};
 export class UserRepository {
-  public constructor(@InjectModel(User.name) private UserModel: Model<User>) {}
+  public constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  public async findOne(query: Partial<User>): Promise<UserDocument> {
-    return await this.UserModel.findOne(query);
+  public async findOne(query: RecursivePartial<User>): Promise<UserDocument> {
+    return await this.userModel.findOne(query);
   }
-  public async create(body): Promise<UserDocument> {
-    return await this.UserModel.create(body);
+  public async create(body: UserCreateDto): Promise<UserDocument> {
+    return await this.userModel.create(body);
   }
 
-  public async findAll(): Promise<UserDocument[]> {
-    return await this.UserModel.find();
+  public async findAll(query: RecursivePartial<User>): Promise<UserDocument[]> {
+    return await this.userModel.find(query);
   }
+
   public async findOneAndUpdate(
-    query: Partial<User>,
-    body,
+    query: RecursivePartial<User>,
+    body: UserUpdateDto,
   ): Promise<UserDocument> {
-    return await this.UserModel.findOneAndUpdate(query, body).select(
-      '-password',
-    );
+    if (Object.keys(body).length === 0)
+      throw new BadRequestException('request body can not be empty');
+
+    return await this.userModel
+      .findOneAndUpdate(
+        query,
+        { $set: body },
+        {
+          new: true,
+        },
+      )
+      .select('-password');
   }
 
-  public async deleteOne(query: Partial<User>): Promise<UserDocument> {
-    return await this.UserModel.findOneAndDelete(query);
+  public async deleteOne(query: RecursivePartial<User>): Promise<UserDocument> {
+    return await this.userModel.findOneAndUpdate(query, { isActive: false });
   }
 }
-
-// {
-//   size: number;
-//   [name: string]: string|number;
-// }
