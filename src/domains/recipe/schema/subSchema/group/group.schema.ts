@@ -1,11 +1,11 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Schema as mongooseSchema } from 'mongoose';
 import { Steps } from './steps.subschema';
 
 @Schema({ _id: false })
 export class Group {
   @Prop()
-  name: String;
+  public name: string;
   @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Steps' }])
-  steps: [Steps];
+  public steps: [Steps];
 }

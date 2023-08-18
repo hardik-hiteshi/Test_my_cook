@@ -1,10 +1,10 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CategoriesDTO {
   @IsOptional()
   @IsString()
-  name: String;
+  public name: string;
   @IsOptional()
   @IsString()
-  niceName: String;
+  public niceName: string;
 }

@@ -1,11 +1,11 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class FromDto {
   @IsOptional()
   @IsString()
-  region?: string;
+  public region?: string;
 
   @IsOptional()
   @IsString()
-  niceName?: string;
+  public niceName?: string;
 }

@@ -1,14 +1,14 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class Social {
   @Prop()
-  favorite: Number;
+  public favorite: number;
   @Prop()
-  facebook: Number;
+  public facebook: number;
   @Prop()
-  comments: Number;
+  public comments: number;
   @Prop()
-  ratings: Number;
+  public ratings: number;
   @Prop()
-  todo: Number;
+  public todo: number;
 }

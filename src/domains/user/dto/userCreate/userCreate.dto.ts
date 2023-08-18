@@ -1,175 +1,175 @@
 import {
-  IsString,
-  IsNotEmpty,
-  MinLength,
-  ValidateNested,
-  IsArray,
-  IsEnum,
-  IsOptional,
-} from 'class-validator';
-import { Type } from 'class-transformer';
-import { Role } from 'src/domains/auth/roles/permission.roles';
-import {
-  NameDto,
-  LocationDto,
+  CommunityConditionsDto,
   ContactnDto,
   HistoryDto,
-  ProfileDto,
   InfoDto,
-  StatusDto,
-  ShopItemDto,
-  RecipeDto,
+  LocationDto,
   MemberConditionsDto,
-  CommunityConditionsDto,
+  NameDto,
   OtherConditionsDto,
+  ProfileDto,
+  RecipeDto,
+  ShopItemDto,
+  StatusDto,
   TranslationsDto,
 } from './subDto';
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+  ValidateNested,
+} from 'class-validator';
+import { Role } from 'src/domains/auth/roles/permission.roles';
+import { Type } from 'class-transformer';
 export class UserCreateDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => NameDto)
-  name?: NameDto;
+  public name?: NameDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => LocationDto)
-  location?: LocationDto;
+  public location?: LocationDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => ContactnDto)
-  contact?: ContactnDto;
+  public contact?: ContactnDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => HistoryDto)
-  history?: HistoryDto;
+  public history?: HistoryDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => ProfileDto)
-  profile?: ProfileDto;
+  public profile?: ProfileDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => InfoDto)
-  info?: InfoDto;
+  public info?: InfoDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => StatusDto)
-  status?: StatusDto;
+  public status?: StatusDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => ShopItemDto)
-  shopItem?: ShopItemDto;
+  public shopItem?: ShopItemDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => RecipeDto)
-  recipeList?: RecipeDto;
+  public recipeList?: RecipeDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => MemberConditionsDto)
-  memberConditions?: MemberConditionsDto;
+  public memberConditions?: MemberConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => CommunityConditionsDto)
-  communityConditions?: CommunityConditionsDto;
+  public communityConditions?: CommunityConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => OtherConditionsDto)
-  newsletterConditions?: OtherConditionsDto;
+  public newsletterConditions?: OtherConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => OtherConditionsDto)
-  internationalConditions?: OtherConditionsDto;
+  public internationalConditions?: OtherConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => OtherConditionsDto)
-  termsOfSale?: OtherConditionsDto;
+  public termsOfSale?: OtherConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => OtherConditionsDto)
-  ebookConditions?: OtherConditionsDto;
+  public ebookConditions?: OtherConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => OtherConditionsDto)
-  contactConditions?: OtherConditionsDto;
+  public contactConditions?: OtherConditionsDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => TranslationsDto)
-  translations?: TranslationsDto;
+  public translations?: TranslationsDto;
 
   @IsNotEmpty()
   @MinLength(8)
   @IsString()
-  password: string;
+  public password: string;
 
   @IsNotEmpty()
   @MinLength(3)
   @IsString()
-  niceName: string;
+  public niceName: string;
 
   @IsNotEmpty()
   @MinLength(3)
   @IsString()
-  login: string;
+  public login: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  image?: string[];
+  public image?: string[];
 
   @IsOptional()
   @IsString()
   @IsEnum(Role)
-  role?: string;
+  public role?: string;
 
   @IsOptional()
   @IsString()
-  region?: string;
+  public region?: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  allowedRegions?: string[];
+  public allowedRegions?: string[];
 
   @IsOptional()
   @IsString()
-  rank?: string;
+  public rank?: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  badges?: string[];
+  public badges?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  favorites?: string[];
+  public favorites?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  todo?: string[];
+  public todo?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  grants?: string[];
+  public grants?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  following?: string[];
+  public following?: string[];
 }

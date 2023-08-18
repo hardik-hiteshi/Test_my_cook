@@ -1,47 +1,48 @@
 import {
-  Controller,
-  Post,
-  HttpStatus,
   Body,
+  Controller,
+  Delete,
   Get,
   Param,
-  Delete,
   Patch,
+  Post,
 } from '@nestjs/common';
 
-import { UserService } from './user.service';
-import { GetUser } from '../auth/decorator';
-import { UserDocument } from './schema/user.schema';
+import { UpdatePasswordDto, UserCreateDto } from './dto';
 import { Auth } from '../auth/decorator/auth.decorator';
+import { GetUser } from '../auth/decorator';
 import { Role } from '../auth/roles/permission.roles';
-import { UserCreateDto, UpdatePasswordDto } from './dto';
+import { UserDocument } from './schema/user.schema';
+import { UserService } from './user.service';
 
-// @Auth(Role.admin)
+@Auth(Role.admin)
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  public constructor(private userService: UserService) {}
 
   @Post('create')
-  async create(@Body() body: UserCreateDto) {
+  public async create(@Body() body: UserCreateDto): Promise<UserDocument> {
     return await this.userService.create(body);
   }
 
   @Get('me')
-  getMe(@GetUser() user: UserDocument): UserDocument {
+  public getMe(@GetUser() user: UserDocument): UserDocument {
     return user;
   }
   @Get()
-  async getAllUsers() {
+  public async getAllUsers(): Promise<Array<UserDocument>> {
     return await this.userService.findAll();
   }
 
   @Get(':nicename')
-  async getUser(@Param('nicename') niceName: string): Promise<UserDocument> {
+  public async getUser(
+    @Param('nicename') niceName: string,
+  ): Promise<UserDocument> {
     return await this.userService.findOne(niceName);
   }
 
   @Delete(':nicename')
-  async deleteUser(
+  public async deleteUser(
     @GetUser() user: UserDocument,
     @Param('nicename') niceName: string,
   ): Promise<void> {
@@ -49,7 +50,7 @@ export class UserController {
   }
 
   @Patch('updatePassword')
-  async updatePassword(
+  public async updatePassword(
     @GetUser() user: UserDocument,
     @Body() body: UpdatePasswordDto,
   ): Promise<void> {
@@ -57,7 +58,7 @@ export class UserController {
   }
 
   @Patch(':nicename')
-  async updateUser(
+  public async updateUser(
     @GetUser() user: UserDocument,
     @Body() body,
     @Param('nicename') niceName: string,

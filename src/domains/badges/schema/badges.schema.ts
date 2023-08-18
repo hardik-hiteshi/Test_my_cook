@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import badgesNiceNames from './subSchema/enums/BadgesNicenames.enum';
-import BadgesRegions from './subSchema/enums/BadgesRegion.enums';
+import badgesRegions from './subSchema/enums/BadgesRegion.enums';
+import { HydratedDocument } from 'mongoose';
 import { Translations } from './subSchema/index';
 
 export type BadgesDocument = HydratedDocument<Badges>;
@@ -13,7 +13,7 @@ export type BadgesDocument = HydratedDocument<Badges>;
 })
 export class Badges {
   @Prop()
-  name: String;
+  public name: string;
 
   @Prop({
     type: String,
@@ -23,13 +23,13 @@ export class Badges {
     description:
       'Automatic badges NiceNames are: recipes_0, recipes_5, recipes_10, recipes_25, recipes_50, video_1, video_5, video_10, comments_10, comments_25, comments_50, comments_100',
   })
-  niceName: String;
+  public niceName: string;
 
   @Prop({ title: 'Index' })
-  index: Number;
+  public index: number;
 
   @Prop({ format: 'mycook-image' })
-  image: String;
+  public image: string;
 
   @Prop({
     type: String,
@@ -38,7 +38,7 @@ export class Badges {
     description:
       'When the user will be given the badge, i.e When you publish 10 recipes.',
   })
-  range: String;
+  public range: string;
 
   @Prop({
     type: String,
@@ -46,21 +46,22 @@ export class Badges {
     title: 'Description',
     description: 'Long text explaining the badge.',
   })
-  description: String;
+  public description: string;
 
   @Prop({ type: String, format: 'html', title: 'Prize text' })
-  prize_txt: String;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  public prize_txt: string;
 
   @Prop({ type: String, title: 'Prize' })
-  prize: String;
+  public prize: string;
 
   @Prop({ type: String, title: 'Terms' })
-  terms: String;
+  public terms: string;
 
-  @Prop({ type: String, required: true, enum: BadgesRegions, title: 'Region' })
-  region: String;
+  @Prop({ type: String, required: true, enum: badgesRegions, title: 'Region' })
+  public region: string;
 
   @Prop(Translations)
-  translations: Translations;
+  public translations: Translations;
 }
-export const BadgesSchema = SchemaFactory.createForClass(Badges);
+export const badgesSchema = SchemaFactory.createForClass(Badges);

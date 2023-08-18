@@ -1,8 +1,8 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class ConditionHistory {
   @Prop()
-  dateAgreement: Date;
+  public dateAgreement: Date;
   @Prop()
-  version: String;
+  public version: string;
 }

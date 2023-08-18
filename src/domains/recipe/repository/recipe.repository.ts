@@ -1,31 +1,38 @@
-import { InjectModel } from '@nestjs/mongoose';
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Recipe, RecipeDocument } from '../schema/subSchema';
-import { Model } from 'mongoose';
+import { CreateRecipeDto } from '../dto/createRecipe/createRecipe.dto';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import QueryInterface from './interface/recipequery.interface';
 import { UpdateRecipeDto } from '../dto/updateRecipe/updateRecipe.dto';
-import { CreateRecipeDto } from '../dto/createRecipe/createRecipe.dto';
 
 @Injectable()
 export class RecipeRepository {
-  constructor(@InjectModel(Recipe.name) private RecipeModel: Model<Recipe>) {}
+  public constructor(
+    @InjectModel(Recipe.name) private recipeModel: Model<Recipe>,
+  ) {}
 
-  async findOne(
+  public async findOne(
     region: string,
     body: CreateRecipeDto,
   ): Promise<RecipeDocument> {
-    const recipe = await this.RecipeModel.findOne({
+    const recipe = await this.recipeModel.findOne({
       niceName: body.niceName,
-      region: region,
+      region,
+      isActive: true,
     });
 
     return recipe;
   }
-  async create(body): Promise<RecipeDocument> {
-    return await this.RecipeModel.create(body);
+  public async create(body): Promise<RecipeDocument> {
+    return await this.recipeModel.create(body);
   }
-  async findAll(region, search): Promise<Array<RecipeDocument>> {
-    let query: QueryInterface = {};
+  public async findAll(
+    region: string,
+    search: string,
+  ): Promise<Array<RecipeDocument>> {
+    const query: QueryInterface = {};
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -79,27 +86,63 @@ export class RecipeRepository {
         //{ nutritionalForRation: { $regex: search, $options: "i" } },
       ];
     }
-    const data = await this.RecipeModel.find(query);
+    const data = await this.recipeModel.find({
+      $and: [query, { isActive: true }],
+    });
     if (data.length > 0) {
       return data;
     }
+
     return [];
   }
-  async fetchOne(region, niceName) {
-    const recipe = await this.RecipeModel.findOne({
-      niceName: niceName,
-      region: region,
+  public async fetchOne(
+    region: string,
+    niceName: string,
+  ): Promise<RecipeDocument> {
+    const recipe = await this.recipeModel.findOne({
+      niceName,
+      region,
+      isActive: true,
     });
+
     return recipe;
   }
-  async updateOne(body: UpdateRecipeDto, niceName: string) {
-    console.log(body);
-    const recipe = await this.RecipeModel.findOneAndUpdate(
-      { niceName: niceName },
-      body,
+
+  public async updateone(
+    body: UpdateRecipeDto,
+    niceName: string,
+  ): Promise<RecipeDocument> {
+    const recipe = await this.recipeModel.findOne({
+      niceName,
+      isActive: true,
+    });
+    await updateNestedFields(recipe, body);
+
+    await recipe.save();
+
+    return recipe;
+  }
+
+  public async deleteRecipe(niceName: string): Promise<RecipeDocument> {
+    const recipe = await this.recipeModel.findOneAndUpdate(
+      { $and: [{ niceName }, { isActive: true }] },
+      { isActive: false },
       { new: true },
     );
-    console.log(recipe);
+
     return recipe;
+  }
+}
+
+function updateNestedFields(
+  obj: RecipeDocument,
+  updateData: UpdateRecipeDto,
+): void {
+  for (const key in updateData) {
+    if (obj[key] && typeof obj[key] === 'object') {
+      updateNestedFields(obj[key], updateData[key]);
+    } else {
+      obj[key] = updateData[key];
+    }
   }
 }

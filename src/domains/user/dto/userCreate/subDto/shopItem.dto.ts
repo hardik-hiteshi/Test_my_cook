@@ -2,13 +2,13 @@ import { IsOptional, IsString } from 'class-validator';
 export class ShopItemDto {
   @IsOptional()
   @IsString()
-  ingredient?: string;
+  public ingredient?: string;
 
   @IsOptional()
   @IsString()
-  qty?: string;
+  public qty?: string;
 
   @IsOptional()
   @IsString()
-  unit?: string;
+  public unit?: string;
 }

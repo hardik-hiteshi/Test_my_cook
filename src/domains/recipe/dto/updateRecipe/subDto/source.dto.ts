@@ -1,11 +1,11 @@
-import { IsString, IsOptional } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class SourceDTO {
   @IsOptional()
   @IsString()
-  url: String;
+  public url: string;
 
   @IsOptional()
   @IsString()
-  name: String;
+  public name: string;
 }

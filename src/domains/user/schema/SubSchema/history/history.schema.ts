@@ -1,19 +1,19 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { HistorySubSchema } from './history.subschema';
 import LastLogin from '../lastlogin.schema';
 
 @Schema({ _id: false })
 export class History {
   @Prop()
-  registration: Date;
+  public registration: Date;
   @Prop()
-  unregistration: Date;
+  public unregistration: Date;
   @Prop({ type: LastLogin, default: {} })
-  lastLoginCMS: LastLogin;
+  public lastLoginCMS: LastLogin;
   @Prop(HistorySubSchema)
-  lastLoginWeb: HistorySubSchema;
+  public lastLoginWeb: HistorySubSchema;
   @Prop(HistorySubSchema)
-  lastLoginApp: HistorySubSchema;
+  public lastLoginApp: HistorySubSchema;
   @Prop(HistorySubSchema)
-  lastLoginMachine: HistorySubSchema;
+  public lastLoginMachine: HistorySubSchema;
 }

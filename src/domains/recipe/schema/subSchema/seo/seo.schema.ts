@@ -1,40 +1,40 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Extra } from './extra.subschema';
 import { Linkin } from './linkin.subschema';
 import { Suggestions } from './suggestions.subschema';
-import { Extra } from './extra.subschema';
 @Schema({ _id: false })
 export class Seo {
   @Prop()
-  title: String;
+  public title: string;
 
   @Prop()
-  description: String;
+  public description: string;
 
   @Prop()
-  canonical: String;
+  public canonical: string;
 
   @Prop()
-  url: String;
+  public url: string;
 
   @Prop()
-  index: Boolean;
+  public index: boolean;
 
   @Prop()
-  follow: Boolean;
+  public follow: boolean;
 
   @Prop([Linkin])
-  linkin: Linkin[];
+  public linkin: Linkin[];
 
   @Prop([Suggestions])
-  suggestions: Suggestions[];
+  public suggestions: Suggestions[];
 
   @Prop(Extra)
-  extra: Extra;
+  public extra: Extra;
 
   @Prop([String])
-  keywords: String[];
+  public keywords: string[];
 
   @Prop([String])
-  autopublishDate: String[];
+  public autopublishDate: string[];
 }
-export const SeoSchema = SchemaFactory.createForClass(Seo);
+export const seoSchema = SchemaFactory.createForClass(Seo);

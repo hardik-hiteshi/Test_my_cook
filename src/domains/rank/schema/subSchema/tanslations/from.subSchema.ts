@@ -7,13 +7,13 @@ export type RankTranslationsFromDocument =
 @Schema()
 export class RankTranslationsFrom {
   @Prop()
-  region: string;
+  public region: string;
 
   @Prop()
-  niceName: string;
+  public niceName: string;
 }
 
-export const RankTranslationsFromSchema =
+export const rankTranslationsFromSchema =
   SchemaFactory.createForClass(RankTranslationsFrom);
 //   {
 //         region: { type: String, readonly: true },

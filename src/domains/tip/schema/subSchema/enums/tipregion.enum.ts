@@ -1,4 +1,4 @@
-const TipRegions = [
+const tipRegions = [
   'ES-MYCOOKTOUCH',
   'CA-MYCOOKTOUCH',
   'PT-MYCOOKTOUCH',
@@ -35,4 +35,4 @@ const TipRegions = [
   'NL-ICOOKIN',
   'MACHINE',
 ];
-export default TipRegions;
+export default tipRegions;

@@ -1,4 +1,4 @@
-const BadgesRegions = [
+const badgesRegions = [
   'ES-MYCOOKTOUCH',
   'CA-MYCOOKTOUCH',
   'PT-MYCOOKTOUCH',
@@ -35,4 +35,4 @@ const BadgesRegions = [
   'NL-ICOOKIN',
   'MACHINE',
 ];
-export default BadgesRegions;
+export default badgesRegions;

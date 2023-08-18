@@ -1,19 +1,19 @@
 import { IsBoolean, IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
 import { FromDto } from './from.dto';
 import { ToDto } from './to.dto';
+import { Type } from 'class-transformer';
 export class TranslationsDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => FromDto)
-  from?: FromDto;
+  public from?: FromDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => ToDto)
-  to?: ToDto;
+  public to?: ToDto;
 
   @IsOptional()
   @IsBoolean()
-  preserve?: boolean;
+  public preserve?: boolean;
 }

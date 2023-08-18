@@ -1,38 +1,33 @@
-import {
-  IsDate,
-  ValidateNested,
-  IsOptional,
-  IsDateString,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsDateString, IsOptional, ValidateNested } from 'class-validator';
 import { LastLoginDto } from './lastLogin.dto';
+import { Type } from 'class-transformer';
 export class HistoryDto {
   @IsOptional()
   @IsDateString()
-  registration?: Date;
+  public registration?: Date;
 
   @IsDateString()
-  unregistration?: Date;
+  public unregistration?: Date;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => LastLoginDto)
-  lastLoginCMS?: LastLoginDto;
+  public lastLoginCMS?: LastLoginDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => LastLoginDto)
-  lastLoginWeb?: LastLoginDto;
+  public lastLoginWeb?: LastLoginDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => LastLoginDto)
-  lastLoginApp?: LastLoginDto;
+  public lastLoginApp?: LastLoginDto;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => LastLoginDto)
-  lastLoginMachine?: LastLoginDto;
+  public lastLoginMachine?: LastLoginDto;
 }
 
 // @Prop({ type: LastLogin, default: {} })

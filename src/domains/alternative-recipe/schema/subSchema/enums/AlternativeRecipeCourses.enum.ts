@@ -1,4 +1,4 @@
-const AlternativeRecipeCourses = [
+const alternativeRecipeCourses = [
   '',
   'first',
   'second',
@@ -7,4 +7,4 @@ const AlternativeRecipeCourses = [
   'appetizer',
   'snack',
 ];
-export default AlternativeRecipeCourses;
+export default alternativeRecipeCourses;

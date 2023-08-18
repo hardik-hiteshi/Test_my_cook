@@ -1,10 +1,10 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class Name {
   @Prop()
-  displayName: string;
+  public displayName: string;
   @Prop()
-  firstName: string;
+  public firstName: string;
   @Prop()
-  lastName: string;
+  public lastName: string;
 }

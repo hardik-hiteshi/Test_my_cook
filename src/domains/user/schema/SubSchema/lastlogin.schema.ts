@@ -1,4 +1,4 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { GeoSchema } from './geo.schema';
 
 export interface IlastLogin {
@@ -10,12 +10,12 @@ export interface IlastLogin {
 @Schema({ _id: false })
 export default class LastLogin {
   @Prop()
-  date: Date;
+  public date: Date;
   @Prop()
-  ip: string;
+  public ip: string;
   @Prop()
-  geo: GeoSchema;
+  public geo: GeoSchema;
   @Prop()
-  userAgent: string;
+  public userAgent: string;
 }
 // export const LastLoginSchema = SchemaFactory.createForClass(LastLogin);

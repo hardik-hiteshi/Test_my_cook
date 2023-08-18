@@ -1,9 +1,9 @@
-import { IsString, IsDateString, IsOptional } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 export class ConditionHistoryDto {
   @IsOptional()
   @IsDateString()
-  dateAgreement?: Date;
+  public dateAgreement?: Date;
   @IsOptional()
   @IsString()
-  version?: string;
+  public version?: string;
 }

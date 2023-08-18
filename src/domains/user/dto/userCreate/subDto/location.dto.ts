@@ -2,21 +2,21 @@ import { IsOptional, IsString } from 'class-validator';
 export class LocationDto {
   @IsOptional()
   @IsString()
-  address?: string;
+  public address?: string;
 
   @IsOptional()
   @IsString()
-  zip?: string;
+  public zip?: string;
 
   @IsOptional()
   @IsString()
-  town?: string;
+  public town?: string;
 
   @IsOptional()
   @IsString()
-  state?: string;
+  public state?: string;
 
   @IsOptional()
   @IsString()
-  country?: string;
+  public country?: string;
 }

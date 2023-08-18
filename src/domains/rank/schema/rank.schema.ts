@@ -28,7 +28,7 @@ export class Rank {
   @Prop(RankTranslations)
   tanslations: RankTranslations;
   @Prop()
-  preserve: Boolean;
+  preserve: boolean;
 }
 
 export const RankSchema = SchemaFactory.createForClass(Rank);

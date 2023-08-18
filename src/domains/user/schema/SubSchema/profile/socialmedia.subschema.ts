@@ -1,14 +1,14 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class SocialMedia {
   @Prop()
-  instagram: String;
+  public instagram: string;
   @Prop()
-  googleplus: String;
+  public googleplus: string;
   @Prop()
-  twitter: String;
+  public twitter: string;
   @Prop()
-  web: String;
+  public web: string;
   @Prop()
-  webName: String;
+  public webName: string;
 }

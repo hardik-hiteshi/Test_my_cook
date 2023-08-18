@@ -1,13 +1,13 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import From from './from.subschema';
 import To from './to.subschema';
 
 @Schema()
 export class Translations {
   @Prop(From)
-  from: From;
+  public from: From;
   @Prop([To])
-  to: [To];
+  public to: [To];
   @Prop()
-  preserve: Boolean;
+  public preserve: boolean;
 }

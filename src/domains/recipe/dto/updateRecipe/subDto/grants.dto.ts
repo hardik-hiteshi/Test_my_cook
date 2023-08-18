@@ -1,13 +1,13 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class GrantsDTO {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  view: [String];
+  public view: [string];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  search: [String];
+  public search: [string];
 }

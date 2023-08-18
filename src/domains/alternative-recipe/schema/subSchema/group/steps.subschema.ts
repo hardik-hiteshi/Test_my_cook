@@ -1,13 +1,13 @@
-import { Schema, Prop } from '@nestjs/mongoose';
-import { Schema as mongooseSchema } from 'mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Ingredient } from './ingredients.subschema';
+import { Schema as mongooseSchema } from 'mongoose';
 
 @Schema({ _id: false })
 export class Steps {
   @Prop()
-  description: String;
+  public description: string;
   @Prop()
-  cookTime: Number;
+  public cookTime: number;
   @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Ingredient' }])
-  ingredients: Ingredient[];
+  public ingredients: Ingredient[];
 }

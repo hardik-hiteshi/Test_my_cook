@@ -8,16 +8,16 @@ export type RankTranslationsDocument = HydratedDocument<RankTranslations>;
 @Schema()
 export class RankTranslations {
   @Prop(RankTranslationsFrom)
-  from: RankTranslationsFrom;
+  public from: RankTranslationsFrom;
 
   @Prop([RankTranslationsTo])
-  to: RankTranslationsTo[];
+  public to: RankTranslationsTo[];
 
   @Prop()
-  preserve: boolean;
+  public preserve: boolean;
 }
 
-export const RankTranslationsSchema =
+export const rankTranslationsSchema =
   SchemaFactory.createForClass(RankTranslations);
 
 //     translations: {

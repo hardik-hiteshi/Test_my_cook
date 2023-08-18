@@ -1,4 +1,4 @@
-const CategoyRegions = [
+const categoyRegions = [
   'ES-MYCOOKTOUCH',
   'CA-MYCOOKTOUCH',
   'PT-MYCOOKTOUCH',
@@ -35,4 +35,4 @@ const CategoyRegions = [
   'NL-ICOOKIN',
   'MACHINE',
 ];
-export default CategoyRegions;
+export default categoyRegions;

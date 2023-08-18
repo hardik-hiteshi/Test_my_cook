@@ -1,14 +1,14 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class Location {
   @Prop()
-  address: string;
+  public address: string;
   @Prop()
-  zip: string;
+  public zip: string;
   @Prop()
-  town: string;
+  public town: string;
   @Prop()
-  state: string;
+  public state: string;
   @Prop()
-  country: string;
+  public country: string;
 }

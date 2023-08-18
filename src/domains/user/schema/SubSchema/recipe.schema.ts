@@ -1,8 +1,8 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class Recipe {
   @Prop()
-  niceName: String;
+  public niceName: string;
   @Prop()
-  title: String;
+  public title: string;
 }

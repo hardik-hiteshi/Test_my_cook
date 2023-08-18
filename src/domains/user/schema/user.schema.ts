@@ -1,20 +1,20 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import {
-  Name,
+  CommunityConditions,
   Contact,
-  Profile,
-  Location,
   History,
   Info,
-  Status,
-  ShopItem,
-  Recipe,
+  Location,
   MemberConditions,
-  CommunityConditions,
+  Name,
   OtherConditions,
+  Profile,
+  Recipe,
+  ShopItem,
+  Status,
   Translations,
 } from './SubSchema/index';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -25,64 +25,64 @@ export type UserDocument = HydratedDocument<User>;
 })
 export class User {
   @Prop(Name)
-  name: Name;
+  public name: Name;
   @Prop(Location)
-  location: Location;
+  public location: Location;
   @Prop(Contact)
-  contact: Contact;
+  public contact: Contact;
   @Prop(History)
-  history: History;
+  public history: History;
   @Prop({ required: true })
-  login: string;
+  public login: string;
   @Prop({ required: [true, 'Please provide a niceName'], unique: true })
-  niceName: string;
+  public niceName: string;
   @Prop({ required: true })
-  password: string;
+  public password: string;
   @Prop(Profile)
-  profile: Profile;
+  public profile: Profile;
   @Prop()
-  image: string[];
+  public image: string[];
   @Prop({ default: 'admin' })
-  role: string;
+  public role: string;
   @Prop(Info)
-  info: Info;
+  public info: Info;
   @Prop()
-  region: string;
+  public region: string;
   @Prop()
-  allowedRegions: string[];
+  public allowedRegions: string[];
   @Prop()
-  rank: string;
+  public rank: string;
   @Prop(Status)
-  status: Status;
+  public status: Status;
   @Prop()
-  badges: String[];
+  public badges: string[];
   @Prop()
-  favorites: String[];
+  public favorites: string[];
   @Prop()
-  todo: String[];
+  public todo: string[];
   @Prop()
-  grants: String[];
+  public grants: string[];
   @Prop(ShopItem)
-  shopItem: ShopItem;
+  public shopItem: ShopItem;
   @Prop()
-  following: String[];
+  public following: string[];
   @Prop(Recipe)
-  recipeList: Recipe;
+  public recipeList: Recipe;
   @Prop(MemberConditions)
-  memberConditions: MemberConditions;
+  public memberConditions: MemberConditions;
   @Prop(CommunityConditions)
-  communityConditions: CommunityConditions;
+  public communityConditions: CommunityConditions;
   @Prop(OtherConditions)
-  newsletterConditions: OtherConditions;
+  public newsletterConditions: OtherConditions;
   @Prop(OtherConditions)
-  internationalConditions: OtherConditions;
+  public internationalConditions: OtherConditions;
   @Prop(OtherConditions)
-  termsOfSale: OtherConditions;
+  public termsOfSale: OtherConditions;
   @Prop(OtherConditions)
-  ebookConditions: OtherConditions;
+  public ebookConditions: OtherConditions;
   @Prop(OtherConditions)
-  contactConditions: OtherConditions;
+  public contactConditions: OtherConditions;
   @Prop(Translations)
-  translations: Translations;
+  public translations: Translations;
 }
-export const UserSchema = SchemaFactory.createForClass(User);
+export const userSchema = SchemaFactory.createForClass(User);

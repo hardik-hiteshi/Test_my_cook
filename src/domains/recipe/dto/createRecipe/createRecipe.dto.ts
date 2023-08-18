@@ -1,16 +1,4 @@
 import {
-  IsString,
-  ValidateNested,
-  IsArray,
-  IsOptional,
-  IsNumber,
-  IsObject,
-  IsMongoId,
-  IsBoolean,
-  IsNotEmpty,
-} from 'class-validator';
-import { Schema as mongooseSchema } from 'mongoose';
-import {
   CategoriesDTO,
   GrantsDTO,
   InfoDTO,
@@ -19,153 +7,169 @@ import {
   SocialDTO,
   SourceDTO,
 } from './subDto';
+import {
+  IsArray,
+  IsBoolean,
+  IsMongoId,
+  IsNotEmpty,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { Schema as mongooseSchema } from 'mongoose';
 import { Type } from 'class-transformer';
 
 export class CreateRecipeDto {
   @IsOptional()
   @IsString()
-  title: String;
+  public title: string;
 
   @IsNotEmpty()
   @IsString()
-  niceName: String;
+  public niceName: string;
 
   @IsOptional()
   @IsString()
-  category?: String;
+  public category?: string;
 
   @IsOptional()
   @IsString()
-  categoryNiceName?: String;
+  public categoryNiceName?: string;
 
   @IsOptional()
   @IsNumber()
-  rate?: Number;
+  public rate?: number;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoriesDTO)
-  categories?: CategoriesDTO;
+  public categories?: CategoriesDTO;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  course?: String;
+  public course?: string;
 
   @IsOptional()
   @ValidateNested()
-  Type: () => RecipeUserDTO;
-  user?: RecipeUserDTO;
+  @Type(() => RecipeUserDTO)
+  public user?: RecipeUserDTO;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => InfoDTO)
-  info?: InfoDTO;
+  public info?: InfoDTO;
 
   @IsOptional()
   @IsNumber()
-  totalTime?: Number;
+  public totalTime?: number;
 
   @IsOptional()
   @IsNumber()
-  cookTime?: Number;
+  public cookTime?: number;
 
   @IsOptional()
   @IsNumber()
-  difficulty?: Number;
+  public difficulty?: number;
 
   @IsOptional()
   @IsNumber()
-  price?: Number;
+  public price?: number;
 
   @IsOptional()
   @IsObject()
-  compatibility?: {};
+  public compatibility?: object;
 
   @IsOptional()
   @IsObject()
-  size?: {};
+  public size?: object;
 
   @IsOptional()
   @IsObject()
-  status?: {};
+  public status?: object;
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  images?: String[];
+  public images?: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  videos?: String[];
+  public videos?: string[];
 
   @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
-  groups?: mongooseSchema.Types.ObjectId[];
+  public groups?: mongooseSchema.Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  tags?: String;
+  public tags?: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SocialDTO)
-  social?: SocialDTO;
+  public social?: SocialDTO;
 
   @IsOptional()
   @IsObject()
-  nutritional?: {};
+  public nutritional?: object;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  foodGroups?: String[];
+  public foodGroups?: string[];
 
   @IsOptional()
   @IsArray()
   @IsObject({ each: true })
-  rations?: [{}];
+  public rations?: [object];
 
   @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
-  comments?: mongooseSchema.Types.ObjectId[];
+  public comments?: mongooseSchema.Types.ObjectId[];
 
   @IsOptional()
   @IsArray()
   @IsMongoId({ each: true })
-  ratings?: mongooseSchema.Types.ObjectId[];
+  public ratings?: mongooseSchema.Types.ObjectId[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SourceDTO)
-  source?: SourceDTO;
+  public source?: SourceDTO;
 
   @IsOptional()
   @IsString()
-  advice?: String;
+  public advice?: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => GrantsDTO)
-  grants?: GrantsDTO;
+  public grants?: GrantsDTO;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SeoDTO)
-  seo?: SeoDTO;
+  public seo?: SeoDTO;
 
   @IsOptional()
   @IsBoolean()
-  imageRights?: Boolean;
+  public imageRights?: boolean;
 
   @IsOptional()
   @IsString()
-  region?: String;
+  public region?: string;
 
   @IsOptional()
   @IsBoolean()
-  nutritionalForRation?: Boolean;
+  public nutritionalForRation?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  public isActive?: boolean;
 }

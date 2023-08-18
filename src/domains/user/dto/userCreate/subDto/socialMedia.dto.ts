@@ -3,21 +3,21 @@ import { IsOptional, IsString } from 'class-validator';
 export class SocialMediaDto {
   @IsOptional()
   @IsString()
-  instagram?: string;
+  public instagram?: string;
 
   @IsOptional()
   @IsString()
-  googleplus?: string;
+  public googleplus?: string;
 
   @IsOptional()
   @IsString()
-  twitter?: string;
+  public twitter?: string;
 
   @IsOptional()
   @IsString()
-  web?: string;
+  public web?: string;
 
   @IsOptional()
   @IsString()
-  webName?: string;
+  public webName?: string;
 }

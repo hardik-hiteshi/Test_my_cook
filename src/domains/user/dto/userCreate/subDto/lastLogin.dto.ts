@@ -1,26 +1,26 @@
 import {
-  IsString,
   IsDateString,
-  ValidateNested,
   IsOptional,
+  IsString,
+  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { GeoDto } from './geo.dto';
+import { Type } from 'class-transformer';
 export class LastLoginDto {
   @IsOptional()
   @IsDateString()
-  date?: Date;
+  public date?: Date;
 
   @IsOptional()
   @IsString()
-  ip?: string;
+  public ip?: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => GeoDto)
-  geo?: GeoDto;
+  public geo?: GeoDto;
 
   @IsOptional()
   @IsString()
-  userAgent?: string;
+  public userAgent?: string;
 }

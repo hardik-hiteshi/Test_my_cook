@@ -1,12 +1,12 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Grants {
   @Prop([{ type: String }])
-  view: String[];
+  public view: string[];
 
   @Prop([{ type: String }])
-  search: String[];
+  public search: string[];
 }
 
-export const GrantsSchema = SchemaFactory.createForClass(Grants);
+export const grantsSchema = SchemaFactory.createForClass(Grants);

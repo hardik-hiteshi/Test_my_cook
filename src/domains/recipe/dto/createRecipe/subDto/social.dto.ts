@@ -1,23 +1,23 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class SocialDTO {
   @IsOptional()
   @IsNumber()
-  favorite: Number;
+  public favorite: number;
 
   @IsOptional()
   @IsNumber()
-  facebook: Number;
+  public facebook: number;
 
   @IsOptional()
   @IsNumber()
-  comments: Number;
+  public comments: number;
 
   @IsOptional()
   @IsNumber()
-  ratings: Number;
+  public ratings: number;
 
   @IsOptional()
   @IsNumber()
-  todo: Number;
+  public todo: number;
 }

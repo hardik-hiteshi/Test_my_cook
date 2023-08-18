@@ -6,16 +6,16 @@ export type RankTranslationsToDocument = HydratedDocument<RankTranslationsTo>;
 @Schema()
 export class RankTranslationsTo {
   @Prop()
-  region: string;
+  public region: string;
 
   @Prop()
-  niceName: string;
+  public niceName: string;
 
   @Prop()
-  lastUpdate: Date;
+  public lastUpdate: Date;
 }
 
-export const RankTranslationsToSchema =
+export const rankTranslationsToSchema =
   SchemaFactory.createForClass(RankTranslationsTo);
 //   {
 //           region: { type: String },

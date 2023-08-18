@@ -1,34 +1,37 @@
+import * as bcrypt from 'bcrypt';
 import {
-  Injectable,
   BadRequestException,
+  Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UserRepository } from './repository/user.repository';
-import { UserDocument } from './schema/user.schema';
-import * as bcrypt from 'bcrypt';
 import { UpdatePasswordDto, UserCreateDto } from './dto';
+import { UserDocument } from './schema/user.schema';
+import { UserRepository } from './repository/user.repository';
 @Injectable()
 export class UserService {
-  constructor(private userRepo: UserRepository) {}
+  public constructor(private userRepo: UserRepository) {}
 
-  async create(body: UserCreateDto): Promise<UserDocument> {
+  public async create(body: UserCreateDto): Promise<UserDocument> {
     const user = await this.userRepo.findOne({ niceName: body.niceName });
     if (user) throw new BadRequestException('user already exist');
     body.password = await bcrypt.hash(body.password, 10);
+
     return await this.userRepo.create(body);
   }
 
-  async findOne(niceName: string): Promise<UserDocument> {
+  public async findOne(niceName: string): Promise<UserDocument> {
     const user = await this.userRepo.findOne({ niceName });
     if (!user) throw new NotFoundException('user not found');
+
     return user;
   }
-  async findAll(): Promise<UserDocument[]> {
+  public async findAll(): Promise<UserDocument[]> {
     const users = await this.userRepo.findAll();
     if (users.length <= 0) throw new NotFoundException('user not found');
+
     return users;
   }
-  async findOneAndUpdate(
+  public async findOneAndUpdate(
     user: UserDocument,
     niceName: string,
     body,
@@ -40,13 +43,13 @@ export class UserService {
     return updateUser;
   }
 
-  async deleteOne(user: UserDocument, niceName: string): Promise<void> {
+  public async deleteOne(user: UserDocument, niceName: string): Promise<void> {
     //check user role hierarchy
-    let deleteUser = await this.userRepo.deleteOne({ niceName });
+    const deleteUser = await this.userRepo.deleteOne({ niceName });
     if (!deleteUser) throw new NotFoundException('user not found');
   }
 
-  async updatePassword(
+  public async updatePassword(
     user: UserDocument,
     body: UpdatePasswordDto,
   ): Promise<void> {

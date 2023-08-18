@@ -1,23 +1,23 @@
 import {
-  Controller,
-  Post,
-  Patch,
   Body,
+  Controller,
   Get,
-  Query,
   Headers,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
-import { RecipeService } from './recipe.service';
-import { RecipeDocument } from './schema/recipe.schema';
-
 import { CreateRecipeDto } from './dto/createRecipe/createRecipe.dto';
+import { RecipeDocument } from './schema/recipe.schema';
+import { RecipeService } from './recipe.service';
 import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
+
 @Controller('recipe')
 export class RecipeController {
-  constructor(private recipeService: RecipeService) {}
+  public constructor(private recipeService: RecipeService) {}
 
   @Post('create')
-  async createRecipe(
+  public async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateRecipeDto,
   ): Promise<RecipeDocument> {
@@ -25,7 +25,7 @@ export class RecipeController {
   }
 
   @Get('fetchall')
-  async fetchAllRecipes(
+  public async fetchAllRecipes(
     @Headers('region') region: string,
     @Query('search') search?: string,
   ): Promise<Array<RecipeDocument>> {
@@ -33,7 +33,7 @@ export class RecipeController {
   }
 
   @Get('fetchone')
-  async fetchRecipe(
+  public async fetchRecipe(
     @Headers('region') region: string,
     @Query('niceName') niceName,
   ): Promise<RecipeDocument> {
@@ -41,11 +41,18 @@ export class RecipeController {
   }
 
   @Patch('updateone')
-  async updateRecipe(
+  public async updateRecipe(
     @Query('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
-  ) {
-    console.log(body, niceName);
+  ): Promise<RecipeDocument> {
+    // console.log(body)
     return await this.recipeService.updateRecipe(body, niceName);
+  }
+
+  @Patch('deleterecipe')
+  public async deleteRecipe(
+    @Query('niceName') niceName: string,
+  ): Promise<RecipeDocument> {
+    return await this.recipeService.deleteRecipe(niceName);
   }
 }

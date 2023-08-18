@@ -1,61 +1,60 @@
-import { Type } from 'class-transformer';
 import {
-  IsString,
-  IsOptional,
-  IsBoolean,
   IsArray,
-  IsObject,
+  IsBoolean,
+  IsOptional,
+  IsString,
   ValidateNested,
 } from 'class-validator';
+import { ExtraDTO } from './extra.dto';
 import { LinkinDTO } from './linkin.dto';
 import { SuggestionsDTO } from './suggestions.dto';
-import { ExtraDTO } from './extra.dto';
+import { Type } from 'class-transformer';
 export class SeoDTO {
   @IsOptional()
   @IsString()
-  title: String;
+  public title: string;
 
   @IsOptional()
   @IsString()
-  description: String;
+  public description: string;
 
   @IsOptional()
   @IsString()
-  canonical: String;
+  public canonical: string;
 
   @IsOptional()
   @IsString()
-  url: String;
+  public url: string;
 
   @IsOptional()
   @IsBoolean()
-  index: Boolean;
+  public index: boolean;
 
   @IsOptional()
   @IsBoolean()
-  follow: Boolean;
+  public follow: boolean;
   @IsOptional()
   @ValidateNested()
   @Type(() => LinkinDTO)
-  linkin: LinkinDTO[];
+  public linkin: LinkinDTO[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SuggestionsDTO)
-  suggestions: SuggestionsDTO[];
+  public suggestions: SuggestionsDTO[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => ExtraDTO)
-  extra: ExtraDTO;
+  public extra: ExtraDTO;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  keywords: String[];
+  public keywords: string[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  autopublishDate: String[];
+  public autopublishDate: string[];
 }

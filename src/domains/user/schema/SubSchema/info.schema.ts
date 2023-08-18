@@ -1,13 +1,13 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Info {
   @Prop()
-  creationDate: Date;
+  public creationDate: Date;
   @Prop()
-  modificationDate: Date;
+  public modificationDate: Date;
   @Prop()
-  creationSource: string;
+  public creationSource: string;
   @Prop()
-  modificationSource: string;
+  public modificationSource: string;
 }

@@ -1,21 +1,21 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Status {
   @Prop()
-  promo: Boolean;
+  public promo: boolean;
   @Prop()
-  advertisement: Boolean;
+  public advertisement: boolean;
   @Prop()
-  taurusInfo: Boolean;
+  public taurusInfo: boolean;
   @Prop()
-  commercials: Boolean;
+  public commercials: boolean;
   @Prop()
-  newsletter: Boolean;
+  public newsletter: boolean;
   @Prop()
-  publicProfile: Boolean;
+  public publicProfile: boolean;
   @Prop()
-  feedback: Boolean;
+  public feedback: boolean;
   @Prop()
-  privacy: Boolean;
+  public privacy: boolean;
 }

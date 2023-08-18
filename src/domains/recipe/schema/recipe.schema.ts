@@ -1,16 +1,11 @@
+import { Categories, Info, Social, Source } from './subSchema/index';
+import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as mongooseSchema } from 'mongoose';
-import { HydratedDocument } from 'mongoose';
 import recipecourses from './subSchema/enums/recipecourse.enum';
-import {
-  Categories,
-  RecipeUser,
-  Info,
-  Social,
-  Source,
-} from './subSchema/index';
 import { Seo } from './subSchema/seo/seo.schema';
+// eslint-disable-next-line sort-imports
 import { Grants } from './subSchema/grants.schema';
+import { RecipeUser } from './subSchema/recipeuser.schema';
 
 export type RecipeDocument = HydratedDocument<Recipe>;
 
@@ -21,101 +16,104 @@ export type RecipeDocument = HydratedDocument<Recipe>;
 })
 export class Recipe {
   @Prop()
-  title: String;
+  public title: string;
 
   @Prop()
-  niceName: String;
+  public niceName: string;
 
   @Prop()
-  category: String;
+  public category: string;
 
   @Prop()
-  categoryNiceName: String;
+  public categoryNiceName: string;
 
   @Prop()
-  rate: Number;
+  public rate: number;
 
   @Prop(Categories)
-  categories: Categories[];
+  public categories: Categories[];
 
   @Prop([{ type: String, enum: recipecourses }])
-  course: String[];
+  public course: string[];
 
   @Prop(RecipeUser)
-  user: RecipeUser;
+  public user: RecipeUser;
 
   @Prop(Info)
-  info: Info;
+  public info: Info;
 
   @Prop()
-  totalTime: Number;
+  public totalTime: number;
 
   @Prop()
-  cookTime: Number;
+  public cookTime: number;
 
   @Prop()
-  difficulty: Number;
+  public difficulty: number;
 
   @Prop()
-  price: Number;
+  public price: number;
 
   @Prop({ type: Object })
-  compatibility: {};
+  public compatibility: object;
 
   @Prop({ type: Object })
-  size: {};
+  public size: object;
 
   @Prop({ type: Object })
-  status: {};
+  public status: object;
 
   @Prop()
-  images: String[];
+  public images: string[];
 
   @Prop()
-  videos: String[];
+  public videos: string[];
 
   @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Group' }])
-  groups: mongooseSchema.Types.ObjectId[];
+  public groups: mongooseSchema.Types.ObjectId[];
 
   @Prop([String])
-  tags: String[];
+  public tags: string[];
 
   @Prop(Social)
-  social: Social;
+  public social: Social;
 
   @Prop({ type: Object })
-  nutritional: {};
+  public nutritional: object;
 
   @Prop()
-  foodGroups: String[];
+  public foodGroups: string[];
 
   @Prop([{ type: Object }])
-  rations: [{}];
+  public rations: [object];
 
   @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Comment' }])
-  comments: mongooseSchema.Types.ObjectId[];
+  public comments: mongooseSchema.Types.ObjectId[];
 
   @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Rating' }])
-  ratings: mongooseSchema.Types.ObjectId[];
+  public ratings: mongooseSchema.Types.ObjectId[];
 
   @Prop(Source)
-  source: Source;
+  public source: Source;
 
   @Prop({ type: String })
-  advice: string;
+  public advice: string;
 
   @Prop(Grants)
-  grants: Grants;
+  public grants: Grants;
   @Prop(Seo)
-  seo: Seo;
+  public seo: Seo;
 
   @Prop()
-  imageRights: Boolean;
+  public imageRights: boolean;
 
   @Prop()
-  region: String;
+  public region: string;
 
   @Prop()
-  nutritionalForRation: Boolean;
+  public nutritionalForRation: boolean;
+
+  @Prop({ default: true })
+  public isActive: boolean;
 }
-export const RecipeSchema = SchemaFactory.createForClass(Recipe);
+export const recipeSchema = SchemaFactory.createForClass(Recipe);

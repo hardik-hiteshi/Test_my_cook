@@ -1,40 +1,40 @@
-import { IsString, IsOptional, IsArray } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class RecipeUserDTO {
   @IsOptional()
   @IsString()
-  displayName: String;
+  public displayName: string;
 
   @IsOptional()
   @IsString()
-  niceName: String;
+  public niceName: string;
 
   @IsOptional()
   @IsString()
-  rank: String;
+  public rank: string;
 
   @IsOptional()
   @IsString()
-  role: String;
+  public role: string;
 
   @IsOptional()
   @IsString()
-  instagram: String;
+  public instagram: string;
 
   @IsOptional()
   @IsString()
-  twitter: String;
+  public twitter: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  images: string[];
+  public images: string[];
 
   @IsOptional()
   @IsString()
-  web: String;
+  public web: string;
 
   @IsOptional()
   @IsString()
-  webName: String;
+  public webName: string;
 }

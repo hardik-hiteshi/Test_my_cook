@@ -1,22 +1,22 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export class RecipeUser {
   @Prop()
-  displayName: String;
+  public displayName: string;
   @Prop()
-  niceName: String;
+  public niceName: string;
   @Prop()
-  rank: String;
+  public rank: string;
   @Prop()
-  role: String;
+  public role: string;
   @Prop()
-  instagram: String;
+  public instagram: string;
   @Prop()
-  twitter: String;
+  public twitter: string;
   @Prop([String])
-  images: [String];
+  public images: [string];
   @Prop()
-  web: String;
+  public web: string;
   @Prop()
-  webName: String;
+  public webName: string;
 }

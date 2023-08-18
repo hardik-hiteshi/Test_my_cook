@@ -1,6 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
-
-import { Request } from 'express';
+import { Controller } from '@nestjs/common';
 
 @Controller('advertisement')
 export class AdvertisementController {}

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import featureduser from './subSchema/enums/featured.enum';
+import { HydratedDocument } from 'mongoose';
 
 export type FeaturedDocument = HydratedDocument<Featured>;
 
@@ -12,12 +12,12 @@ export type FeaturedDocument = HydratedDocument<Featured>;
 })
 export class Featured {
   @Prop({ required: true })
-  region: string;
+  public region: string;
 
   @Prop([{ type: String, default: [] }])
-  featuredList: string[];
+  public featuredList: string[];
 
   @Prop({ required: true, enum: featureduser })
-  type: string;
+  public type: string;
 }
-export const FeaturedSchema = SchemaFactory.createForClass(Featured);
+export const featuredSchema = SchemaFactory.createForClass(Featured);

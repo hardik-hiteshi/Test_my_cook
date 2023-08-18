@@ -1,21 +1,21 @@
-import { IsString, IsOptional, IsDateString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class InfoDTO {
   @IsOptional()
   @IsDateString()
   @IsString()
-  creationDate: Date;
+  public creationDate: Date;
 
   @IsOptional()
   @IsDateString()
   @IsString()
-  modificationDate: Date;
+  public modificationDate: Date;
 
   @IsOptional()
   @IsString()
-  creationSource: String;
+  public creationSource: string;
 
   @IsOptional()
   @IsString()
-  modificationSource: String;
+  public modificationSource: string;
 }

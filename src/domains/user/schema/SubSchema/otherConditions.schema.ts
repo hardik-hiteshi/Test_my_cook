@@ -1,10 +1,10 @@
-import { Schema, Prop, raw } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { ConditionHistory } from './conditionHistory.schema';
 
 @Schema({ _id: false })
 export class OtherConditions {
   @Prop()
-  dateAgreement: Date;
+  public dateAgreement: Date;
   @Prop([ConditionHistory])
-  history: ConditionHistory[];
+  public history: ConditionHistory[];
 }

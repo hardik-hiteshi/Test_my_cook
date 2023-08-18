@@ -2,33 +2,33 @@ import { IsBoolean, IsOptional } from 'class-validator';
 export class StatusDto {
   @IsOptional()
   @IsBoolean()
-  promo?: boolean;
+  public promo?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  advertisement?: boolean;
+  public advertisement?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  taurusInfo?: boolean;
+  public taurusInfo?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  commercials?: boolean;
+  public commercials?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  newsletter?: boolean;
+  public newsletter?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  publicProfile?: boolean;
+  public publicProfile?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  feedback?: boolean;
+  public feedback?: boolean;
 
   @IsOptional()
   @IsBoolean()
-  privacy?: boolean;
+  public privacy?: boolean;
 }

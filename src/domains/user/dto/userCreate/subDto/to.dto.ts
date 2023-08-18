@@ -1,15 +1,15 @@
-import { IsString, IsMongoId, IsOptional } from 'class-validator';
+import { IsMongoId, IsOptional, IsString } from 'class-validator';
 import mongoose from 'mongoose';
 export class ToDto {
   @IsOptional()
   @IsString()
-  region?: string;
+  public region?: string;
 
   @IsOptional()
   @IsString()
-  niceName?: string;
+  public iceName?: string;
 
   @IsOptional()
   @IsMongoId()
-  _id?: mongoose.Types.ObjectId;
+  public _id?: mongoose.Types.ObjectId;
 }

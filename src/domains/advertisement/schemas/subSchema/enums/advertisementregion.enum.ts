@@ -1,4 +1,4 @@
-const AdvertisementRegions = [
+const advertisementRegions = [
   'ES-MYCOOKTOUCH',
   'CA-MYCOOKTOUCH',
   'PT-MYCOOKTOUCH',
@@ -35,4 +35,4 @@ const AdvertisementRegions = [
   'NL-ICOOKIN',
   'MACHINE',
 ];
-export default AdvertisementRegions;
+export default advertisementRegions;

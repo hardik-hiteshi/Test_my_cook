@@ -6,22 +6,22 @@ import { SocialMediaDto } from './socialMedia.dto';
 export class ProfileDto {
   @IsOptional()
   @IsString()
-  diet?: string;
+  public diet?: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SocialMediaDto)
-  social?: SocialMediaDto;
+  public social?: SocialMediaDto;
 
   @IsOptional()
   @IsString()
-  about?: string;
+  public about?: string;
 
   @IsOptional()
   @IsString()
-  birthday?: string;
+  public birthday?: string;
 
   @IsOptional()
   @IsString()
-  language?: string;
+  public language?: string;
 }

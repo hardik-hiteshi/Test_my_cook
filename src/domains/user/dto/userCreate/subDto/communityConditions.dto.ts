@@ -1,22 +1,22 @@
-import { ConditionHistoryDto } from './conditionHistory.dto';
 import {
   IsDateString,
-  ValidateNested,
-  IsString,
   IsOptional,
+  IsString,
+  ValidateNested,
 } from 'class-validator';
+import { ConditionHistoryDto } from './conditionHistory.dto';
 import { Type } from 'class-transformer';
 export class CommunityConditionsDto {
   @IsOptional()
   @IsDateString()
-  dateAgreement?: Date;
+  public dateAgreement?: Date;
 
   @IsOptional()
   @IsString()
-  version?: string;
+  public version?: string;
 
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ConditionHistoryDto)
-  history?: ConditionHistoryDto[];
+  public history?: ConditionHistoryDto[];
 }

@@ -1,7 +1,6 @@
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as mongooseSchema } from 'mongoose';
-import AdvertisementRegions from './subSchema/enums/advertisementregion.enum';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import advertisementRegions from './subSchema/enums/advertisementregion.enum';
 
 export type AdvertisementDocument = HydratedDocument<Advertisement>;
 
@@ -12,34 +11,34 @@ export type AdvertisementDocument = HydratedDocument<Advertisement>;
 })
 export class Advertisement {
   @Prop()
-  niceName: String;
+  public niceName: string;
 
   @Prop()
-  date: Date;
+  public date: Date;
 
   @Prop({
     type: mongooseSchema.Types.ObjectId,
     ref: 'Category',
     denormalize: 'niceName',
   })
-  category: mongooseSchema.Types.ObjectId;
+  public category: mongooseSchema.Types.ObjectId;
 
   @Prop()
-  url: String;
+  public url: string;
 
   @Prop()
-  urlTitle: String;
+  public urlTitle: string;
 
   @Prop({ type: Number, class: 'col-md-6', readonly: true })
-  views: Number;
+  public views: number;
 
   @Prop({ type: Number, class: 'col-md-6', readonly: true })
-  clicks: Number;
+  public clicks: number;
 
-  @Prop({ required: true, enum: AdvertisementRegions })
-  region: String;
+  @Prop({ required: true, enum: advertisementRegions })
+  public region: string;
 
   @Prop({ type: String, format: 'mycook-image' })
-  image: String;
+  public image: string;
 }
-export const AdvertisementSchema = SchemaFactory.createForClass(Advertisement);
+export const advertisementSchema = SchemaFactory.createForClass(Advertisement);

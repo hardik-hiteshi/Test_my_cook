@@ -2,13 +2,13 @@ import { IsOptional, IsString } from 'class-validator';
 export class NameDto {
   @IsOptional()
   @IsString()
-  displayName?: string;
+  public displayName?: string;
 
   @IsOptional()
   @IsString()
-  firstName?: string;
+  public firstName?: string;
 
   @IsOptional()
   @IsString()
-  lastName?: string;
+  public lastName?: string;
 }

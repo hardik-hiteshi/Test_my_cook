@@ -47,11 +47,13 @@ export class AuthenticationGuard implements CanActivate {
     } catch (e) {
       throw new UnauthorizedException('invalid token');
     }
+
     return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
+
     return type === 'Bearer' ? token : undefined;
   }
 }

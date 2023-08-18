@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsMongoId } from 'class-validator';
+import { IsMongoId, IsNotEmpty } from 'class-validator';
 import mongoose from 'mongoose';
 
 export class MongoIdDto {

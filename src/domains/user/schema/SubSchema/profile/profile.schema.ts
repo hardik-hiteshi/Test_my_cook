@@ -1,15 +1,15 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { SocialMedia } from './socialmedia.subschema';
 @Schema({ _id: false })
 export class Profile {
   @Prop()
-  diet: String;
+  public diet: string;
   @Prop(SocialMedia)
-  social: SocialMedia;
+  public social: SocialMedia;
   @Prop()
-  about: String;
+  public about: string;
   @Prop()
-  birthday: String;
+  public birthday: string;
   @Prop()
-  language: String;
+  public language: string;
 }

@@ -1,23 +1,23 @@
 import {
-  IsDateString,
   IsBoolean,
-  ValidateNested,
+  IsDateString,
   IsOptional,
+  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { ConditionHistoryDto } from './conditionHistory.dto';
+import { Type } from 'class-transformer';
 
 export class MemberConditionsDto {
   @IsOptional()
   @IsDateString()
-  dateAgreement?: Date;
+  public dateAgreement?: Date;
 
   @IsOptional()
   @IsBoolean()
-  agree?: boolean;
+  public agree?: boolean;
 
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ConditionHistoryDto)
-  history?: ConditionHistoryDto[];
+  public history?: ConditionHistoryDto[];
 }

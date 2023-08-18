@@ -1,6 +1,6 @@
-import { SchemaFactory, Schema, Prop } from '@nestjs/mongoose';
+import { Categories, Group, Info } from './subSchema/index';
 import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
-import { Info, Categories, Group } from './subSchema/index';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import AlternativeRecipeCourses from './subSchema/enums/AlternativeRecipeCourses.enum';
 
 export type AlternativeRecipeDocument = HydratedDocument<AlternativeRecipe>;
@@ -11,40 +11,40 @@ export type AlternativeRecipeDocument = HydratedDocument<AlternativeRecipe>;
 })
 export class AlternativeRecipe {
   @Prop()
-  title: String;
+  public title: string;
   @Prop()
-  niceName: String;
+  public niceName: string;
   @Prop()
-  category: String;
+  public category: string;
   @Prop()
-  categoryNiceName: String;
+  public categoryNiceName: string;
   @Prop([Categories])
-  categories: Categories[];
+  public categories: Categories[];
   @Prop([{ type: String, enum: AlternativeRecipeCourses }])
-  course: String[];
+  public course: string[];
   @Prop(Info)
-  info: Info;
+  public info: Info;
   @Prop()
-  totalTime: Number;
+  public totalTime: number;
   @Prop()
-  cookTime: Number;
+  public cookTime: number;
   @Prop()
-  difficulty: Number;
+  public difficulty: number;
   @Prop()
-  price: Number;
+  public price: number;
   @Prop({ type: Object })
-  size: {};
+  public size: object;
   @Prop([String])
-  images: String[];
+  public images: string[];
   @Prop({ type: mongooseSchema.Types.ObjectId, ref: 'Group' })
-  groups: Group[];
+  public groups: Group[];
   @Prop({ type: Object })
-  nutritional: {};
+  public nutritional: object;
   @Prop([{ type: Object }])
-  rations: [{}];
+  public rations: [object];
   @Prop()
-  region: String;
+  public region: string;
 }
 
-export const AlternativeRecipeSchema =
+export const alternativeRecipeSchema =
   SchemaFactory.createForClass(AlternativeRecipe);

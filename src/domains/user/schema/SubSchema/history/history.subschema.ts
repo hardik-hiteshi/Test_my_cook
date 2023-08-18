@@ -1,13 +1,13 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { GeoSchema } from '../geo.schema';
 @Schema({ _id: false })
 export class HistorySubSchema {
   @Prop()
-  date: Date;
+  public date: Date;
   @Prop()
-  ip: String;
+  public ip: string;
   @Prop(GeoSchema)
-  geo: GeoSchema;
+  public geo: GeoSchema;
   @Prop()
-  userAgent: String;
+  public userAgent: string;
 }

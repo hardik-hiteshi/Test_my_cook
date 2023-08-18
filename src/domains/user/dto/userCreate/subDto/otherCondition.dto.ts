@@ -1,14 +1,14 @@
-import { Type } from 'class-transformer';
+import { IsDateString, IsOptional, ValidateNested } from 'class-validator';
 import { ConditionHistoryDto } from './conditionHistory.dto';
-import { ValidateNested, IsDateString, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class OtherConditionsDto {
   @IsOptional()
   @IsDateString()
-  dateAgreement?: Date;
+  public dateAgreement?: Date;
 
   @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ConditionHistoryDto)
-  history?: ConditionHistoryDto[];
+  public history?: ConditionHistoryDto[];
 }

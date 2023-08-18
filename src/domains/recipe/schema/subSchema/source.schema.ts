@@ -1,9 +1,9 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Source {
   @Prop()
-  url: String;
+  public url: string;
   @Prop()
-  name: String;
+  public name: string;
 }

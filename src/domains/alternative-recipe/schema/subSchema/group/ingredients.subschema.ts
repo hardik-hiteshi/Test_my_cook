@@ -1,15 +1,15 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Ingredient {
   @Prop()
-  name: String;
+  public name: string;
   @Prop()
-  qty: String;
+  public qty: string;
   @Prop()
-  prep: String;
+  public prep: string;
   @Prop()
-  unit: String;
+  public unit: string;
   @Prop()
-  extra: String;
+  public extra: string;
 }

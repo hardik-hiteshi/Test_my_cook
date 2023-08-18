@@ -1,9 +1,9 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
 @Schema({ _id: false })
 export class Suggestions {
   @Prop()
-  title: String;
+  public title: string;
   @Prop()
-  niceName: String;
+  public niceName: string;
 }

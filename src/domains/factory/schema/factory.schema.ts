@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 import factorymachinetypes from './subSchema/enums/factorymachinetype.enum';
+import { HydratedDocument } from 'mongoose';
 
 export type FactoryDocument = HydratedDocument<Factory>;
 
@@ -11,34 +11,34 @@ export type FactoryDocument = HydratedDocument<Factory>;
 })
 export class Factory {
   @Prop({ required: true, enum: factorymachinetypes })
-  machineType: string;
+  public machineType: string;
 
   @Prop()
-  validBatch: string;
+  public validBatch: string;
 
   @Prop()
-  validCompatCode: string;
+  public validCompatCode: string;
 
   @Prop()
-  validSerialRange: string;
+  public validSerialRange: string;
 
   @Prop()
-  validSecretRange: string;
+  public validSecretRange: string;
 
   @Prop()
-  validCdRange: string;
+  public validCdRange: string;
 
   @Prop()
-  ip: string;
+  public ip: string;
 
   @Prop()
-  enabled: boolean;
+  public enabled: boolean;
 
   @Prop({
     required: true,
     default: 'MACHINE',
   })
-  region: string;
+  public region: string;
 }
 
-export const FactorySchema = SchemaFactory.createForClass(Factory);
+export const factorySchema = SchemaFactory.createForClass(Factory);

@@ -1,8 +1,8 @@
-import { Schema, Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 @Schema({ _id: false })
 export default class From {
   @Prop({ type: String, readonly: true, class: 'col-md-6' })
-  region: String;
+  public region: string;
   @Prop({ type: String, readonly: true, class: 'col-md-6' })
-  niceName: String;
+  public niceName: string;
 }

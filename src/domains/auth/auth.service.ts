@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -25,6 +25,7 @@ export class AuthService {
     if (!pwMatched) throw new BadRequestException('invalid user or password');
 
     const token = await this.signJwt(user._id);
+
     return { token };
   }
 
@@ -38,6 +39,7 @@ export class AuthService {
       secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: '24h',
     });
+
     return token;
   }
 
