@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+
 import { Recipe, RecipeDocument } from '../schema/subSchema';
 import { CreateRecipeDto } from '../dto/createRecipe/createRecipe.dto';
 import { Injectable } from '@nestjs/common';
@@ -112,13 +113,12 @@ export class RecipeRepository {
     body: UpdateRecipeDto,
     niceName: string,
   ): Promise<RecipeDocument> {
-    const recipe = await this.recipeModel.findOne({
-      niceName,
-      isActive: true,
-    });
-    await updateNestedFields(recipe, body);
-
-    await recipe.save();
+    const recipe = await this.recipeModel.findOneAndUpdate(
+      // eslint-disable-next-line object-shorthand
+      { niceName: niceName, isActive: true },
+      { $set: body }, // update
+      { new: true }, // options
+    );
 
     return recipe;
   }
@@ -131,18 +131,5 @@ export class RecipeRepository {
     );
 
     return recipe;
-  }
-}
-
-function updateNestedFields(
-  obj: RecipeDocument,
-  updateData: UpdateRecipeDto,
-): void {
-  for (const key in updateData) {
-    if (obj[key] && typeof obj[key] === 'object') {
-      updateNestedFields(obj[key], updateData[key]);
-    } else {
-      obj[key] = updateData[key];
-    }
   }
 }
