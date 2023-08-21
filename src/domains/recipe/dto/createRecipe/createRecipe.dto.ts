@@ -1,7 +1,10 @@
 import {
   CategoriesDTO,
+  CommentsDTO,
   GrantsDTO,
+  GroupsDTO,
   InfoDTO,
+  RatingsDTO,
   RecipeUserDTO,
   SeoDTO,
   SocialDTO,
@@ -10,7 +13,6 @@ import {
 import {
   IsArray,
   IsBoolean,
-  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsObject,
@@ -18,7 +20,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { Schema as mongooseSchema } from 'mongoose';
+
 import { Type } from 'class-transformer';
 
 export class CreateRecipeDto {
@@ -100,9 +102,9 @@ export class CreateRecipeDto {
   public videos?: string[];
 
   @IsOptional()
-  @IsArray()
-  @IsMongoId({ each: true })
-  public groups?: mongooseSchema.Types.ObjectId[];
+  // @ValidateNested()
+  @Type(() => GroupsDTO)
+  public groups?: GroupsDTO[];
 
   @IsOptional()
   @IsArray()
@@ -126,17 +128,15 @@ export class CreateRecipeDto {
   @IsOptional()
   @IsArray()
   @IsObject({ each: true })
-  public rations?: [object];
+  public rations?: object[];
 
   @IsOptional()
-  @IsArray()
-  @IsMongoId({ each: true })
-  public comments?: mongooseSchema.Types.ObjectId[];
+  public comments?: CommentsDTO[];
 
   @IsOptional()
-  @IsArray()
-  @IsMongoId({ each: true })
-  public ratings?: mongooseSchema.Types.ObjectId[];
+  @ValidateNested()
+  @Type(() => RatingsDTO)
+  public ratings?: RatingsDTO[];
 
   @IsOptional()
   @ValidateNested()

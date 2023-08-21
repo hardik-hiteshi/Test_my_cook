@@ -14,7 +14,7 @@ export class RecipeUser {
   @Prop()
   public twitter: string;
   @Prop([String])
-  public images: [string];
+  public images: string[];
   @Prop()
   public web: string;
   @Prop()

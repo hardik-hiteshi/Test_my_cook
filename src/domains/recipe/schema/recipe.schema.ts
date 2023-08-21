@@ -1,11 +1,18 @@
-import { Categories, Info, Social, Source } from './subSchema/index';
-import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
+import {
+  Categories,
+  Comments,
+  Group,
+  Info,
+  Ratings,
+  Social,
+  Source,
+} from './subSchema/index';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import recipecourses from './subSchema/enums/recipecourse.enum';
-import { Seo } from './subSchema/seo/seo.schema';
-// eslint-disable-next-line sort-imports
 import { Grants } from './subSchema/grants.schema';
+import { HydratedDocument } from 'mongoose';
+import recipecourses from './subSchema/enums/recipecourse.enum';
 import { RecipeUser } from './subSchema/recipeuser.schema';
+import { Seo } from './subSchema/seo/seo.schema';
 
 export type RecipeDocument = HydratedDocument<Recipe>;
 
@@ -69,8 +76,8 @@ export class Recipe {
   @Prop()
   public videos: string[];
 
-  @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Group' }])
-  public groups: mongooseSchema.Types.ObjectId[];
+  @Prop()
+  public groups: Group[];
 
   @Prop([String])
   public tags: string[];
@@ -85,13 +92,13 @@ export class Recipe {
   public foodGroups: string[];
 
   @Prop([{ type: Object }])
-  public rations: [object];
+  public rations: object[];
 
-  @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Comment' }])
-  public comments: mongooseSchema.Types.ObjectId[];
+  @Prop(Comments)
+  public comments: Comments[];
 
-  @Prop([{ type: mongooseSchema.Types.ObjectId, ref: 'Rating' }])
-  public ratings: mongooseSchema.Types.ObjectId[];
+  @Prop(Ratings)
+  public ratings: Ratings[];
 
   @Prop(Source)
   public source: Source;

@@ -1,7 +1,7 @@
 import { Categories, Group, Info } from './subSchema/index';
-import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import AlternativeRecipeCourses from './subSchema/enums/AlternativeRecipeCourses.enum';
+import alternativeRecipeCourses from './subSchema/enums/AlternativeRecipeCourses.enum';
+import { HydratedDocument } from 'mongoose';
 
 export type AlternativeRecipeDocument = HydratedDocument<AlternativeRecipe>;
 @Schema({
@@ -20,7 +20,7 @@ export class AlternativeRecipe {
   public categoryNiceName: string;
   @Prop([Categories])
   public categories: Categories[];
-  @Prop([{ type: String, enum: AlternativeRecipeCourses }])
+  @Prop([{ type: String, enum: alternativeRecipeCourses }])
   public course: string[];
   @Prop(Info)
   public info: Info;
@@ -36,14 +36,16 @@ export class AlternativeRecipe {
   public size: object;
   @Prop([String])
   public images: string[];
-  @Prop({ type: mongooseSchema.Types.ObjectId, ref: 'Group' })
+  @Prop()
   public groups: Group[];
   @Prop({ type: Object })
   public nutritional: object;
   @Prop([{ type: Object }])
-  public rations: [object];
+  public rations: object[];
   @Prop()
   public region: string;
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 
 export const alternativeRecipeSchema =
