@@ -1,5 +1,6 @@
 import { Factory, factorySchema } from './schema/factory.schema';
 import { FactoryController } from './factory.controller';
+import { FactoryRepository } from './repository/factory.repository';
 import { FactoryService } from './factory.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -10,6 +11,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     FactoryModule,
   ],
   controllers: [FactoryController],
-  providers: [FactoryService],
+  providers: [FactoryService, FactoryRepository],
 })
 export class FactoryModule {}
