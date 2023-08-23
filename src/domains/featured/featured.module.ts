@@ -1,5 +1,6 @@
 import { Featured, featuredSchema } from './schema/featured.schema';
 import { FeaturedController } from './featured.controller';
+import { FeaturedRepository } from './repository/featured.repository';
 import { FeaturedService } from './featured.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,6 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     ]),
   ],
   controllers: [FeaturedController],
-  providers: [FeaturedService],
+  providers: [FeaturedService, FeaturedRepository],
 })
 export class FeaturedModule {}

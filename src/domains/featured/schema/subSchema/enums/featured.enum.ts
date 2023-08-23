@@ -1,2 +1,2 @@
-const featureduser = ['User'];
+const featureduser = ['User', 'Recipe'];
 export default featureduser;
