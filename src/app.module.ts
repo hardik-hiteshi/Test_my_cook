@@ -1,5 +1,6 @@
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
 import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
+import { CategoryModule } from './domains/category/category.module';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { FactoryModule } from './domains/factory/factory.module';
@@ -26,6 +27,7 @@ import { UserModule } from './domains/user/user.module';
     AdvertisementModule,
     CommonModule,
     AlternativeRecipeModule,
+    CategoryModule,
   ],
 })
 export class AppModule {}
