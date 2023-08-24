@@ -102,7 +102,7 @@ export class CreateRecipeDto {
   public videos?: string[];
 
   @IsOptional()
-  // @ValidateNested()
+  @ValidateNested()
   @Type(() => GroupsDTO)
   public groups?: GroupsDTO[];
 

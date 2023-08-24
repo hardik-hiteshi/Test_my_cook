@@ -1,5 +1,6 @@
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
 import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
+import { BadgesModule } from './domains/badges/badges.module';
 import { CategoryModule } from './domains/category/category.module';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
@@ -28,6 +29,7 @@ import { UserModule } from './domains/user/user.module';
     CommonModule,
     AlternativeRecipeModule,
     CategoryModule,
+    BadgesModule,
   ],
 })
 export class AppModule {}
