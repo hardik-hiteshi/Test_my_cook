@@ -20,16 +20,24 @@ export class AlternativeRecipeRepository {
     region: string,
     body: CreateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeModel.findOne({
+    const alternativeRecipe = await this.alternativeRecipeModel.findOne({
       niceName: body.niceName,
       region,
       isActive: true,
     });
 
-    return recipe;
+    return alternativeRecipe;
   }
-  public async create(body): Promise<AlternativeRecipeDocument> {
-    return await this.alternativeRecipeModel.create(body);
+  public async create(
+    region: string,
+    body: CreateAlternativeRecipeDTO,
+  ): Promise<AlternativeRecipeDocument> {
+    const alternativerecipe = await this.alternativeRecipeModel.create({
+      ...body,
+      region,
+    });
+
+    return alternativerecipe;
   }
   public async findAll(
     region: string,
@@ -89,11 +97,11 @@ export class AlternativeRecipeRepository {
         //{ nutritionalForRation: { $regex: search, $options: "i" } },
       ];
     }
-    const data = await this.alternativeRecipeModel.find({
-      $and: [query, { isActive: true }],
+    const alternativeRecipesList = await this.alternativeRecipeModel.find({
+      $and: [query, { isActive: true }, { region }],
     });
-    if (data.length > 0) {
-      return data;
+    if (alternativeRecipesList.length > 0) {
+      return alternativeRecipesList;
     }
 
     return [];
@@ -102,38 +110,39 @@ export class AlternativeRecipeRepository {
     region: string,
     niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeModel.findOne({
+    const altrecipe = await this.alternativeRecipeModel.findOne({
       niceName,
       region,
       isActive: true,
     });
 
-    return recipe;
+    return altrecipe;
   }
 
   public async updateone(
+    region: string,
     body: UpdateAlternativeRecipeDTO,
     niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeModel.findOneAndUpdate(
-      // eslint-disable-next-line object-shorthand
-      { niceName: niceName, isActive: true },
-      { $set: body }, // update
-      { new: true }, // options
+    const updatedaltRecipe = await this.alternativeRecipeModel.findOneAndUpdate(
+      { region, niceName, isActive: true },
+      { $set: body },
+      { new: true },
     );
 
-    return recipe;
+    return updatedaltRecipe;
   }
 
   public async deleteRecipe(
+    region: string,
     niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeModel.findOneAndUpdate(
-      { $and: [{ niceName }, { isActive: true }] },
+    const deletedaltRecipe = await this.alternativeRecipeModel.findOneAndUpdate(
+      { $and: [{ niceName }, { isActive: true }, { region }] },
       { isActive: false },
       { new: true },
     );
 
-    return recipe;
+    return deletedaltRecipe;
   }
 }

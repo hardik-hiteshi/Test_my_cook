@@ -38,10 +38,10 @@ export class Factory {
     required: true,
     default: 'MACHINE',
   })
-  public region?: string;
+  public region: string;
 
   @Prop({ default: true })
-  public isActive?: boolean;
+  public isActive: boolean;
 }
 
 export const factorySchema = SchemaFactory.createForClass(Factory);

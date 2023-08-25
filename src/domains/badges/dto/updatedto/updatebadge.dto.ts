@@ -31,10 +31,6 @@ export class UpdateBadgesDTO {
   @IsOptional()
   @IsString()
   public terms: string;
-
-  @IsOptional()
-  @IsString()
-  public region: string;
   //will work on this later.
   //   @IsOptional()
   //   @ValidateNested()

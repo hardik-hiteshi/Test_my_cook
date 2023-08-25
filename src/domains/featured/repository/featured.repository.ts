@@ -10,8 +10,24 @@ export class FeaturedRepository {
     @InjectModel(Featured.name) public featuredModel: Model<Featured>,
   ) {}
 
-  public async create(body: CreateFeatureDTO): Promise<FeaturedDocument> {
-    const featured = await this.featuredModel.create(body);
+  public async findOne(
+    region: string,
+    body: CreateFeatureDTO,
+  ): Promise<FeaturedDocument> {
+    const existingFeatured = await this.featuredModel.findOne({
+      region,
+      ...body,
+      isActive: true,
+    });
+
+    return existingFeatured;
+  }
+
+  public async create(
+    region: string,
+    body: CreateFeatureDTO,
+  ): Promise<FeaturedDocument> {
+    const featured = await this.featuredModel.create({ ...body, region });
 
     return featured;
   }
@@ -28,15 +44,13 @@ export class FeaturedRepository {
     };
     if (search) {
       query.$or = [{ featuredList: { $regex: search, $options: 'i' } }];
-      const data = await this.featuredModel.findOne({ query });
-
-      return data;
     }
-    const data = await this.featuredModel.findOne(query);
+    const featured = await this.featuredModel.findOne({
+      ...query,
+      isActive: true,
+    });
 
-    if (data) {
-      return data;
-    }
+    return featured;
   }
 
   public async updateFeatured(
@@ -45,7 +59,6 @@ export class FeaturedRepository {
   ): Promise<FeaturedDocument> {
     const { type, featuredList } = body;
     const updateData: Partial<UpdateFeatureDTO> = {
-      region,
       type,
     };
 
@@ -58,7 +71,7 @@ export class FeaturedRepository {
       upsert: true,
     };
     const data = await this.featuredModel.findOneAndUpdate(
-      { region, type },
+      { region, type, isActive: true },
       updateData,
       options,
     );

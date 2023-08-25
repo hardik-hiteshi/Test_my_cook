@@ -11,29 +11,36 @@ export class FactoryRepository {
     @InjectModel(Factory.name) public factoryModel: Model<Factory>,
   ) {}
 
-  public async findOne(body: CreateFactoryDTO): Promise<FactoryDocument> {
-    const factory = await this.factoryModel.findOne(body);
+  public async findOne(
+    region: string,
+    body: CreateFactoryDTO,
+  ): Promise<FactoryDocument> {
+    const factory = await this.factoryModel.findOne({ ...body, region });
 
     return factory;
   }
 
-  public async createFactory(body: CreateFactoryDTO): Promise<FactoryDocument> {
-    const factory = await this.factoryModel.create(body);
+  public async createFactory(
+    region: string,
+    body: CreateFactoryDTO,
+  ): Promise<FactoryDocument> {
+    const factory = await this.factoryModel.create({ ...body, region });
 
     return factory;
   }
-  public async find(): Promise<FactoryDocument[]> {
-    const factories = await this.factoryModel.find({ isActive: true });
+  public async find(region: string): Promise<FactoryDocument[]> {
+    const factories = await this.factoryModel.find({ region, isActive: true });
 
     return factories;
   }
 
   public async updateFactory(
+    region: string,
     _id: string,
     body: UpdateFactoryDTO,
   ): Promise<FactoryDocument> {
     const factory = await this.factoryModel.findOneAndUpdate(
-      { _id, isActive: true },
+      { region, _id, isActive: true },
       body,
       {
         new: true,
@@ -43,9 +50,12 @@ export class FactoryRepository {
     return factory;
   }
 
-  public async deleteFactory(_id: string): Promise<FactoryDocument> {
+  public async deleteFactory(
+    region: string,
+    _id: string,
+  ): Promise<FactoryDocument> {
     const factory = await this.factoryModel.findOneAndUpdate(
-      { _id, isActive: true },
+      { region, _id, isActive: true },
       { isActive: false },
       {
         new: true,

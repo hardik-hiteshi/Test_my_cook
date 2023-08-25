@@ -18,58 +18,81 @@ export class AlternativeRecipeService {
     region: string,
     body: CreateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeRepo.findOne(region, body);
-    if (!recipe) {
-      const recipe = await this.alternativeRecipeRepo.create(body);
+    const alternativeRecipe = await this.alternativeRecipeRepo.findOne(
+      region,
+      body,
+    );
+    if (!alternativeRecipe) {
+      const alternativeRecipe = await this.alternativeRecipeRepo.create(
+        region,
+        body,
+      );
 
-      return recipe;
+      return alternativeRecipe;
     }
-    if (recipe) throw new BadRequestException('Recipe already exists.');
+    if (alternativeRecipe)
+      throw new BadRequestException('Alternative Recipe already exists.');
   }
 
   public async fetchAllRecipes(
     region: string,
     search: string,
   ): Promise<Array<AlternativeRecipeDocument>> {
-    const recipeList = await this.alternativeRecipeRepo.findAll(region, search);
-    if (recipeList.length <= 0) throw new NotFoundException('No recipe found');
-    else {
-      return recipeList;
+    const alternativeRecipeList = await this.alternativeRecipeRepo.findAll(
+      region,
+      search,
+    );
+    if (alternativeRecipeList.length <= 0) {
+      throw new NotFoundException('No Alternative recipe found');
     }
+
+    return alternativeRecipeList;
   }
 
   public async fetchRecipe(
-    region,
-    niceName,
+    region: string,
+    niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeRepo.fetchOne(region, niceName);
-    if (!recipe) {
-      throw new NotFoundException('Recipe Does not exist.');
+    const alternativeRecipe = await this.alternativeRecipeRepo.fetchOne(
+      region,
+      niceName,
+    );
+    if (!alternativeRecipe) {
+      throw new NotFoundException('Alternative Recipe Does not exist.');
     }
 
-    return recipe;
+    return alternativeRecipe;
   }
 
   public async updateRecipe(
+    region: string,
     body: UpdateAlternativeRecipeDTO,
     niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeRepo.updateone(body, niceName);
-    if (!recipe) {
-      throw new NotFoundException('Recipe Does not exist.');
+    const updatedaltRecipe = await this.alternativeRecipeRepo.updateone(
+      region,
+      body,
+      niceName,
+    );
+    if (!updatedaltRecipe) {
+      throw new NotFoundException('Alternative Recipe Does not exist.');
     }
 
-    return recipe;
+    return updatedaltRecipe;
   }
 
   public async deleteRecipe(
+    region: string,
     niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    const recipe = await this.alternativeRecipeRepo.deleteRecipe(niceName);
-    if (recipe == null) {
-      throw new NotFoundException('Recipe Does not exist.');
+    const deletedaltRecipe = await this.alternativeRecipeRepo.deleteRecipe(
+      region,
+      niceName,
+    );
+    if (!deletedaltRecipe) {
+      throw new NotFoundException('Alternative Recipe Does not exist.');
     }
 
-    return recipe;
+    return deletedaltRecipe;
   }
 }

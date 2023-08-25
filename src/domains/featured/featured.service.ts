@@ -12,13 +12,13 @@ import { UpdateFeatureDTO } from './dto/updatefeatured.dto';
 export class FeaturedService {
   public constructor(public featuredRepo: FeaturedRepository) {}
 
-  public async create(body: CreateFeatureDTO): Promise<FeaturedDocument> {
-    const featured = await this.featuredRepo.fetchFeatured(
-      body.region,
-      body.type,
-    );
+  public async create(
+    region: string,
+    body: CreateFeatureDTO,
+  ): Promise<FeaturedDocument> {
+    const featured = await this.featuredRepo.findOne(region, body);
     if (!featured) {
-      const featured = await this.featuredRepo.create(body);
+      const featured = await this.featuredRepo.create(region, body);
 
       return featured;
     }
@@ -30,9 +30,13 @@ export class FeaturedService {
     type: string,
     search?: string,
   ): Promise<FeaturedDocument> {
-    const data = await this.featuredRepo.fetchFeatured(region, type, search);
-    if (data) {
-      return data;
+    const featured = await this.featuredRepo.fetchFeatured(
+      region,
+      type,
+      search,
+    );
+    if (featured) {
+      return featured;
     }
     throw new NotFoundException('No features found');
   }

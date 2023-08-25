@@ -36,38 +36,35 @@ export class CreateAlternativeRecipeDTO {
   @IsOptional()
   @ValidateNested()
   @Type(() => InfoDTO)
-  public info?: InfoDTO;
+  public info: InfoDTO;
   @IsOptional()
   @IsNumber()
-  public totalTime?: number;
+  public totalTime: number;
   @IsOptional()
   @IsNumber()
-  public cookTime?: number;
+  public cookTime: number;
   @IsOptional()
   @IsNumber()
-  public difficulty?: number;
+  public difficulty: number;
   @IsOptional()
   @IsNumber()
   public price?: number;
   @IsOptional()
   @IsObject()
-  public size?: object;
+  public size: object;
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  public images?: string[];
+  public images: string[];
   @IsOptional()
   @ValidateNested()
   @Type(() => GroupsDTO)
-  public groups?: GroupsDTO[];
+  public groups: GroupsDTO[];
   @IsOptional()
   @IsObject()
-  public nutritional?: object;
+  public nutritional: object;
   @IsOptional()
   @IsArray()
   @IsObject({ each: true })
-  public ration?: object[];
-  @IsOptional()
-  @IsString()
-  public region?: string;
+  public rations: object[];
 }

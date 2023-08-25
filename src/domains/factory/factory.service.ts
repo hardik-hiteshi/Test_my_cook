@@ -12,18 +12,21 @@ import { UpdateFactoryDTO } from './dto/updatefactory.dto';
 export class FactoryService {
   public constructor(public factoryRepo: FactoryRepository) {}
 
-  public async createFactory(body: CreateFactoryDTO): Promise<FactoryDocument> {
-    const factory = await this.factoryRepo.findOne(body);
+  public async createFactory(
+    region: string,
+    body: CreateFactoryDTO,
+  ): Promise<FactoryDocument> {
+    const factory = await this.factoryRepo.findOne(region, body);
     if (!factory) {
-      const factory = await this.factoryRepo.createFactory(body);
+      const factory = await this.factoryRepo.createFactory(region, body);
 
       return factory;
     }
     throw new BadRequestException('Factory already exists.');
   }
 
-  public async find(): Promise<FactoryDocument[]> {
-    const factorylist = await this.factoryRepo.find();
+  public async find(region: string): Promise<FactoryDocument[]> {
+    const factorylist = await this.factoryRepo.find(region);
     if (factorylist.length <= 0)
       throw new NotFoundException('No Factory found');
     else {
@@ -32,10 +35,11 @@ export class FactoryService {
   }
 
   public async updateFactory(
+    region: string,
     _id: string,
     body: UpdateFactoryDTO,
   ): Promise<FactoryDocument> {
-    const factory = await this.factoryRepo.updateFactory(_id, body);
+    const factory = await this.factoryRepo.updateFactory(region, _id, body);
     if (!factory) {
       throw new NotFoundException('Factory Does not exist.');
     }
@@ -43,8 +47,11 @@ export class FactoryService {
     return factory;
   }
 
-  public async deleteFactory(_id: string): Promise<FactoryDocument> {
-    const factory = await this.factoryRepo.deleteFactory(_id);
+  public async deleteFactory(
+    region: string,
+    _id: string,
+  ): Promise<FactoryDocument> {
+    const factory = await this.factoryRepo.deleteFactory(region, _id);
     if (!factory) {
       throw new NotFoundException('Factory Does not exist.');
     }

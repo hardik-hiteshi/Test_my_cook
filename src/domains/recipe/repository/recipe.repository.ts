@@ -26,8 +26,8 @@ export class RecipeRepository {
 
     return recipe;
   }
-  public async create(body): Promise<RecipeDocument> {
-    return await this.recipeModel.create(body);
+  public async create(region, body): Promise<RecipeDocument> {
+    return await this.recipeModel.create({ ...body, region });
   }
   public async findAll(
     region: string,
@@ -88,7 +88,7 @@ export class RecipeRepository {
       ];
     }
     const data = await this.recipeModel.find({
-      $and: [query, { isActive: true }],
+      $and: [query, { isActive: true }, { region }],
     });
     if (data.length > 0) {
       return data;
@@ -110,22 +110,26 @@ export class RecipeRepository {
   }
 
   public async updateone(
+    region: string,
     body: UpdateRecipeDto,
     niceName: string,
   ): Promise<RecipeDocument> {
     const recipe = await this.recipeModel.findOneAndUpdate(
       // eslint-disable-next-line object-shorthand
-      { niceName: niceName, isActive: true },
-      { $set: body }, // update
-      { new: true }, // options
+      { region, niceName, isActive: true },
+      { $set: body },
+      { new: true },
     );
 
     return recipe;
   }
 
-  public async deleteRecipe(niceName: string): Promise<RecipeDocument> {
+  public async deleteRecipe(
+    region: string,
+    niceName: string,
+  ): Promise<RecipeDocument> {
     const recipe = await this.recipeModel.findOneAndUpdate(
-      { $and: [{ niceName }, { isActive: true }] },
+      { $and: [{ niceName }, { isActive: true }, { region }] },
       { isActive: false },
       { new: true },
     );

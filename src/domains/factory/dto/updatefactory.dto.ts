@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 export class UpdateFactoryDTO {
   @IsOptional()
   @IsString()
@@ -26,7 +26,4 @@ export class UpdateFactoryDTO {
   @IsOptional()
   @IsBoolean()
   public enabled: boolean;
-  @IsNotEmpty()
-  @IsString()
-  public region: string;
 }

@@ -1,9 +1,5 @@
 import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreateFeatureDTO {
-  @IsNotEmpty()
-  @IsString()
-  public region: string;
-
   @IsOptional()
   @IsArray()
   @IsString({ each: true })

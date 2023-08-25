@@ -42,17 +42,19 @@ export class RecipeController {
 
   @Patch('updateone')
   public async updateRecipe(
+    @Headers('region') region: string,
     @Query('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
   ): Promise<RecipeDocument> {
     // console.log(body)
-    return await this.recipeService.updateRecipe(body, niceName);
+    return await this.recipeService.updateRecipe(region, body, niceName);
   }
 
-  @Patch('deleterecipe')
+  @Patch('delete')
   public async deleteRecipe(
+    @Headers('region') region: string,
     @Query('niceName') niceName: string,
   ): Promise<RecipeDocument> {
-    return await this.recipeService.deleteRecipe(niceName);
+    return await this.recipeService.deleteRecipe(region, niceName);
   }
 }

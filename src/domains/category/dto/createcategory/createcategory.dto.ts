@@ -25,10 +25,6 @@ export class CreateCategoryDTO {
   @IsBoolean()
   public visibility: boolean;
 
-  @IsNotEmpty()
-  @IsString()
-  public region: string;
-
   @IsOptional()
   @IsString()
   public landingText: string;

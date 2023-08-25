@@ -27,30 +27,8 @@ export class Rank {
 
   @Prop(RankTranslations)
   public translations: RankTranslations;
-  @Prop()
-  public preserve: boolean;
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 
 export const rankSchema = SchemaFactory.createForClass(Rank);
-
-// {
-//     name: { type: String, required: true },
-//     niceName: { type: String, required: true },
-//     image: { type: String, default: "" },
-//     description: { type: String, required: true },
-//     region: { type: String, required: true },
-//     translations: {
-//       from: {
-//         region: { type: String, readonly: true },
-//         niceName: { type: String, readonly: true },
-//       },
-//       to: [
-//         {
-//           region: { type: String },
-//           niceName: { type: String },
-//           lastUpdate: { type: Date },
-//         },
-//       ],
-//       preserve: { type: Boolean },
-//     },
-//   },

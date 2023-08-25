@@ -49,7 +49,7 @@ export class BadgesController {
   @Get('fetchall')
   public async fetchBadges(
     @Headers('region') region: string,
-    @Query('search') search: string,
+    @Query('search') search?: string,
   ): Promise<BadgesDocument[]> {
     return await this.badgesServies.fetchBadges(region, search);
   }

@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator';
 // import { TranslationsDTO } from './subdto/translations.dto';
 // import { Type } from 'class-transformer';
 export class UpdateCategoryDTO {
@@ -19,10 +13,6 @@ export class UpdateCategoryDTO {
   @IsOptional()
   @IsBoolean()
   public visibility: boolean;
-
-  @IsNotEmpty()
-  @IsString()
-  public region: string;
 
   @IsOptional()
   @IsString()

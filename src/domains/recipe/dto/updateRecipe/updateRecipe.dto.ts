@@ -158,10 +158,6 @@ export class UpdateRecipeDto {
   public imageRights?: boolean;
 
   @IsOptional()
-  @IsString()
-  public region?: string;
-
-  @IsOptional()
   @IsBoolean()
   public nutritionalForRation?: boolean;
 }

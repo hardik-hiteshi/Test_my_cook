@@ -18,7 +18,7 @@ export class BadgesRespository {
   ): Promise<unknown> {
     const badge = await this.badgesModel.findOne({
       region,
-      body,
+      ...body,
       isActive: true,
     });
 
@@ -28,8 +28,7 @@ export class BadgesRespository {
     region: string,
     body: CreateBadgesDTO,
   ): Promise<BadgesDocument> {
-    body.region = region;
-    const badge = await this.badgesModel.create(body);
+    const badge = await this.badgesModel.create({ ...body, region });
 
     return badge;
   }
@@ -76,7 +75,7 @@ export class BadgesRespository {
 
   public async fetchBadges(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<BadgesDocument[]> {
     const query: BadgeQueryInterface = {};
     const parsedIndex = Number(search);
@@ -108,7 +107,7 @@ export class BadgesRespository {
     }
 
     const badges = await this.badgesModel.find({
-      $and: [query, { isActive: true }],
+      $and: [query, { isActive: true }, { region }],
     });
 
     // if (badges.length > 0) {

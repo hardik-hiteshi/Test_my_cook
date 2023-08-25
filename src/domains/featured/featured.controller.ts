@@ -18,9 +18,10 @@ export class FeaturedController {
 
   @Post('create')
   public async create(
+    @Headers('region') region: string,
     @Body() body: CreateFeatureDTO,
   ): Promise<FeaturedDocument> {
-    return await this.featuredServices.create(body);
+    return await this.featuredServices.create(region, body);
   }
 
   @Get('fetch')

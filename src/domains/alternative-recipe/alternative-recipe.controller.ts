@@ -44,17 +44,23 @@ export class AlternativeRecipeController {
 
   @Patch('updateone')
   public async updateRecipe(
+    @Headers('region') region: string,
     @Query('niceName') niceName: string,
     @Body() body: UpdateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
     // console.log(body)
-    return await this.alternativeRecipeServices.updateRecipe(body, niceName);
+    return await this.alternativeRecipeServices.updateRecipe(
+      region,
+      body,
+      niceName,
+    );
   }
 
   @Patch('deleterecipe')
   public async deleteRecipe(
+    @Headers('region') region: string,
     @Query('niceName') niceName: string,
   ): Promise<AlternativeRecipeDocument> {
-    return await this.alternativeRecipeServices.deleteRecipe(niceName);
+    return await this.alternativeRecipeServices.deleteRecipe(region, niceName);
   }
 }

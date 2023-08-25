@@ -40,7 +40,7 @@ export class AlternativeRecipe {
   public groups: Group[];
   @Prop({ type: Object })
   public nutritional: object;
-  @Prop([{ type: Object }])
+  @Prop([Object])
   public rations: object[];
   @Prop()
   public region: string;

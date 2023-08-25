@@ -13,8 +13,7 @@ export class CategoryRepository {
     region: string,
     body: CreateCategoryDTO,
   ): Promise<CategoryDocument> {
-    body.region = region;
-    const category = await this.categoryModel.create(body);
+    const category = await this.categoryModel.create({ region, ...body });
 
     return category;
   }
@@ -59,24 +58,26 @@ export class CategoryRepository {
     niceName: string,
     body: UpdateCategoryDTO,
   ): Promise<CategoryDocument> {
-    return await this.categoryModel.findOneAndUpdate(
+    const updatedCategory = await this.categoryModel.findOneAndUpdate(
       { region, niceName, isActive: true },
       body,
       { new: true },
     );
+
+    return updatedCategory;
   }
 
   public async deleteCategory(
     region: string,
     niceName?: string,
   ): Promise<CategoryDocument> {
-    const category = await this.categoryModel.findOneAndUpdate(
+    const deletedCategory = await this.categoryModel.findOneAndUpdate(
       { region, niceName, isActive: true },
       { isActive: false },
       { new: true },
     );
 
-    return category;
+    return deletedCategory;
   }
 
   public async fetchCategories(
@@ -112,11 +113,12 @@ export class CategoryRepository {
           // },
         ];
       }
-      const data = await this.categoryModel.find({
-        $and: [query, { isActive: true }],
+
+      const categoriesList = await this.categoryModel.find({
+        $and: [query, { isActive: true }, { region }],
       });
-      if (data.length > 0) {
-        return data;
+      if (categoriesList.length > 0) {
+        return categoriesList;
       }
 
       return [];

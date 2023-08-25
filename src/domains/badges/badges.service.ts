@@ -63,7 +63,7 @@ export class BadgesService {
 
   public async fetchBadges(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<BadgesDocument[]> {
     const badges = await this.badgesRepo.fetchBadges(region, search);
     if (badges.length > 0) {

@@ -64,7 +64,4 @@ export class UpdateAlternativeRecipeDTO {
   @IsArray()
   @IsObject({ each: true })
   public rations: object[];
-  @IsOptional()
-  @IsString()
-  public region: string;
 }

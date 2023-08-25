@@ -14,9 +14,9 @@ export class CategoryService {
     region: string,
     body: CreateCategoryDTO,
   ): Promise<CategoryDocument> {
-    const category = await this.categoryRepo.findOne(region, body);
+    const existingCategory = await this.categoryRepo.findOne(region, body);
 
-    if (!category) {
+    if (!existingCategory) {
       const category = await this.categoryRepo.createCategory(region, body);
 
       return category;
@@ -35,7 +35,6 @@ export class CategoryService {
       niceName,
     );
 
-    // console.log(category);
     if (category) {
       return category;
     }
@@ -47,30 +46,33 @@ export class CategoryService {
     niceName: string,
     body: UpdateCategoryDTO,
   ): Promise<CategoryDocument> {
-    const category = await this.categoryRepo.updateCategory(
+    const updatedCategory = await this.categoryRepo.updateCategory(
       region,
       niceName,
       body,
     );
 
-    if (!category) {
+    if (!updatedCategory) {
       throw new NotFoundException('Document not found');
     }
 
-    return category;
+    return updatedCategory;
   }
 
   public async deleteCategory(
     region: string,
     niceName?: string,
   ): Promise<CategoryDocument> {
-    const category = await this.categoryRepo.deleteCategory(region, niceName);
+    const deletedCategory = await this.categoryRepo.deleteCategory(
+      region,
+      niceName,
+    );
 
-    if (!category) {
+    if (!deletedCategory) {
       throw new NotFoundException('Category does not exist.');
     }
 
-    return category;
+    return deletedCategory;
   }
 
   public async fetchCategories(
