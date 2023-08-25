@@ -38,7 +38,15 @@ export class BadgesController {
   ): Promise<BadgesDocument> {
     return await this.badgesServies.updateBadge(region, niceName, body);
   }
-  @Get('fetch')
+
+  @Patch('delete')
+  public async deleteBadge(
+    @Headers('region') region: string,
+    @Query('niceName') niceName: string,
+  ): Promise<BadgesDocument> {
+    return await this.badgesServies.deleteBadge(region, niceName);
+  }
+  @Get('fetchall')
   public async fetchBadges(
     @Headers('region') region: string,
     @Query('search') search: string,

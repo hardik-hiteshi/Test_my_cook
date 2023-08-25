@@ -1,6 +1,12 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
-// import { TranslationsDTO } from './subdto/badge.translations.dto';
-// import { Type } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { TranslationsDTO } from './subdto/badge.translations.dto';
+import { Type } from 'class-transformer';
 
 export class CreateBadgesDTO {
   @IsOptional()
@@ -42,8 +48,8 @@ export class CreateBadgesDTO {
   @IsString()
   public region: string;
   //will work on this later.
-  //   @IsOptional()
-  //   @ValidateNested()
-  //   @Type(() => TranslationsDTO)
-  //   public translations: TranslationsDTO;
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => TranslationsDTO)
+  public translations: TranslationsDTO;
 }

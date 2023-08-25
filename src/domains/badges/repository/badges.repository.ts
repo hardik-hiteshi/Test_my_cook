@@ -28,7 +28,8 @@ export class BadgesRespository {
     region: string,
     body: CreateBadgesDTO,
   ): Promise<BadgesDocument> {
-    const badge = await this.badgesModel.create({ body, region });
+    body.region = region;
+    const badge = await this.badgesModel.create(body);
 
     return badge;
   }
@@ -37,7 +38,11 @@ export class BadgesRespository {
     region: string,
     niceName: string,
   ): Promise<BadgesDocument> {
-    const badge = await this.badgesModel.findOne({ region, niceName });
+    const badge = await this.badgesModel.findOne({
+      region,
+      niceName,
+      isActive: true,
+    });
 
     return badge;
   }
@@ -74,12 +79,13 @@ export class BadgesRespository {
     search: string,
   ): Promise<BadgesDocument[]> {
     const query: BadgeQueryInterface = {};
-
+    const parsedIndex = Number(search);
+    const indexFilter = !isNaN(parsedIndex) ? { index: parsedIndex } : {};
     if (search) {
       query.$or = [
-        { name: { $regex: search.toString(), $options: 'i' } },
-        { niceName: { $regex: search.toString(), $options: 'i' } },
-        { index: { $regex: search.toString(), $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
+        { niceName: { $regex: search, $options: 'i' } },
+        indexFilter,
         { range: { $regex: search.toString(), $options: 'i' } },
         { description: { $regex: search.toString(), $options: 'i' } },
         { prizeTxt: { $regex: search.toString(), $options: 'i' } },
@@ -105,8 +111,8 @@ export class BadgesRespository {
       $and: [query, { isActive: true }],
     });
 
-    if (badges.length > 0) {
-      return badges;
-    }
+    // if (badges.length > 0) {
+    return badges;
+    // }
   }
 }
