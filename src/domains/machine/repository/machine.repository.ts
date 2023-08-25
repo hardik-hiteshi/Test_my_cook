@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateMachineDto, UpdateMachineDto } from '../dtos';
 import { Machine, MachineDocument } from '../schema/machine.schema';
+import { IItemsToInsert } from '../interface/createManyMachine.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RecursivePartial } from 'src/common/interface';
@@ -22,7 +23,7 @@ export class MachineRepository {
   }
 
   public async findAll(
-    query: RecursivePartial<Machine>,
+    query: RecursivePartial<Machine> | object,
   ): Promise<MachineDocument[]> {
     return await this.machineModel.find(query);
   }
@@ -30,7 +31,7 @@ export class MachineRepository {
   public async deleteOne(
     query: RecursivePartial<Machine>,
   ): Promise<MachineDocument> {
-    return await this.machineModel.findOneAndUpdate(query, { isActive: false });
+    return await this.machineModel.findOneAndDelete(query);
   }
 
   public async findOneAndUpdate(
@@ -47,5 +48,13 @@ export class MachineRepository {
         new: true,
       },
     );
+  }
+
+  public async createMany(body: IItemsToInsert[]): Promise<MachineDocument[]> {
+    const machine = (await this.machineModel.insertMany(
+      body,
+    )) as MachineDocument[];
+
+    return machine;
   }
 }

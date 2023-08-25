@@ -1,4 +1,89 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Res,
+  StreamableFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  CreateMachineModelDto,
+  CreateManyMachineModelDto,
+  DeleteMachineModelDto,
+  UpdateMachineModelDto,
+} from './dtos';
+import { AUTH } from '../auth/decorator/auth.decorator';
+import { CsvToJsonInterceptor } from 'src/common/interceptor/csvToJson.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MachineModelDocument } from './schema/machineModel.schema';
+import { MachineModelService } from './machineModel.service';
+import type { Response } from 'express';
+import { Role } from '../auth/roles/permission.roles';
+@AUTH(Role.admin)
+@Controller('machine-model')
+export class MachineModelController {
+  public constructor(public machineModelService: MachineModelService) {}
+  @Post()
+  private async createMachineModel(
+    @Body() body: CreateMachineModelDto,
+  ): Promise<MachineModelDocument> {
+    return await this.machineModelService.createOne(body);
+  }
 
-@Controller('machineModel')
-export class MachineModelController {}
+  @Get(':unique_id')
+  private async getMachineModel(
+    @Param('unique_id') uniqueId: string,
+  ): Promise<MachineModelDocument> {
+    return await this.machineModelService.findOne(uniqueId);
+  }
+
+  @Get()
+  private async getAllMachineModel(): Promise<MachineModelDocument[]> {
+    return await this.machineModelService.findAll();
+  }
+
+  @Patch(':unique_id')
+  private async updateMachineModel(
+    @Param('unique_id') uniqueId: string,
+    @Body() body: UpdateMachineModelDto,
+  ): Promise<MachineModelDocument> {
+    return await this.machineModelService.findIOneAndUpdate(uniqueId, body);
+  }
+
+  @Delete()
+  private async deleteMachineModel(
+    @Body() body: DeleteMachineModelDto,
+  ): Promise<void> {
+    // using hard delete might use soft delete in future
+    await this.machineModelService.deleteOne(body);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
+  private async createManyMachineModel(
+    @Body() body: CreateManyMachineModelDto,
+  ): Promise<void> {
+    await this.machineModelService.createMany(body);
+  }
+
+  @Get('export/:type')
+  private async exportManyMachineModel(
+    @Param('type') type: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    const file = await this.machineModelService.exportFile(type);
+
+    res.set({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'Content-Type': `application/${file.type}`,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'Content-Disposition': `attachment; filename=MachineModel.${file.type}`,
+    });
+
+    return new StreamableFile(file.data);
+  }
+}

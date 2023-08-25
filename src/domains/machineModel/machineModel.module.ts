@@ -1,5 +1,6 @@
 import { MachineModel, machineModelSchema } from './schema/machineModel.schema';
 import { MachineModelController } from './machineModel.controller';
+import { MachineModelRepository } from './repository/machineModel.repository';
 import { MachineModelService } from './machineModel.service';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,6 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     ]),
   ],
   controllers: [MachineModelController],
-  providers: [MachineModelService],
+  providers: [MachineModelService, MachineModelRepository],
 })
 export class MachineModelModule {}

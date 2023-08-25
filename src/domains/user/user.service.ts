@@ -5,17 +5,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
-import { HelperService } from 'src/common/services/helper.service';
 import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
 
 @Injectable()
 export class UserService {
-  public constructor(
-    private userRepo: UserRepository,
-    private helperService: HelperService,
-  ) {}
+  public constructor(private userRepo: UserRepository) {}
 
   public async create(body: UserCreateDto): Promise<UserDocument> {
     const user = await this.userRepo.findOne({ niceName: body.niceName });

@@ -24,7 +24,10 @@ export class MachineModel {
   public productPlatform: string;
 
   @Prop({ required: true, enum: machineClodVersions })
-  public clodVersion: string;
+  public cloudVersion: string;
+
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 
 export const machineModelSchema = SchemaFactory.createForClass(MachineModel);

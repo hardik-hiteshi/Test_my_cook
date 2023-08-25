@@ -6,9 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
-import { CreateMachineDto, UpdateMachineDto } from './dtos';
+import {
+  CreateMachineDto,
+  CreateManyMachineDto,
+  UpdateMachineDto,
+} from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
+import { CsvToJsonInterceptor } from 'src/common/interceptor/csvToJson.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { MachineDocument } from './schema/machine.schema';
 import { MachineService } from './machine.service';
 import { Role } from '../auth/roles/permission.roles';
@@ -27,9 +34,9 @@ export class MachineController {
     return await this.machineService.createOne(body);
   }
 
-  @Get(':unique_id')
+  @Get(':uniqueId')
   private async getMachine(
-    @Param(':unique_id') uniqueId: string,
+    @Param('uniqueId') uniqueId: string,
   ): Promise<MachineDocument> {
     return await this.machineService.findOne(uniqueId);
   }
@@ -40,7 +47,7 @@ export class MachineController {
   }
   @Patch(':unique_id')
   private async updateMachine(
-    @Param(':unique_id') uniqueId: string,
+    @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineDto,
   ): Promise<MachineDocument> {
     return this.machineService.findOneAndUpdate(uniqueId, body);
@@ -48,8 +55,17 @@ export class MachineController {
 
   @Delete(':unique_id')
   private async deleteMachineByUniqueId(
-    @Param(':unique_id') uniqueId: string,
+    @Param('unique_id') uniqueId: string,
   ): Promise<void> {
+    // using hard delete might use soft delete in future
     await this.machineService.deleteOne(uniqueId);
+  }
+
+  @Post('import')
+  @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
+  private async createManyMachine(
+    @Body() body: CreateManyMachineDto,
+  ): Promise<MachineDocument[]> {
+    return await this.machineService.createMany(body);
   }
 }
