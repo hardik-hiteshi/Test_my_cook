@@ -19,9 +19,8 @@ export class Advertisement {
   @Prop({
     type: mongooseSchema.Types.ObjectId,
     ref: 'Category',
-    denormalize: 'niceName',
   })
-  public category: mongooseSchema.Types.Mixed;
+  public category: mongooseSchema.Types.ObjectId;
 
   @Prop()
   public url: string;

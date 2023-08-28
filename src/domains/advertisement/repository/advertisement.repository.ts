@@ -96,16 +96,18 @@ export class AdvertisementRepository {
         { niceName: { $regex: search.toString(), $options: 'i' } },
         dateFilter,
         //will work on searching advertisement search later
-        // { category: { $regex: search.toString(), $options: 'i' } },
+        // { 'category.niceName': { $regex: search.toString(), $options: 'i' } },
         { url: { $regex: search.toString(), $options: 'i' } },
         { urlTitle: { $regex: search.toString(), $options: 'i' } },
         { region: { $regex: search.toString(), $options: 'i' } },
       ];
     }
 
-    const advertisementList = await this.advertisementModel.find({
-      $and: [query, { isActive: true }, { region }],
-    });
+    const advertisementList = await this.advertisementModel
+      .find({
+        $and: [query, { isActive: true }, { region }],
+      })
+      .populate('category', 'niceName');
 
     return advertisementList;
   }
