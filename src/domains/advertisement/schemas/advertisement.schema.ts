@@ -21,7 +21,7 @@ export class Advertisement {
     ref: 'Category',
     denormalize: 'niceName',
   })
-  public category: mongooseSchema.Types.ObjectId;
+  public category: mongooseSchema.Types.Mixed;
 
   @Prop()
   public url: string;
@@ -40,5 +40,7 @@ export class Advertisement {
 
   @Prop({ type: String, format: 'mycook-image' })
   public image: string;
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 export const advertisementSchema = SchemaFactory.createForClass(Advertisement);
