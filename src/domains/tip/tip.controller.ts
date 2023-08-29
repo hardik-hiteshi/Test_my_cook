@@ -1,4 +1,64 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
+import { CreateTipDto, UpdateTipDto } from './dtos';
+import { AUTH } from '../auth/decorator/auth.decorator';
+import { MongoIdValidationPipe } from 'src/common/pipe';
+import { Role } from '../auth/roles/permission.roles';
+import { Schema } from 'mongoose';
+import { TipDocument } from './schema/tip.schema';
+import tipRegions from './schema/subSchema/enums/tipregion.enum';
+import { TipService } from './tip.service';
+import { ValidateRegionInterceptor } from 'src/common/interceptor';
 
+@AUTH(Role.admin)
+@UseInterceptors(new ValidateRegionInterceptor(tipRegions))
 @Controller('tip')
-export class TipController {}
+export class TipController {
+  public constructor(private tipService: TipService) {}
+  @Get()
+  public async getAllTip(
+    @Headers('region') region: string,
+    @Query('search') search?: string,
+  ): Promise<TipDocument[]> {
+    return await this.tipService.findAll(region, search);
+  }
+  @Get(':id')
+  public async getTip(
+    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
+  ): Promise<TipDocument> {
+    return await this.tipService.findOne(id);
+  }
+
+  @Post()
+  public async createTip(
+    @Headers('region') region: string,
+    @Body() body: CreateTipDto,
+  ): Promise<TipDocument> {
+    return await this.tipService.createOne(body, region);
+  }
+
+  @Patch(':id')
+  public async updateTip(
+    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
+    @Body() body: UpdateTipDto,
+  ): Promise<TipDocument> {
+    return this.tipService.updateOne(id, body);
+  }
+  @Delete(':id')
+  public async deleteTip(
+    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
+  ): Promise<void> {
+    // using hard delete might use soft delete in future
+    return await this.tipService.deleteOne(id);
+  }
+}

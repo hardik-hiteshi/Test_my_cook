@@ -13,22 +13,35 @@ import { UserRepository } from './repository/user.repository';
 export class UserService {
   public constructor(private userRepo: UserRepository) {}
 
-  public async create(body: UserCreateDto): Promise<UserDocument> {
-    const user = await this.userRepo.findOne({ niceName: body.niceName });
+  public async create(
+    body: UserCreateDto,
+    region: string,
+  ): Promise<UserDocument> {
+    const user = await this.userRepo.findOne({
+      niceName: body.niceName,
+      region,
+    });
     if (user) throw new BadRequestException('user already exist');
     body.password = await bcrypt.hash(body.password, 10);
 
-    return await this.userRepo.create(body);
+    return await this.userRepo.create(body, region);
   }
 
-  public async findOne(niceName: string): Promise<UserDocument> {
-    const user = await this.userRepo.findOne({ niceName, isActive: true });
+  public async findOne(
+    niceName: string,
+    region: string,
+  ): Promise<UserDocument> {
+    const user = await this.userRepo.findOne({
+      niceName,
+      isActive: true,
+      region,
+    });
     if (!user) throw new NotFoundException('user not found');
 
     return user;
   }
-  public async findAll(): Promise<UserDocument[]> {
-    const users = await this.userRepo.findAll({ isActive: true });
+  public async findAll(region: string): Promise<UserDocument[]> {
+    const users = await this.userRepo.findAll({ isActive: true, region });
     if (users.length <= 0) throw new NotFoundException('user not found');
 
     return users;
@@ -37,21 +50,27 @@ export class UserService {
     user: UserDocument,
     niceName: string,
     body: UserUpdateDto,
+    region: string,
   ): Promise<UserDocument> {
     const updateUser = await this.userRepo.findOneAndUpdate(
-      { niceName, isActive: true },
+      { niceName, isActive: true, region },
       body,
     );
 
     return await updateUser.save();
   }
 
-  public async deleteOne(user: UserDocument, niceName: string): Promise<void> {
+  public async deleteOne(
+    user: UserDocument,
+    niceName: string,
+    region: string,
+  ): Promise<void> {
     //check user role hierarchy
     const deleteUser = await this.userRepo.deleteOne({
       niceName,
       isActive: true,
       role: Role.user,
+      region,
     });
     if (!deleteUser) throw new NotFoundException('user not found');
   }

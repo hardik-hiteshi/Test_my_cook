@@ -49,10 +49,6 @@ export class CreateMachineDto {
   @IsDateString()
   public purchaseDate: Date;
 
-  @IsNotEmpty()
-  @IsString()
-  public region: string;
-
   @IsOptional()
   @IsString()
   public secret?: string;

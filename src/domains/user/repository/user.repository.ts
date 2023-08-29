@@ -11,8 +11,11 @@ export class UserRepository {
   public async findOne(query: RecursivePartial<User>): Promise<UserDocument> {
     return await this.userModel.findOne(query);
   }
-  public async create(body: UserCreateDto): Promise<UserDocument> {
-    return await this.userModel.create(body);
+  public async create(
+    body: UserCreateDto,
+    region: string,
+  ): Promise<UserDocument> {
+    return await this.userModel.create({ ...body, region });
   }
 
   public async findAll(query: RecursivePartial<User>): Promise<UserDocument[]> {
@@ -27,13 +30,9 @@ export class UserRepository {
       throw new BadRequestException('request body can not be empty');
 
     return await this.userModel
-      .findOneAndUpdate(
-        query,
-        { $set: body },
-        {
-          new: true,
-        },
-      )
+      .findOneAndUpdate(query, body, {
+        new: true,
+      })
       .select('-password');
   }
 

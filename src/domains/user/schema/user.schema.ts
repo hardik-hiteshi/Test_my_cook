@@ -34,7 +34,7 @@ export class User {
   public history: History;
   @Prop({ required: true })
   public login: string;
-  @Prop({ required: [true, 'Please provide a niceName'], unique: true })
+  @Prop({ required: [true, 'Please provide a niceName'] })
   public niceName: string;
   @Prop({ required: true })
   public password: string;

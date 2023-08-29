@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -21,8 +22,11 @@ export class UserController {
   public constructor(private userService: UserService) {}
 
   @Post('create')
-  private async create(@Body() body: UserCreateDto): Promise<UserDocument> {
-    return await this.userService.create(body);
+  private async create(
+    @Body() body: UserCreateDto,
+    @Headers('region') region: string,
+  ): Promise<UserDocument> {
+    return await this.userService.create(body, region);
   }
 
   @Get('me')
@@ -31,23 +35,27 @@ export class UserController {
   }
 
   @Get()
-  private async getAllUsers(): Promise<UserDocument[]> {
-    return await this.userService.findAll();
+  private async getAllUsers(
+    @Headers('region') region: string,
+  ): Promise<UserDocument[]> {
+    return await this.userService.findAll(region);
   }
 
   @Get(':nicename')
   private async getUser(
     @Param('nicename') niceName: string,
+    @Headers('region') region: string,
   ): Promise<UserDocument> {
-    return await this.userService.findOne(niceName);
+    return await this.userService.findOne(niceName, region);
   }
 
   @Delete(':nicename')
   private async deleteUser(
     @GET_USER() user: UserDocument,
     @Param('nicename') niceName: string,
+    @Headers('region') region: string,
   ): Promise<void> {
-    await this.userService.deleteOne(user, niceName);
+    await this.userService.deleteOne(user, niceName, region);
   }
 
   @Patch('updatePassword')
@@ -62,8 +70,14 @@ export class UserController {
   private async updateUser(
     @GET_USER() user: UserDocument,
     @Body() body: UserUpdateDto,
+    @Headers('region') region: string,
     @Param('nicename') niceName: string,
   ): Promise<UserDocument> {
-    return await this.userService.findOneAndUpdate(user, niceName, body);
+    return await this.userService.findOneAndUpdate(
+      user,
+      niceName,
+      body,
+      region,
+    );
   }
 }

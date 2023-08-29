@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   Patch,
   Post,
@@ -14,7 +15,7 @@ import {
   UpdateMachineDto,
 } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
-import { CsvToJsonInterceptor } from 'src/common/interceptor/csvToJson.interceptor';
+import { CsvToJsonInterceptor } from 'src/common/interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MachineDocument } from './schema/machine.schema';
 import { MachineService } from './machine.service';
@@ -24,26 +25,28 @@ import { Role } from '../auth/roles/permission.roles';
 @Controller('machine')
 export class MachineController {
   public constructor(private machineService: MachineService) {}
-  // @Post('import')
-  // private async importMachine(): Promise<void> {}
 
   @Post()
   private async createMachine(
     @Body() body: CreateMachineDto,
+    @Headers('region') region: string,
   ): Promise<MachineDocument> {
-    return await this.machineService.createOne(body);
+    return await this.machineService.createOne(body, region);
   }
 
   @Get(':uniqueId')
   private async getMachine(
     @Param('uniqueId') uniqueId: string,
+    @Headers('region') region: string,
   ): Promise<MachineDocument> {
-    return await this.machineService.findOne(uniqueId);
+    return await this.machineService.findOne(uniqueId, region);
   }
 
   @Get()
-  private async getAllMachine(): Promise<MachineDocument[]> {
-    return await this.machineService.findAll();
+  private async getAllMachine(
+    @Headers('region') region: string,
+  ): Promise<MachineDocument[]> {
+    return await this.machineService.findAll(region);
   }
   @Patch(':unique_id')
   private async updateMachine(
@@ -65,7 +68,8 @@ export class MachineController {
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
   private async createManyMachine(
     @Body() body: CreateManyMachineDto,
+    @Headers('region') region: string,
   ): Promise<MachineDocument[]> {
-    return await this.machineService.createMany(body);
+    return await this.machineService.createMany(body, region);
   }
 }

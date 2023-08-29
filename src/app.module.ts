@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
+import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
 
 @Module({
@@ -24,6 +25,7 @@ import { UserModule } from './domains/user/user.module';
     RecipeModule,
     AdvertisementModule,
     CommonModule,
+    TipModule,
   ],
 })
 export class AppModule {}

@@ -136,10 +136,6 @@ export class UserCreateDto {
   public role?: string;
 
   @IsOptional()
-  @IsString()
-  public region?: string;
-
-  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   public allowedRegions?: string[];

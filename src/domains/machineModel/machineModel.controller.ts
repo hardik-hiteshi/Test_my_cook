@@ -17,7 +17,7 @@ import {
   UpdateMachineModelDto,
 } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
-import { CsvToJsonInterceptor } from 'src/common/interceptor/csvToJson.interceptor';
+import { CsvToJsonInterceptor } from 'src/common/interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MachineModelDocument } from './schema/machineModel.schema';
 import { MachineModelService } from './machineModel.service';

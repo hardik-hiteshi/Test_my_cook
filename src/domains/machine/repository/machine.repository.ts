@@ -12,8 +12,11 @@ export class MachineRepository {
     @InjectModel(Machine.name) private machineModel: Model<Machine>,
   ) {}
 
-  public async createOne(body: CreateMachineDto): Promise<MachineDocument> {
-    return await this.machineModel.create(body);
+  public async createOne(
+    body: CreateMachineDto,
+    region: string,
+  ): Promise<MachineDocument> {
+    return await this.machineModel.create({ ...body, region });
   }
 
   public async findOne(
@@ -41,13 +44,9 @@ export class MachineRepository {
     if (Object.keys(body).length === 0)
       throw new BadRequestException('request body can not be empty');
 
-    return await this.machineModel.findOneAndUpdate(
-      query,
-      { $set: body },
-      {
-        new: true,
-      },
-    );
+    return await this.machineModel.findOneAndUpdate(query, body, {
+      new: true,
+    });
   }
 
   public async createMany(body: IItemsToInsert[]): Promise<MachineDocument[]> {
