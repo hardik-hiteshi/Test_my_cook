@@ -26,10 +26,13 @@ export class RecipeRepository {
 
     return recipe;
   }
-  public async create(region, body): Promise<RecipeDocument> {
+  public async createRecipe(
+    region: string,
+    body: CreateRecipeDto,
+  ): Promise<RecipeDocument> {
     return await this.recipeModel.create({ ...body, region });
   }
-  public async findAll(
+  public async fetchRecipes(
     region: string,
     search: string,
   ): Promise<Array<RecipeDocument>> {
@@ -109,7 +112,7 @@ export class RecipeRepository {
     return recipe;
   }
 
-  public async updateone(
+  public async updateRecipe(
     region: string,
     body: UpdateRecipeDto,
     niceName: string,

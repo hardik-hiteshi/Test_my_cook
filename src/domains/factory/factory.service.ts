@@ -26,7 +26,7 @@ export class FactoryService {
   }
 
   public async find(region: string): Promise<FactoryDocument[]> {
-    const factorylist = await this.factoryRepo.find(region);
+    const factorylist = await this.factoryRepo.fetchFactory(region);
     if (factorylist.length <= 0)
       throw new NotFoundException('No Factory found');
     else {

@@ -19,7 +19,7 @@ export class RecipeService {
   ): Promise<RecipeDocument> {
     const recipe = await this.recipeRepo.findOne(region, body);
     if (!recipe) {
-      const recipe = await this.recipeRepo.create(region, body);
+      const recipe = await this.recipeRepo.createRecipe(region, body);
 
       return recipe;
     }
@@ -30,7 +30,7 @@ export class RecipeService {
     region: string,
     search: string,
   ): Promise<Array<RecipeDocument>> {
-    const recipeList = await this.recipeRepo.findAll(region, search);
+    const recipeList = await this.recipeRepo.fetchRecipes(region, search);
     if (recipeList.length <= 0) throw new NotFoundException('No recipe found');
     else {
       return recipeList;
@@ -54,7 +54,7 @@ export class RecipeService {
     body: UpdateRecipeDto,
     niceName: string,
   ): Promise<RecipeDocument> {
-    const recipe = await this.recipeRepo.updateone(region, body, niceName);
+    const recipe = await this.recipeRepo.updateRecipe(region, body, niceName);
     if (!recipe) {
       throw new NotFoundException('Recipe Does not exist.');
     }

@@ -28,7 +28,7 @@ export class FactoryRepository {
 
     return factory;
   }
-  public async find(region: string): Promise<FactoryDocument[]> {
+  public async fetchFactory(region: string): Promise<FactoryDocument[]> {
     const factories = await this.factoryModel.find({ region, isActive: true });
 
     return factories;
