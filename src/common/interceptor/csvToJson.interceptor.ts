@@ -1,5 +1,6 @@
 import * as csv from 'csvtojson';
 import {
+  BadRequestException,
   CallHandler,
   ExecutionContext,
   Injectable,
@@ -15,6 +16,8 @@ export class CsvToJsonInterceptor implements NestInterceptor {
   ): Promise<Observable<Express.Request>> {
     const req = context.switchToHttp().getRequest();
     const value = req.file;
+    if (!value)
+      throw new BadRequestException('csv file must be present in file field');
     const data = await csv().fromString(value.buffer.toString());
     req.body = null;
     req.body = { array: data };
