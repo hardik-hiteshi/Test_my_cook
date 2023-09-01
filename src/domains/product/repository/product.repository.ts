@@ -17,10 +17,8 @@ export class ProductRepository {
     body: CreateProductDto,
   ): Promise<ProductDocument> {
     return this.productModel.findOne({
-      $or: [
-        { niceName: body.niceName, isDeleted: false },
-        { cms: { url: { slug: body.cms.url.slug } }, isDeleted: false },
-      ],
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      $or: [{ niceName: body.niceName }, { 'cms.url.slug': body.cms.url.slug }],
     });
   }
   public async findOne(
@@ -30,16 +28,19 @@ export class ProductRepository {
   }
 
   public async findAll(): Promise<ProductDocument[]> {
-    return await this.productModel.find({ isDeleted: false });
+    return await this.productModel.find();
   }
 
   public async updateOne(
     niceName: string,
     body: UpdateProductDto,
   ): Promise<ProductDocument> {
-    return await this.productModel.findOneAndUpdate(
-      { niceName, isDeleted: false },
-      body,
-    );
+    return await this.productModel.findOneAndUpdate({ niceName }, body, {
+      new: true,
+    });
+  }
+
+  public async deleteOne(niceName: string): Promise<ProductDocument> {
+    return await this.productModel.findOneAndDelete({ niceName });
   }
 }

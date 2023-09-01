@@ -22,7 +22,6 @@ export class ProductService {
   public async findOne(niceName: string): Promise<ProductDocument> {
     const product = await this.productRepo.findOne({
       niceName,
-      isDeleted: false,
     });
 
     if (!product) throw new NotFoundException(this.productNotFound);
@@ -38,16 +37,9 @@ export class ProductService {
   }
 
   public async deleteOne(niceName: string): Promise<void> {
-    const product = await this.productRepo.findOne({
-      niceName,
-      isDeleted: false,
-    });
+    const product = await this.productRepo.deleteOne(niceName);
 
     if (!product) throw new NotFoundException(this.productNotFound);
-
-    product.isDeleted = true;
-
-    await product.save();
   }
 
   public async updateOne(

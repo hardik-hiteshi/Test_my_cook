@@ -20,7 +20,7 @@ export class MachineRepository {
   }
 
   public async findOne(
-    query: RecursivePartial<Machine>,
+    query: RecursivePartial<Machine> | object,
   ): Promise<MachineDocument> {
     return await this.machineModel.findOne(query);
   }

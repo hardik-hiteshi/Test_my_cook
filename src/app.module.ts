@@ -7,6 +7,7 @@ import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PictosModule } from './domains/pictos/pictos.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
@@ -28,6 +29,7 @@ import { UserModule } from './domains/user/user.module';
     CommonModule,
     TipModule,
     ProductModule,
+    PictosModule,
   ],
 })
 export class AppModule {}

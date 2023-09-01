@@ -154,8 +154,4 @@ export class CreateProductDto {
   @IsOptional()
   @IsString()
   public warehouse?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  public isDeleted?: boolean;
 }

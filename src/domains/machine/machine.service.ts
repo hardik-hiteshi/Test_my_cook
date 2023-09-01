@@ -23,8 +23,10 @@ export class MachineService {
     region: string,
   ): Promise<MachineDocument> {
     const machine = await this.machineRepo.findOne({
-      serial: { counter: body.serial.counter },
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'serial.counter': body.serial.counter,
     });
+
     if (machine) throw new BadRequestException('machine already exist');
     body.uniqueId = uuid();
 
@@ -37,7 +39,6 @@ export class MachineService {
   ): Promise<MachineDocument> {
     const machine = await this.machineRepo.findOne({
       uniqueId,
-      isActive: true,
       region,
     });
     if (!machine) throw new NotFoundException('machine not found');
@@ -45,7 +46,7 @@ export class MachineService {
     return machine;
   }
   public async findAll(region: string): Promise<MachineDocument[]> {
-    const machine = await this.machineRepo.findAll({ isActive: true, region });
+    const machine = await this.machineRepo.findAll({ region });
     if (machine.length <= 0) throw new NotFoundException('machine not found');
 
     return machine;
@@ -54,7 +55,6 @@ export class MachineService {
   public async deleteOne(uniqueId: string): Promise<void> {
     const machine = await this.machineRepo.deleteOne({
       uniqueId,
-      isActive: true,
     });
     if (!machine) throw new NotFoundException('machine not found');
   }
@@ -63,10 +63,7 @@ export class MachineService {
     uniqueId: string,
     body: UpdateMachineDto,
   ): Promise<MachineDocument> {
-    const machine = await this.machineRepo.findOneAndUpdate(
-      { uniqueId, isActive: true },
-      body,
-    );
+    const machine = await this.machineRepo.findOneAndUpdate({ uniqueId }, body);
     if (!machine) throw new NotFoundException('machine not found');
 
     return machine;

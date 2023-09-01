@@ -149,8 +149,4 @@ export class UpdateProductDto {
   @IsOptional()
   @IsString()
   public warehouse?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  public isDeleted?: boolean;
 }

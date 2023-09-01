@@ -51,7 +51,7 @@ export class MachineModelController {
     @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineModelDto,
   ): Promise<MachineModelDocument> {
-    return await this.machineModelService.findIOneAndUpdate(uniqueId, body);
+    return await this.machineModelService.findOneAndUpdate(uniqueId, body);
   }
 
   @Delete()

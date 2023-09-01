@@ -88,10 +88,17 @@ export class MachineModelService {
 
     await this.machineModelRepo.createMany(itemsToInsert);
   }
-  public async findIOneAndUpdate(
+  public async findOneAndUpdate(
     uniqueId: string,
     body: UpdateMachineModelDto,
   ): Promise<MachineModelDocument> {
+    if (body.code) {
+      const machineModel = await this.machineModelRepo.findOne({
+        code: body.code,
+      });
+      if (machineModel)
+        throw new BadRequestException('code in given field is alaeady exist');
+    }
     const machineModel = await this.machineModelRepo.findOneAndUpdate(
       { uniqueId },
       body,

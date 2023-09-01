@@ -14,7 +14,6 @@ export class AuthService {
     private userRepo: UserRepository,
   ) {}
 
-  // need to change SignInUserDto and signJwt parameter type
   public async signIn(body: SignInUserDto): Promise<{ token: string }> {
     const user = await this.userRepo.findOne({ niceName: body.niceName });
     if (!user) throw new BadRequestException('invalid user or password');
