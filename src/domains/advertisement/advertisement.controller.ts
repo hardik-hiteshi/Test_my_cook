@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -22,17 +23,17 @@ export class AdvertisementController {
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.createAdvertisement(region, body);
   }
-  @Get('fetch')
+  @Get('fetch/:niceName')
   public async fetchAdvertisement(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.fetchAdvertisement(region, niceName);
   }
-  @Patch('update')
+  @Patch('update/:niceName')
   public async updateAdvertisement(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateAdvertisementDTO,
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.updateAdvertisement(
@@ -41,10 +42,10 @@ export class AdvertisementController {
       body,
     );
   }
-  @Patch('delete')
+  @Patch('delete/:niceName')
   public async deleteAdvertisement(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.deleteAdvertisement(
       region,

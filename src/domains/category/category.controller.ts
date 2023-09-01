@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -33,22 +34,22 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.fetchCategory(region, id, niceName);
   }
-  @Patch('update')
+  @Patch('update/:niceName')
   public async updateCategory(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateCategoryDTO,
   ): Promise<CategoryDocument> {
     return await this.categoryServices.updateCategory(region, niceName, body);
   }
-  @Patch('delete')
+  @Patch('delete/:niceName')
   public async deleteCategory(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<CategoryDocument> {
     return await this.categoryServices.deleteCategory(region, niceName);
   }
-  @Get('fetchCategories')
+  @Get('fetchall')
   public async fetchCategories(
     @Headers('region') region: string,
     @Query('search') search: string,

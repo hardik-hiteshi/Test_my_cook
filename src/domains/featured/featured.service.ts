@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { CreateFeatureDTO } from './dto/createfeatured.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FeaturedDocument } from './schema/featured.schema';
 import { FeaturedRepository } from './repository/featured.repository';
 import { UpdateFeatureDTO } from './dto/updatefeatured.dto';
@@ -11,20 +6,6 @@ import { UpdateFeatureDTO } from './dto/updatefeatured.dto';
 @Injectable()
 export class FeaturedService {
   public constructor(public featuredRepo: FeaturedRepository) {}
-
-  public async create(
-    region: string,
-    body: CreateFeatureDTO,
-  ): Promise<FeaturedDocument> {
-    const featured = await this.featuredRepo.findOne(region, body);
-    if (!featured) {
-      const featured = await this.featuredRepo.create(region, body);
-
-      return featured;
-    }
-    throw new BadRequestException('Feature already exists.');
-  }
-
   public async fetchFeatured(
     region: string,
     type: string,
@@ -44,14 +25,11 @@ export class FeaturedService {
     region: string,
     body: UpdateFeatureDTO,
   ): Promise<FeaturedDocument> {
-    const data = await this.featuredRepo.fetchFeatured(region, body.type);
-    if (data) {
-      const updatedData = await this.featuredRepo.updateFeatured(region, body);
-      if (!updatedData) throw new NotFoundException('Feature not Found.');
-
+    const updatedData = await this.featuredRepo.updateFeatured(region, body);
+    if (updatedData) {
       return updatedData;
     }
-    throw new NotFoundException('Feature not Found.');
+    throw new NotFoundException('Updated data not found');
   }
 
   public async deleteFeatured(

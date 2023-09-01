@@ -1,5 +1,4 @@
 import { Featured, FeaturedDocument } from '../schema/featured.schema';
-import { CreateFeatureDTO } from '../dto/createfeatured.dto';
 import { FeaturedQueryInterface } from './featuredquery.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,25 +11,25 @@ export class FeaturedRepository {
 
   public async findOne(
     region: string,
-    body: CreateFeatureDTO,
+    type: string,
   ): Promise<FeaturedDocument> {
     const existingFeatured = await this.featuredModel.findOne({
       region,
-      ...body,
+      type,
       isActive: true,
     });
 
     return existingFeatured;
   }
 
-  public async create(
-    region: string,
-    body: CreateFeatureDTO,
-  ): Promise<FeaturedDocument> {
-    const featured = await this.featuredModel.create({ ...body, region });
+  // public async create(
+  //   region: string,
+  //   body: CreateFeatureDTO,
+  // ): Promise<FeaturedDocument> {
+  //   const featured = await this.featuredModel.create({ ...body, region });
 
-    return featured;
-  }
+  //   return featured;
+  // }
 
   public async fetchFeatured(
     region: string,
@@ -70,6 +69,7 @@ export class FeaturedRepository {
       new: true,
       upsert: true,
     };
+
     const data = await this.featuredModel.findOneAndUpdate(
       { region, type, isActive: true },
       updateData,

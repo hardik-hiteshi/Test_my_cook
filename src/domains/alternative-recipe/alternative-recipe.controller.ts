@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -34,18 +35,18 @@ export class AlternativeRecipeController {
     return await this.alternativeRecipeServices.fetchAllRecipes(region, search);
   }
 
-  @Get('fetchone')
+  @Get('fetch/:niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName,
+    @Param('niceName') niceName,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.fetchRecipe(region, niceName);
   }
 
-  @Patch('updateone')
+  @Patch('update/:niceName')
   public async updateRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
     // console.log(body)
@@ -56,10 +57,10 @@ export class AlternativeRecipeController {
     );
   }
 
-  @Patch('deleterecipe')
+  @Patch('delete/:niceName')
   public async deleteRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.deleteRecipe(region, niceName);
   }

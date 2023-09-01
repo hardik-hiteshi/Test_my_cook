@@ -10,6 +10,9 @@ export type FactoryDocument = HydratedDocument<Factory>;
   },
 })
 export class Factory {
+  @Prop()
+  public uniqueId: string;
+
   @Prop({ required: true, enum: factorymachinetypes })
   public machineType: string;
 

@@ -1,12 +1,15 @@
 import {
   IsArray,
   IsBoolean,
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { IngredientDTO } from './ingredient.dto';
+import stepFunction from '.././../../../schema/subSchema/enums/stepfunction.enum';
+import steptype from '.././../../../schema/subSchema/enums/steptype.enum';
 import { Type } from 'class-transformer';
 export class StepsDTO {
   @IsOptional()
@@ -14,6 +17,7 @@ export class StepsDTO {
   public description?: string;
   @IsOptional()
   @IsString()
+  @IsEnum(steptype)
   public type?: string;
   @IsOptional()
   @IsNumber()
@@ -35,6 +39,7 @@ export class StepsDTO {
   public speed?: string;
   @IsOptional()
   @IsString()
+  @IsEnum(stepFunction)
   public function?: string;
   @IsOptional()
   @IsArray()

@@ -26,7 +26,7 @@ export class FactoryService {
   }
 
   public async find(region: string): Promise<FactoryDocument[]> {
-    const factorylist = await this.factoryRepo.fetchFactory(region);
+    const factorylist = await this.factoryRepo.fetchFactories(region);
     if (factorylist.length <= 0)
       throw new NotFoundException('No Factory found');
     else {
@@ -36,10 +36,14 @@ export class FactoryService {
 
   public async updateFactory(
     region: string,
-    _id: string,
+    uniqueId: string,
     body: UpdateFactoryDTO,
   ): Promise<FactoryDocument> {
-    const factory = await this.factoryRepo.updateFactory(region, _id, body);
+    const factory = await this.factoryRepo.updateFactory(
+      region,
+      uniqueId,
+      body,
+    );
     if (!factory) {
       throw new NotFoundException('Factory Does not exist.');
     }
@@ -49,9 +53,9 @@ export class FactoryService {
 
   public async deleteFactory(
     region: string,
-    _id: string,
+    uniqueId: string,
   ): Promise<FactoryDocument> {
-    const factory = await this.factoryRepo.deleteFactory(region, _id);
+    const factory = await this.factoryRepo.deleteFactory(region, uniqueId);
     if (!factory) {
       throw new NotFoundException('Factory Does not exist.');
     }

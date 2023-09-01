@@ -11,6 +11,7 @@ import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { NotesModule } from './domains/notes/notes.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { UserModule } from './domains/user/user.module';
@@ -32,6 +33,7 @@ import { UserModule } from './domains/user/user.module';
     UserModule,
     CommonModule,
     LegalTermsModule,
+    NotesModule,
   ],
 })
 export class AppModule {}

@@ -3,11 +3,11 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
-  Post,
   Query,
 } from '@nestjs/common';
-import { CreateFeatureDTO } from './dto/createfeatured.dto';
+
 import { FeaturedDocument } from './schema/featured.schema';
 import { FeaturedService } from './featured.service';
 import { UpdateFeatureDTO } from './dto/updatefeatured.dto';
@@ -16,13 +16,13 @@ import { UpdateFeatureDTO } from './dto/updatefeatured.dto';
 export class FeaturedController {
   public constructor(public featuredServices: FeaturedService) {}
 
-  @Post('create')
-  public async create(
-    @Headers('region') region: string,
-    @Body() body: CreateFeatureDTO,
-  ): Promise<FeaturedDocument> {
-    return await this.featuredServices.create(region, body);
-  }
+  //   @Post('create')
+  //   public async create(
+  //     @Headers('region') region: string,
+  //     @Body() body: CreateFeatureDTO,
+  //   ): Promise<FeaturedDocument> {
+  //     return await this.featuredServices.create(region, body);
+  //   }
 
   @Get('fetch')
   public async fetchFeatured(
@@ -37,12 +37,13 @@ export class FeaturedController {
     @Headers('region') region: string,
     @Body() body: UpdateFeatureDTO,
   ): Promise<FeaturedDocument> {
+    // console.log(region, body)
     return await this.featuredServices.updateFeatured(region, body);
   }
-  @Patch('delete')
+  @Patch('delete/:type')
   public async deleteFeatured(
     @Headers('region') region: string,
-    @Query('type') type: string,
+    @Param('type') type: string,
   ): Promise<FeaturedDocument> {
     return await this.featuredServices.deleteFeatured(type, region);
   }

@@ -3,9 +3,9 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { CreateFactoryDTO } from './dto/createfactory.dto';
 import { FactoryDocument } from './schema/factory.schema';
@@ -31,20 +31,20 @@ export class FactoryController {
     return await this.factoryServices.find(region);
   }
 
-  @Patch('update')
+  @Patch('update/:uniqueId')
   public async updateFactory(
     @Headers('region') region: string,
-    @Query('_id') _id: string,
+    @Param('uniqueId') uniqueId: string,
     @Body() body: UpdateFactoryDTO,
   ): Promise<FactoryDocument> {
-    return await this.factoryServices.updateFactory(region, _id, body);
+    return await this.factoryServices.updateFactory(region, uniqueId, body);
   }
 
-  @Patch('delete')
+  @Patch('delete/:uniqueId')
   public async deleteFactory(
     @Headers('region') region: string,
-    @Query('_id') _id: string,
+    @Param('uniqueId') uniqueId: string,
   ): Promise<FactoryDocument> {
-    return await this.factoryServices.deleteFactory(region, _id);
+    return await this.factoryServices.deleteFactory(region, uniqueId);
   }
 }

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -24,25 +25,25 @@ export class RankController {
     return await this.rankServices.createRank(region, body);
   }
 
-  @Get('fetch')
+  @Get('fetch/:niceName')
   public async fetchRank(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<RankDocument> {
     return await this.rankServices.fetchRank(region, niceName);
   }
-  @Patch('update')
+  @Patch('update/:niceName')
   public async updateRank(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateRankDTO,
   ): Promise<RankDocument> {
     return await this.rankServices.updateRank(region, niceName, body);
   }
-  @Patch('delete')
+  @Patch('delete/:niceName')
   public async deleteRank(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<RankDocument> {
     return await this.rankServices.deleteRank(region, niceName);
   }

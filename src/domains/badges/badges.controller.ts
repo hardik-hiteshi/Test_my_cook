@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -22,27 +23,27 @@ export class BadgesController {
   ): Promise<BadgesDocument> {
     return await this.badgesServies.createBadge(region, body);
   }
-  @Get('fetch')
+  @Get('fetch/:niceName')
   public async fetchBadge(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<BadgesDocument> {
     return await this.badgesServies.fetchBadge(region, niceName);
   }
 
-  @Patch('update')
+  @Patch('update/:niceName')
   public async updateBadge(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateBadgesDTO,
   ): Promise<BadgesDocument> {
     return await this.badgesServies.updateBadge(region, niceName, body);
   }
 
-  @Patch('delete')
+  @Patch('delete/:niceName')
   public async deleteBadge(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<BadgesDocument> {
     return await this.badgesServies.deleteBadge(region, niceName);
   }

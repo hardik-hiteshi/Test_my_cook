@@ -1,7 +1,9 @@
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
+import factorymachinetypes from '../schema/subSchema/enums/factorymachinetype.enum';
 export class UpdateFactoryDTO {
   @IsOptional()
   @IsString()
+  @IsEnum(factorymachinetypes)
   public machineType: string;
   @IsOptional()
   @IsString()

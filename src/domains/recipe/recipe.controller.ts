@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -32,28 +33,28 @@ export class RecipeController {
     return await this.recipeService.fetchAllRecipes(region, search);
   }
 
-  @Get('fetchone')
+  @Get('fetchone/:niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName,
+    @Param('niceName') niceName,
   ): Promise<RecipeDocument> {
     return await this.recipeService.fetchRecipe(region, niceName);
   }
 
-  @Patch('updateone')
+  @Patch('updateone/:niceName')
   public async updateRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
   ): Promise<RecipeDocument> {
     // console.log(body)
     return await this.recipeService.updateRecipe(region, body, niceName);
   }
 
-  @Patch('delete')
+  @Patch('delete/:niceName')
   public async deleteRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
+    @Param('niceName') niceName: string,
   ): Promise<RecipeDocument> {
     return await this.recipeService.deleteRecipe(region, niceName);
   }

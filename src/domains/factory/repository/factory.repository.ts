@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateFactoryDTO } from '../dto/updatefactory.dto';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class FactoryRepository {
@@ -24,11 +25,15 @@ export class FactoryRepository {
     region: string,
     body: CreateFactoryDTO,
   ): Promise<FactoryDocument> {
-    const factory = await this.factoryModel.create({ ...body, region });
+    const factory = await this.factoryModel.create({
+      ...body,
+      uniqueId: uuid(),
+      region,
+    });
 
     return factory;
   }
-  public async fetchFactory(region: string): Promise<FactoryDocument[]> {
+  public async fetchFactories(region: string): Promise<FactoryDocument[]> {
     const factories = await this.factoryModel.find({ region, isActive: true });
 
     return factories;
@@ -36,11 +41,11 @@ export class FactoryRepository {
 
   public async updateFactory(
     region: string,
-    _id: string,
+    uniqueId: string,
     body: UpdateFactoryDTO,
   ): Promise<FactoryDocument> {
     const factory = await this.factoryModel.findOneAndUpdate(
-      { region, _id, isActive: true },
+      { region, uniqueId, isActive: true },
       body,
       {
         new: true,
@@ -52,10 +57,10 @@ export class FactoryRepository {
 
   public async deleteFactory(
     region: string,
-    _id: string,
+    uniqueId: string,
   ): Promise<FactoryDocument> {
     const factory = await this.factoryModel.findOneAndUpdate(
-      { region, _id, isActive: true },
+      { region, uniqueId, isActive: true },
       { isActive: false },
       {
         new: true,

@@ -13,6 +13,7 @@ import {
 import {
   IsArray,
   IsBoolean,
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsObject,
@@ -20,6 +21,8 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
+
+import recipecourse from '../../schema/subSchema/enums/recipecourse.enum';
 
 import { Type } from 'class-transformer';
 
@@ -51,6 +54,7 @@ export class CreateRecipeDto {
 
   @IsOptional()
   @IsArray()
+  @IsEnum(recipecourse)
   @IsString({ each: true })
   public course?: string;
 
