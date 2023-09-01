@@ -13,6 +13,7 @@ import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
+import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UserModule } from './domains/user/user.module';
     TipModule,
     ProductModule,
     PictosModule,
+    ReportAbuseModule,
   ],
 })
 export class AppModule {}

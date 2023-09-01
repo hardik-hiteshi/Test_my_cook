@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   Query,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateTipDto, UpdateTipDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -16,12 +15,9 @@ import { MongoIdValidationPipe } from 'src/common/pipe';
 import { Role } from '../auth/roles/permission.roles';
 import { Schema } from 'mongoose';
 import { TipDocument } from './schema/tip.schema';
-import tipRegions from './schema/subSchema/enums/tipregion.enum';
 import { TipService } from './tip.service';
-import { ValidateRegionInterceptor } from 'src/common/interceptor';
 
 @AUTH(Role.admin)
-@UseInterceptors(new ValidateRegionInterceptor(tipRegions))
 @Controller('tip')
 export class TipController {
   public constructor(private tipService: TipService) {}
