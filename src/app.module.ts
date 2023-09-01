@@ -1,4 +1,5 @@
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
+import { AliasModule } from './domains/alias/alias.module';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { FactoryModule } from './domains/factory/factory.module';
@@ -11,10 +12,9 @@ import { PictosModule } from './domains/pictos/pictos.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
+import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
-import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -32,6 +32,7 @@ import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
     ProductModule,
     PictosModule,
     ReportAbuseModule,
+    AliasModule,
   ],
 })
 export class AppModule {}

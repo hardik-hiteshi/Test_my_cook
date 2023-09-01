@@ -80,7 +80,7 @@ export class Product {
       ],
     },
   ])
-  public relatedProducts: mongoose.Types.ObjectId;
+  public relatedProducts: mongoose.Types.ObjectId[];
 
   @Prop()
   public description: string;

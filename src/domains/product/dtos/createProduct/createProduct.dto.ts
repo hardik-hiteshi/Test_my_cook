@@ -4,6 +4,7 @@ import {
   IsArray,
   IsBoolean,
   IsIn,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -69,15 +70,13 @@ export class CreateProductDto {
   public feedsForAll?: boolean;
 
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => mongoose.Schema.Types.ObjectId)
+  @IsMongoId({ each: true })
   public category?: mongoose.Schema.Types.ObjectId[];
 
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => mongoose.Schema.Types.ObjectId)
+  @IsMongoId({ each: true })
   @ArrayMaxSize(3)
-  public relatedProducts?: mongoose.Types.ObjectId;
+  public relatedProducts?: mongoose.Types.ObjectId[];
 
   @IsOptional()
   @MinLength(3)

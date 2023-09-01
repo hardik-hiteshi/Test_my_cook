@@ -24,11 +24,13 @@ export class ProductRepository {
   public async findOne(
     query: RecursivePartial<Product> | object,
   ): Promise<ProductDocument> {
-    return await this.productModel.findOne(query);
+    return await this.productModel.findOne(query).populate('relatedProducts');
   }
 
   public async findAll(): Promise<ProductDocument[]> {
-    return await this.productModel.find();
+    return await this.productModel.find().populate('relatedProducts');
+    //will add field below when ProductCategory available
+    // .populate('category');
   }
 
   public async updateOne(
