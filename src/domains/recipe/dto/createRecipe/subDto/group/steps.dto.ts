@@ -1,7 +1,7 @@
 import {
   IsArray,
   IsBoolean,
-  IsEnum,
+  IsIn,
   IsNumber,
   IsOptional,
   IsString,
@@ -17,39 +17,39 @@ export class StepsDTO {
   public description?: string;
   @IsOptional()
   @IsString()
-  @IsEnum(steptype)
-  public type?: string;
+  @IsIn(steptype)
+  public type: string;
   @IsOptional()
   @IsNumber()
-  public cookTime?: number;
+  public cookTime: number;
   @IsOptional()
   @IsNumber()
-  public stepTime?: number;
+  public stepTime: number;
   @IsOptional()
   @IsNumber()
-  public temperature?: number;
+  public temperature: number;
   @IsOptional()
   @IsNumber()
-  public outsideTemperature?: number;
+  public outsideTemperature: number;
   @IsOptional()
   @IsNumber()
-  public microwaveWatts?: number;
+  public microwaveWatts: number;
   @IsOptional()
   @IsString()
   public speed?: string;
   @IsOptional()
   @IsString()
-  @IsEnum(stepFunction)
-  public function?: string;
+  @IsIn(stepFunction)
+  public function: string;
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  public accessories?: string[];
+  public accessories: string[];
   @IsOptional()
   @IsArray()
   @Type(() => IngredientDTO)
   @ValidateNested()
-  public ingredients?: IngredientDTO[];
+  public ingredients: IngredientDTO[];
   @IsOptional()
   @IsBoolean()
   public haveImage: boolean;

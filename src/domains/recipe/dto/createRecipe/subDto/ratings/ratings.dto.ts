@@ -15,9 +15,6 @@ export class RatingsDTO {
   @IsDateString()
   public date: Date;
   @IsOptional()
-  @IsDateString()
-  public modificationDate: Date;
-  @IsOptional()
   @IsString()
   public displayName: string;
   @IsOptional()
@@ -36,11 +33,17 @@ export class RatingsDTO {
   @ValidateNested()
   @Type(() => VotesDTO)
   public votes: VotesDTO;
-  @IsOptional()
-  @IsBoolean()
-  public haveImage: boolean;
+
   @IsOptional()
   @ValidateNested()
   @Type(() => RatingReplyDTO)
   public replies: RatingReplyDTO[];
+
+  @IsOptional()
+  @IsBoolean()
+  public hide: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  public haveImage: boolean;
 }

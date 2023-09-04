@@ -5,7 +5,6 @@ import {
   GroupsDTO,
   InfoDTO,
   RatingsDTO,
-  RecipeUserDTO,
   SeoDTO,
   SocialDTO,
   SourceDTO,
@@ -13,17 +12,25 @@ import {
 import {
   IsArray,
   IsBoolean,
-  IsEnum,
+  IsIn,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
+  Max,
+  Min,
   ValidateNested,
 } from 'class-validator';
 
-import recipecourse from '../../schema/subSchema/enums/recipecourse.enum';
+import difficultyEnum from '../../schema/subSchema/enums/difficulty.enum';
+import recipecourses from '../../schema/subSchema/enums/recipecourse.enum';
 
+import { Schema as mongooseSchema } from 'mongoose';
+import { NutritionalKeysDTO } from './subDto/nutritionalkeys/nutritionalkeys.dto';
+import { RecipeTranslationsDTO } from './subDto/translations/recipetranslations.dto';
+import { StatusDTO } from './subDto/status.dto';
 import { Type } from 'class-transformer';
 
 export class CreateRecipeDto {
@@ -37,139 +44,154 @@ export class CreateRecipeDto {
 
   @IsOptional()
   @IsString()
-  public category?: string;
+  public category: string;
+  @IsOptional()
+  @IsNumber()
+  public rate: number;
 
   @IsOptional()
   @IsString()
-  public categoryNiceName?: string;
-
-  @IsOptional()
-  @IsNumber()
-  public rate?: number;
+  public categoryNiceName: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => CategoriesDTO)
-  public categories?: CategoriesDTO;
+  public categories: CategoriesDTO;
 
   @IsOptional()
-  @IsArray()
-  @IsEnum(recipecourse)
-  @IsString({ each: true })
-  public course?: string;
+  @IsIn(recipecourses, { each: true })
+  public course: string[];
 
   @IsOptional()
-  @ValidateNested()
-  @Type(() => RecipeUserDTO)
-  public user?: RecipeUserDTO;
+  @IsMongoId()
+  public user: mongooseSchema.Types.ObjectId;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => InfoDTO)
-  public info?: InfoDTO;
+  public info: InfoDTO;
 
   @IsOptional()
   @IsNumber()
-  public totalTime?: number;
+  public totalTime: number;
 
   @IsOptional()
   @IsNumber()
-  public cookTime?: number;
+  public cookTime: number;
 
   @IsOptional()
   @IsNumber()
-  public difficulty?: number;
+  @IsIn(difficultyEnum)
+  public difficulty: number;
 
   @IsOptional()
   @IsNumber()
-  public price?: number;
+  @Min(0)
+  @Max(3)
+  public price: number;
 
   @IsOptional()
   @IsObject()
-  public compatibility?: object;
+  public size: object;
 
   @IsOptional()
-  @IsObject()
-  public size?: object;
-
-  @IsOptional()
-  @IsObject()
-  public status?: object;
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  public images?: string[];
+  @ValidateNested()
+  @Type(() => StatusDTO)
+  public status: StatusDTO;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  public videos?: string[];
+  public foodGroups: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  public images: string[];
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  public videos: string[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => GroupsDTO)
-  public groups?: GroupsDTO[];
+  public groups: GroupsDTO[];
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  public tags?: string;
+  public tags: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SocialDTO)
-  public social?: SocialDTO;
+  public social: SocialDTO;
 
   @IsOptional()
-  @IsObject()
-  public nutritional?: object;
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  public foodGroups?: string[];
-
-  @IsOptional()
-  @IsArray()
-  @IsObject({ each: true })
-  public rations?: object[];
-
-  @IsOptional()
-  public comments?: CommentsDTO[];
+  public comments: CommentsDTO[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => RatingsDTO)
-  public ratings?: RatingsDTO[];
+  public ratings: RatingsDTO[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SourceDTO)
-  public source?: SourceDTO;
-
-  @IsOptional()
-  @IsString()
-  public advice?: string;
+  public source: SourceDTO;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => GrantsDTO)
-  public grants?: GrantsDTO;
+  public grants: GrantsDTO;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => NutritionalKeysDTO)
+  public nutritional: NutritionalKeysDTO;
+
+  @IsOptional()
+  @IsBoolean()
+  public nutritionalForRation: boolean;
+
+  @IsOptional()
+  @IsString()
+  public advice: string;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => SeoDTO)
-  public seo?: SeoDTO;
+  public seo: SeoDTO;
+
+  @IsOptional()
+  @IsArray()
+  @IsObject({ each: true })
+  public rations: object[];
 
   @IsOptional()
   @IsBoolean()
-  public imageRights?: boolean;
+  public imageRights: boolean;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => RecipeTranslationsDTO)
+  public translations: RecipeTranslationsDTO;
+
+  @IsOptional()
+  @IsString()
+  public viewUrl: string;
+
+  @IsOptional()
+  @IsString()
+  public copyUrl: string;
+
+  @IsOptional()
+  @IsObject()
+  public compatibility: object;
 
   @IsOptional()
   @IsBoolean()
-  public nutritionalForRation?: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  public isActive?: boolean;
+  public isActive: boolean;
 }

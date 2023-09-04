@@ -7,5 +7,4 @@ export * from './grants.schema';
 export * from './recipecategories.schema';
 export * from './comments/comments.schema';
 export * from './ratings/ratings.schema';
-export * from './recipeuser.schema';
 export * from './seo/seo.schema';

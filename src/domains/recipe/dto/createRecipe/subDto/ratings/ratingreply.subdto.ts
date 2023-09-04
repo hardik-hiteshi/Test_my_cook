@@ -1,11 +1,8 @@
-import { IsBoolean, IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 export class RatingReplyDTO {
   @IsOptional()
   @IsDateString()
   public date: Date;
-  @IsOptional()
-  @IsDateString()
-  public modificationDate: Date;
   @IsOptional()
   @IsString()
   public displayName: string;
@@ -18,7 +15,4 @@ export class RatingReplyDTO {
   @IsOptional()
   @IsString()
   public text: string;
-  @IsOptional()
-  @IsBoolean()
-  public haveImage: boolean;
 }

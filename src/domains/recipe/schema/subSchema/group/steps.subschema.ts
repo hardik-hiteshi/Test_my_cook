@@ -25,7 +25,7 @@ export class Steps {
     enum: stepFunction,
   })
   public function: string;
-  @Prop()
+  @Prop([String])
   public accessories: string[];
   @Prop([Ingredient])
   public ingredients: Ingredient[];

@@ -7,11 +7,15 @@ import {
   Social,
   Source,
 } from './subSchema/index';
+import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import difficultyEnum from './subSchema/enums/difficulty.enum';
 import { Grants } from './subSchema/grants.schema';
-import { HydratedDocument } from 'mongoose';
+import { NutritionalKeys } from './subSchema/nutritionalkeys/nutritionalkeys.schema';
 import recipecourses from './subSchema/enums/recipecourse.enum';
-import { RecipeUser } from './subSchema/recipeuser.schema';
+import recipeRegions from '../schema/subSchema/enums/recipe.regions';
+import { RecipeStatus } from './subSchema/status.schema';
+import { RecipeTranslations } from './subSchema/translations/recipetranslations.schema';
 import { Seo } from './subSchema/seo/seo.schema';
 
 export type RecipeDocument = HydratedDocument<Recipe>;
@@ -43,8 +47,8 @@ export class Recipe {
   @Prop([{ type: String, enum: recipecourses }])
   public course: string[];
 
-  @Prop(RecipeUser)
-  public user: RecipeUser;
+  @Prop({ type: Object, ref: 'User' })
+  public user: object;
 
   @Prop(Info)
   public info: Info;
@@ -55,20 +59,20 @@ export class Recipe {
   @Prop()
   public cookTime: number;
 
-  @Prop()
+  @Prop({ enum: difficultyEnum, min: 1, max: 3 })
   public difficulty: number;
 
-  @Prop()
+  @Prop({ min: 1, max: 3 })
   public price: number;
-
-  @Prop({ type: Object })
-  public compatibility: object;
 
   @Prop({ type: Object })
   public size: object;
 
-  @Prop({ type: Object })
-  public status: object;
+  @Prop(RecipeStatus)
+  public status: RecipeStatus;
+
+  @Prop()
+  public foodGroups: string[];
 
   @Prop()
   public images: string[];
@@ -85,15 +89,6 @@ export class Recipe {
   @Prop(Social)
   public social: Social;
 
-  @Prop({ type: Object })
-  public nutritional: object;
-
-  @Prop()
-  public foodGroups: string[];
-
-  @Prop([{ type: Object }])
-  public rations: object[];
-
   @Prop(Comments)
   public comments: Comments[];
 
@@ -103,22 +98,44 @@ export class Recipe {
   @Prop(Source)
   public source: Source;
 
+  @Prop(Grants)
+  public grants: Grants;
+
+  @Prop(NutritionalKeys)
+  public nutritional: NutritionalKeys;
+
+  @Prop()
+  public nutritionalForRation: boolean;
+
   @Prop({ type: String })
   public advice: string;
 
-  @Prop(Grants)
-  public grants: Grants;
   @Prop(Seo)
   public seo: Seo;
+
+  @Prop([{ type: mongooseSchema.Types.Mixed }])
+  public rations: mongooseSchema.Types.Mixed[];
+
+  @Prop(RecipeTranslations)
+  public translations: RecipeTranslations;
 
   @Prop()
   public imageRights: boolean;
 
-  @Prop()
+  @Prop({ enum: recipeRegions })
   public region: string;
+  @Prop({
+    type: String,
+  })
+  public viewUrl: string;
 
-  @Prop()
-  public nutritionalForRation: boolean;
+  @Prop({
+    type: String,
+  })
+  public copyUrl: string;
+
+  @Prop({ type: mongooseSchema.Types.Mixed })
+  public compatibility: object;
 
   @Prop({ default: true })
   public isActive: boolean;

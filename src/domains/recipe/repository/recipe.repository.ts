@@ -37,13 +37,31 @@ export class RecipeRepository {
     search: string,
   ): Promise<Array<RecipeDocument>> {
     const query: QueryInterface = {};
+    const parsed = Number(search);
+    const rateFilter = !isNaN(parsed) ? { rate: parsed } : {};
+    const creationDateFilter = Date.parse(search)
+      ? { 'info.creationDate': new Date(search).toISOString() }
+      : {};
+    const modificationDateFilter = Date.parse(search)
+      ? { 'info.modificationDate': new Date(search).toISOString() }
+      : {};
+    const totalTimefilter = !isNaN(parsed) ? { totalTime: parsed } : {};
+    const cookTimefilter = !isNaN(parsed) ? { cookTime: parsed } : {};
+    const difficultyfilter = !isNaN(parsed) ? { difficulty: parsed } : {};
+    const pricefilter = !isNaN(parsed) ? { price: parsed } : {};
+    const exportableFilter = !Boolean(search)
+      ? { 'status.exportable': search }
+      : {};
+    const verifiedFilter = !Boolean(search)
+      ? { 'status.verified': search }
+      : {};
     if (search) {
       query.$or = [
-        { title: { $regex: search, $options: 'i' } },
+        { title: { $regex: search.toString(), $options: 'i' } },
         { niceName: { $regex: search, $options: 'i' } },
         { 'categories.name': { $in: [search] } },
         { 'categories.niceName': { $in: [search] } },
-        // { rate: { $regex: search, $options: "i" } },
+        rateFilter,
         { course: { $in: [search] } },
         { 'user.displayName': { $regex: search, $options: 'i' } },
         { 'user.niceName': { $regex: search, $options: 'i' } },
@@ -53,22 +71,22 @@ export class RecipeRepository {
         { 'user.webName': { $regex: search, $options: 'i' } },
         { 'user.instagram': { $regex: search, $options: 'i' } },
         { 'user.twitter': { $regex: search, $options: 'i' } },
-        //{ "info.creationDate": { $regex: search, $options: "i" } },
-        //creationDate { "info.modificationDate": { $regex: search, $options: "i" } },
+        creationDateFilter,
+        modificationDateFilter,
         { 'info.creationSource': { $regex: search, $options: 'i' } },
         { 'info.modificationSource': { $regex: search, $options: 'i' } },
-        //{ totalTime: { $regex: search, $options: "i" } },
-        // { cookTime: { $regex: search, $options: "i" } },
-        //{ difficulty: { $regex: search, $options: "i" } },
-        //{ price: { $regex: search, $options: "i" } },
-        { 'status.exportable': { $regex: search, $options: 'i' } },
-        { 'status.verified': { $regex: search, $options: 'i' } },
+        totalTimefilter,
+        cookTimefilter,
+        difficultyfilter,
+        pricefilter,
+        exportableFilter,
+        verifiedFilter,
         { 'status.idParent': { $regex: search, $options: 'i' } },
         { 'status.nutritional': { $regex: search, $options: 'i' } },
         { foodGroups: { $in: [search] } },
         { videos: { $in: [search] } },
         { tags: { $in: [search] } },
-        // { "social.favorite": { $regex: search, $options: "i" } },
+        // { 'social.favorite': { $regex: search, $options: 'i' } },
         // { "social.facebook": { $regex: search, $options: "i" } },
         // { "social.comments": { $regex: search, $options: "i" } },
         // { "social.ratings": { $regex: search, $options: "i" } },

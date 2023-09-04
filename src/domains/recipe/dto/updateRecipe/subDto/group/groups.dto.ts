@@ -1,4 +1,4 @@
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { StepsDTO } from './steps.dto';
 import { Type } from 'class-transformer';
 export class GroupsDTO {
@@ -6,6 +6,7 @@ export class GroupsDTO {
   @IsString()
   public name?: string;
   @IsOptional()
+  @IsArray()
   @ValidateNested()
   @Type(() => StepsDTO)
   public steps?: StepsDTO[];

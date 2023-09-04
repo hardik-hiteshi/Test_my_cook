@@ -1,12 +1,15 @@
 import {
   IsArray,
   IsBoolean,
+  IsIn,
   IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
 import { IngredientDTO } from './ingredient.dto';
+import stepFunction from '.././../../../schema/subSchema/enums/stepfunction.enum';
+import steptype from '.././../../../schema/subSchema/enums/steptype.enum';
 import { Type } from 'class-transformer';
 export class StepsDTO {
   @IsOptional()
@@ -14,36 +17,39 @@ export class StepsDTO {
   public description?: string;
   @IsOptional()
   @IsString()
-  public type?: string;
+  @IsIn(steptype)
+  public type: string;
   @IsOptional()
   @IsNumber()
-  public cookTime?: number;
+  public cookTime: number;
   @IsOptional()
   @IsNumber()
-  public stepTime?: number;
+  public stepTime: number;
   @IsOptional()
   @IsNumber()
-  public temperature?: number;
+  public temperature: number;
   @IsOptional()
   @IsNumber()
-  public outsideTemperature?: number;
+  public outsideTemperature: number;
   @IsOptional()
   @IsNumber()
-  public microwaveWatts?: number;
+  public microwaveWatts: number;
   @IsOptional()
   @IsString()
   public speed?: string;
   @IsOptional()
   @IsString()
-  public function?: string;
+  @IsIn(stepFunction)
+  public function: string;
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  public accessories?: string[];
+  public accessories: string[];
   @IsOptional()
+  @IsArray()
   @Type(() => IngredientDTO)
   @ValidateNested()
-  public ingredients?: IngredientDTO[];
+  public ingredients: IngredientDTO[];
   @IsOptional()
   @IsBoolean()
   public haveImage: boolean;
