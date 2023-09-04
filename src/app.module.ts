@@ -6,6 +6,7 @@ import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
+import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
 import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
@@ -34,6 +35,7 @@ import { UserModule } from './domains/user/user.module';
     CommonModule,
     LegalTermsModule,
     NotesModule,
+    LegalRegistryModule,
   ],
 })
 export class AppModule {}
