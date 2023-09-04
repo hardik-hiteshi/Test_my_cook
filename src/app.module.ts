@@ -16,6 +16,7 @@ import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
 import { ContactModule } from './domains/contact/contact.module';
+import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mail.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -35,6 +36,7 @@ import { ContactModule } from './domains/contact/contact.module';
     ReportAbuseModule,
     AliasModule,
     ContactModule,
+    NewsLetterMailModule,
   ],
 })
 export class AppModule {}

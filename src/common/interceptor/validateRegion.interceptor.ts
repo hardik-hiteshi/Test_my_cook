@@ -19,6 +19,9 @@ export class ValidateRegionInterceptor implements NestInterceptor {
     }
     const req = context.switchToHttp().getRequest();
 
+    if (req.path == '/login') {
+      return next.handle();
+    }
     if (!this.isRegionValid(req.headers.region)) {
       throw new BadRequestException([
         'Invalid region specified in the headers',
