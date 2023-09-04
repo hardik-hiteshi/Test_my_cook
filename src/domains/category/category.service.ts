@@ -26,14 +26,9 @@ export class CategoryService {
 
   public async fetchCategory(
     region: string,
-    id?: string,
-    niceName?: string,
+    niceName: string,
   ): Promise<CategoryDocument> {
-    const category = await this.categoryRepo.fetchCategory(
-      region,
-      id,
-      niceName,
-    );
+    const category = await this.categoryRepo.fetchCategory(region, niceName);
 
     if (category) {
       return category;

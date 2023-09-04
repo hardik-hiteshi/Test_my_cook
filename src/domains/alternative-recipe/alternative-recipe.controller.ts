@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -13,37 +14,27 @@ import { AlternativeRecipeService } from './alternative-recipe.service';
 import { CreateAlternativeRecipeDTO } from './dto/create alternative-recipe/createalternative-recipe.dto';
 import { UpdateAlternativeRecipeDTO } from './dto/update alternative-recipe/updatealternative-recipe.dto';
 
-@Controller('alternative-recipe')
+@Controller('AlternativeRecipe')
 export class AlternativeRecipeController {
   public constructor(
     public alternativeRecipeServices: AlternativeRecipeService,
   ) {}
 
-  @Post('create')
-  public async createRecipe(
-    @Headers('region') region: string,
-    @Body() body: CreateAlternativeRecipeDTO,
-  ): Promise<AlternativeRecipeDocument> {
-    return await this.alternativeRecipeServices.createRecipe(region, body);
-  }
-
-  @Get('fetchall')
-  public async fetchAllRecipes(
-    @Headers('region') region: string,
-    @Query('search') search?: string,
-  ): Promise<Array<AlternativeRecipeDocument>> {
-    return await this.alternativeRecipeServices.fetchAllRecipes(region, search);
-  }
-
-  @Get('fetch/:niceName')
+  @Get(':niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.fetchRecipe(region, niceName);
   }
-
-  @Patch('update/:niceName')
+  @Post()
+  public async createRecipe(
+    @Headers('region') region: string,
+    @Body() body: CreateAlternativeRecipeDTO,
+  ): Promise<AlternativeRecipeDocument> {
+    return await this.alternativeRecipeServices.createRecipe(region, body);
+  }
+  @Patch(':niceName')
   public async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -57,11 +48,18 @@ export class AlternativeRecipeController {
     );
   }
 
-  @Patch('delete/:niceName')
+  @Delete(':niceName')
   public async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.deleteRecipe(region, niceName);
+  }
+  @Get()
+  public async fetchAllRecipes(
+    @Headers('region') region: string,
+    @Query('search') search?: string,
+  ): Promise<Array<AlternativeRecipeDocument>> {
+    return await this.alternativeRecipeServices.fetchAllRecipes(region, search);
   }
 }

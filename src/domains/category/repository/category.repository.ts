@@ -32,18 +32,8 @@ export class CategoryRepository {
 
   public async fetchCategory(
     region: string,
-    id?: string,
     niceName?: string,
   ): Promise<CategoryDocument> {
-    if (id) {
-      const category = await this.categoryModel.findOne({
-        _id: id,
-        region,
-        isActive: true,
-      });
-
-      return category;
-    }
     const category = await this.categoryModel.findOne({
       niceName,
       region,

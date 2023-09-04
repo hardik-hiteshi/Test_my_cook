@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -17,7 +18,7 @@ import { UpdateRankDTO } from './dto/updateDto/updaterank.dto';
 export class RankController {
   public constructor(public rankServices: RankService) {}
 
-  @Post('create')
+  @Post()
   public async createRank(
     @Headers('region') region: string,
     @Body() body: CreateRankDTO,
@@ -25,14 +26,14 @@ export class RankController {
     return await this.rankServices.createRank(region, body);
   }
 
-  @Get('fetch/:niceName')
+  @Get(':niceName')
   public async fetchRank(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<RankDocument> {
     return await this.rankServices.fetchRank(region, niceName);
   }
-  @Patch('update/:niceName')
+  @Patch(':niceName')
   public async updateRank(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -40,7 +41,7 @@ export class RankController {
   ): Promise<RankDocument> {
     return await this.rankServices.updateRank(region, niceName, body);
   }
-  @Patch('delete/:niceName')
+  @Delete(':niceName')
   public async deleteRank(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -48,7 +49,7 @@ export class RankController {
     return await this.rankServices.deleteRank(region, niceName);
   }
 
-  @Get('fetchall')
+  @Get()
   public async fetchRanks(
     @Headers('region') region: string,
     @Query('search') search?: string,

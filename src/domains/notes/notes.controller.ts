@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -12,11 +13,11 @@ import { NotesDocument } from './schema/notes.schema';
 import { NotesService } from './notes.service';
 import { UpdateNotesDTO } from './dto/notes.update.dto';
 
-@Controller('notes')
+@Controller('note')
 export class NotesController {
   public constructor(public noteServices: NotesService) {}
 
-  @Post('create')
+  @Post()
   public async createNote(
     @Headers('region') region: string,
     @Body() body: CreateNotesDTO,
@@ -24,7 +25,7 @@ export class NotesController {
     return this.noteServices.createNote(region, body);
   }
 
-  @Get('fetch/:uniqueId')
+  @Get(':uniqueId')
   public async fetchNote(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -32,7 +33,7 @@ export class NotesController {
     return this.noteServices.fetchNote(region, uniqueId);
   }
 
-  @Patch('update/:uniqueId')
+  @Patch(':uniqueId')
   public async updateNote(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -41,7 +42,7 @@ export class NotesController {
     return this.noteServices.updateNote(region, uniqueId, body);
   }
 
-  @Patch('delete/:uniqueId')
+  @Delete(':uniqueId')
   public async deleteNote(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,

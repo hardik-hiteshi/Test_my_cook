@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -17,7 +18,7 @@ import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 export class RecipeController {
   public constructor(private recipeService: RecipeService) {}
 
-  @Post('create')
+  @Post()
   public async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateRecipeDto,
@@ -25,7 +26,7 @@ export class RecipeController {
     return await this.recipeService.createRecipe(region, body);
   }
 
-  @Get('fetchall')
+  @Get()
   public async fetchAllRecipes(
     @Headers('region') region: string,
     @Query('search') search?: string,
@@ -33,7 +34,7 @@ export class RecipeController {
     return await this.recipeService.fetchAllRecipes(region, search);
   }
 
-  @Get('fetchone/:niceName')
+  @Get(':niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName,
@@ -41,7 +42,7 @@ export class RecipeController {
     return await this.recipeService.fetchRecipe(region, niceName);
   }
 
-  @Patch('updateone/:niceName')
+  @Patch(':niceName')
   public async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -51,7 +52,7 @@ export class RecipeController {
     return await this.recipeService.updateRecipe(region, body, niceName);
   }
 
-  @Patch('delete/:niceName')
+  @Delete(':niceName')
   public async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

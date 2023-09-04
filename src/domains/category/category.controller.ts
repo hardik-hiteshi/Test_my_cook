@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -17,7 +18,7 @@ import { UpdateCategoryDTO } from './dto/updatecategory/updatecategory.dto';
 export class CategoryController {
   public constructor(public categoryServices: CategoryService) {}
 
-  @Post('create')
+  @Post()
   public async createCategory(
     @Headers('region') region: string,
     @Body() body: CreateCategoryDTO,
@@ -26,15 +27,14 @@ export class CategoryController {
     return await this.categoryServices.createCategory(region, body);
   }
 
-  @Get('fetchone')
+  @Get(':niceName')
   public async fetchCategory(
     @Headers('region') region: string,
-    @Query('niceName') niceName: string,
-    @Query('id') id: string,
+    @Param('niceName') niceName: string,
   ): Promise<CategoryDocument> {
-    return await this.categoryServices.fetchCategory(region, id, niceName);
+    return await this.categoryServices.fetchCategory(region, niceName);
   }
-  @Patch('update/:niceName')
+  @Patch(':niceName')
   public async updateCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -42,14 +42,14 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.updateCategory(region, niceName, body);
   }
-  @Patch('delete/:niceName')
+  @Delete(':niceName')
   public async deleteCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<CategoryDocument> {
     return await this.categoryServices.deleteCategory(region, niceName);
   }
-  @Get('fetchall')
+  @Get()
   public async fetchCategories(
     @Headers('region') region: string,
     @Query('search') search: string,

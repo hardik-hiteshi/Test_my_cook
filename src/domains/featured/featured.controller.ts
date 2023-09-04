@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -24,7 +25,7 @@ export class FeaturedController {
   //     return await this.featuredServices.create(region, body);
   //   }
 
-  @Get('fetch')
+  @Get()
   public async fetchFeatured(
     @Headers('region') region: string,
     @Query('type') type: string,
@@ -32,7 +33,7 @@ export class FeaturedController {
   ): Promise<FeaturedDocument> {
     return await this.featuredServices.fetchFeatured(region, type, search);
   }
-  @Patch('update')
+  @Patch()
   public async updateFeatured(
     @Headers('region') region: string,
     @Body() body: UpdateFeatureDTO,
@@ -40,7 +41,7 @@ export class FeaturedController {
     // console.log(region, body)
     return await this.featuredServices.updateFeatured(region, body);
   }
-  @Patch('delete/:type')
+  @Delete(':type')
   public async deleteFeatured(
     @Headers('region') region: string,
     @Param('type') type: string,

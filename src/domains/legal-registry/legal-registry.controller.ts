@@ -6,7 +6,7 @@ import { LegalRegistryService } from './legal-registry.service';
 @Controller('legal-registry')
 export class LegalRegistryController {
   public constructor(public legalRegServices: LegalRegistryService) {}
-  @Post('create')
+  @Post()
   public async createLegalRegistry(
     @Headers('region') region: string,
     @Body() body: CreateLegalRegistryDTO,
@@ -14,7 +14,7 @@ export class LegalRegistryController {
     return await this.legalRegServices.createLegalRegistry(region, body);
   }
 
-  @Get('fetch/:uniqueId')
+  @Get(':uniqueId')
   public async fetchLegalRegistry(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -22,7 +22,7 @@ export class LegalRegistryController {
     return await this.legalRegServices.fetchLegalRegistry(region, uniqueId);
   }
 
-  @Get('fetchall')
+  @Get()
   public async fetchAllLegalRegistry(
     @Headers('region') region: string,
   ): Promise<LegalRegistryDocument[]> {

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -16,7 +17,7 @@ import { UpdateFactoryDTO } from './dto/updatefactory.dto';
 export class FactoryController {
   public constructor(public factoryServices: FactoryService) {}
 
-  @Post('create')
+  @Post()
   public async createFactory(
     @Headers('region') region: string,
     @Body() body: CreateFactoryDTO,
@@ -24,14 +25,14 @@ export class FactoryController {
     return await this.factoryServices.createFactory(region, body);
   }
 
-  @Get('fetchall')
+  @Get()
   public async findAll(
     @Headers('region') region: string,
   ): Promise<FactoryDocument[]> {
     return await this.factoryServices.find(region);
   }
 
-  @Patch('update/:uniqueId')
+  @Patch(':uniqueId')
   public async updateFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -40,7 +41,7 @@ export class FactoryController {
     return await this.factoryServices.updateFactory(region, uniqueId, body);
   }
 
-  @Patch('delete/:uniqueId')
+  @Delete(':uniqueId')
   public async deleteFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
