@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import regions from 'src/domains/elements/regions';
+import regions from '../../../common/elements/regions';
 
 export type LegalRegistryDocument = HydratedDocument<LegalRegistry>;
 
