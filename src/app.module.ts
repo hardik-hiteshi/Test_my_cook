@@ -1,5 +1,6 @@
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
 import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
+import { AuthorModule } from './domains/author/author.module';
 import { BadgesModule } from './domains/badges/badges.module';
 import { CategoryModule } from './domains/category/category.module';
 import { CommonModule } from './common/common.module';
@@ -36,6 +37,7 @@ import { UserModule } from './domains/user/user.module';
     LegalTermsModule,
     NotesModule,
     LegalRegistryModule,
+    AuthorModule,
   ],
 })
 export class AppModule {}
