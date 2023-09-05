@@ -8,7 +8,6 @@ import {
 import {
   CreateMachineModelDto,
   CreateManyMachineModelDto,
-  DeleteMachineModelDto,
   UpdateMachineModelDto,
 } from './dtos';
 import { json2csv } from 'json-2-csv';
@@ -61,8 +60,8 @@ export class MachineModelService {
     return newmachineModel;
   }
 
-  public async deleteOne(body: DeleteMachineModelDto): Promise<void> {
-    const machineModel = await this.machineModelRepo.deleteOne(body);
+  public async deleteOne(uniqueId: string): Promise<void> {
+    const machineModel = await this.machineModelRepo.deleteOne(uniqueId);
     if (!machineModel) throw new NotFoundException('machine_model not found');
   }
   public async createMany(body: CreateManyMachineModelDto): Promise<void> {

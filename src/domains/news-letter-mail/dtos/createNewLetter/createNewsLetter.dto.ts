@@ -22,5 +22,5 @@ export class CreateNewsLetterDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => NewsLetterMauticDto)
-  public mautic: NewsLetterMauticDto;
+  public mautic?: NewsLetterMauticDto;
 }

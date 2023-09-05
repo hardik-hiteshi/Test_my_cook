@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -13,7 +15,6 @@ import {
 import {
   CreateMachineModelDto,
   CreateManyMachineModelDto,
-  DeleteMachineModelDto,
   UpdateMachineModelDto,
 } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -54,14 +55,14 @@ export class MachineModelController {
     return await this.machineModelService.findOneAndUpdate(uniqueId, body);
   }
 
-  @Delete()
+  @Delete(':unique_id')
   private async deleteMachineModel(
-    @Body() body: DeleteMachineModelDto,
+    @Param('unique_id') uniqueId: string,
   ): Promise<void> {
     // using hard delete might use soft delete in future
-    await this.machineModelService.deleteOne(body);
+    await this.machineModelService.deleteOne(uniqueId);
   }
-
+  @HttpCode(HttpStatus.OK)
   @Post('import')
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
   private async createManyMachineModel(

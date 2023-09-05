@@ -4,6 +4,8 @@ import {
   Delete,
   Get,
   Headers,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -64,6 +66,7 @@ export class MachineController {
     await this.machineService.deleteOne(uniqueId);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('import')
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
   private async createManyMachine(

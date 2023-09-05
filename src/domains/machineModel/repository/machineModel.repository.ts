@@ -48,9 +48,7 @@ export class MachineModelRepository {
 
     return machineModel;
   }
-  public async deleteOne(
-    query: RecursivePartial<MachineModel>,
-  ): Promise<MachineModelDocument> {
-    return await this.machineModel.findOneAndDelete(query);
+  public async deleteOne(uniqueId: string): Promise<MachineModelDocument> {
+    return await this.machineModel.findOneAndDelete({ uniqueId });
   }
 }
