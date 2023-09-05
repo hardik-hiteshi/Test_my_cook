@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import TipRegions from './subSchema/enums/tipregion.enum';
+import regions from 'src/common/enum/region.enum';
 
 export type TipDocument = HydratedDocument<Tip>;
 @Schema({
@@ -15,7 +15,7 @@ export class Tip {
   @Prop({
     type: String,
     required: true,
-    enum: TipRegions,
+    enum: regions,
     title: 'Region',
   })
   public region: string;

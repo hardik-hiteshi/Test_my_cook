@@ -3,7 +3,7 @@ import { DietFrom } from './DietsFrom.subSchema';
 import { DietTo } from './dietTo.subSchema';
 
 @Schema()
-export class DietTranslate {
+export class DietTranslations {
   @Prop()
   public from: DietFrom;
 
