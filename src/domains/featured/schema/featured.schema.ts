@@ -19,5 +19,7 @@ export class Featured {
 
   @Prop({ required: true, enum: featureduser })
   public type: string;
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 export const featuredSchema = SchemaFactory.createForClass(Featured);

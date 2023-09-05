@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
+  Param,
   Patch,
   Post,
   Query,
@@ -16,7 +18,7 @@ import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 export class RecipeController {
   public constructor(private recipeService: RecipeService) {}
 
-  @Post('create')
+  @Post()
   public async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateRecipeDto,
@@ -24,7 +26,7 @@ export class RecipeController {
     return await this.recipeService.createRecipe(region, body);
   }
 
-  @Get('fetchall')
+  @Get()
   public async fetchAllRecipes(
     @Headers('region') region: string,
     @Query('search') search?: string,
@@ -32,27 +34,29 @@ export class RecipeController {
     return await this.recipeService.fetchAllRecipes(region, search);
   }
 
-  @Get('fetchone')
+  @Get(':niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
-    @Query('niceName') niceName,
+    @Param('niceName') niceName,
   ): Promise<RecipeDocument> {
     return await this.recipeService.fetchRecipe(region, niceName);
   }
 
-  @Patch('updateone')
+  @Patch(':niceName')
   public async updateRecipe(
-    @Query('niceName') niceName: string,
+    @Headers('region') region: string,
+    @Param('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
   ): Promise<RecipeDocument> {
     // console.log(body)
-    return await this.recipeService.updateRecipe(body, niceName);
+    return await this.recipeService.updateRecipe(region, body, niceName);
   }
 
-  @Patch('deleterecipe')
+  @Delete(':niceName')
   public async deleteRecipe(
-    @Query('niceName') niceName: string,
+    @Headers('region') region: string,
+    @Param('niceName') niceName: string,
   ): Promise<RecipeDocument> {
-    return await this.recipeService.deleteRecipe(niceName);
+    return await this.recipeService.deleteRecipe(region, niceName);
   }
 }

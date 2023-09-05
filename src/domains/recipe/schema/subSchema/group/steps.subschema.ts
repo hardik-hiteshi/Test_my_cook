@@ -1,26 +1,14 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Ingredient } from './ingredients.subschema';
-import { Schema as mongooseSchema } from 'mongoose';
+import stepFunction from '../enums/stepfunction.enum';
+import stepType from '../enums/steptype.enum';
 
 @Schema({ _id: false })
 export class Steps {
   @Prop()
   public description: string;
-  @Prop({
-    default: 'mycook',
-    enum: [
-      'mycook',
-      'bake',
-      'fry',
-      'coat',
-      'manipulation',
-      'repose',
-      'stew',
-      'microwave',
-    ],
-  })
+  @Prop({ default: 'mycook', enum: stepType })
   public type: string;
-
   @Prop()
   public cookTime: number;
   @Prop()
@@ -34,24 +22,13 @@ export class Steps {
   @Prop()
   public speed: string;
   @Prop({
-    enum: [
-      'normal',
-      'saute',
-      'knead',
-      'turbo',
-      'progressive',
-      'slow-cook',
-      'sous-vide',
-      'high-temperature',
-      'steam',
-      'kettle',
-    ],
+    enum: stepFunction,
   })
   public function: string;
-  @Prop()
+  @Prop([String])
   public accessories: string[];
-  @Prop({ type: mongooseSchema.Types.ObjectId, ref: Ingredient })
-  public ingredients: mongooseSchema.Types.ObjectId[];
+  @Prop([Ingredient])
+  public ingredients: Ingredient[];
 
   @Prop({ default: false })
   public haveImage: boolean;

@@ -10,6 +10,9 @@ export type FactoryDocument = HydratedDocument<Factory>;
   },
 })
 export class Factory {
+  @Prop()
+  public uniqueId: string;
+
   @Prop({ required: true, enum: factorymachinetypes })
   public machineType: string;
 
@@ -39,6 +42,9 @@ export class Factory {
     default: 'MACHINE',
   })
   public region: string;
+
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 
 export const factorySchema = SchemaFactory.createForClass(Factory);

@@ -15,7 +15,3 @@ export class RankTranslationsFrom {
 
 export const rankTranslationsFromSchema =
   SchemaFactory.createForClass(RankTranslationsFrom);
-//   {
-//         region: { type: String, readonly: true },
-//         niceName: { type: String, readonly: true },
-//       },

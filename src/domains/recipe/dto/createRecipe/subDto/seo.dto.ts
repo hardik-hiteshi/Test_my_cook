@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsBoolean,
+  IsDateString,
   IsOptional,
   IsString,
   ValidateNested,
@@ -23,8 +24,8 @@ export class SeoDTO {
   public canonical: string;
 
   @IsOptional()
-  @IsString()
-  public url: string;
+  @IsDateString()
+  public autopublishDate: Date;
 
   @IsOptional()
   @IsBoolean()
@@ -33,6 +34,11 @@ export class SeoDTO {
   @IsOptional()
   @IsBoolean()
   public follow: boolean;
+
+  @IsOptional()
+  @IsString()
+  public url: string;
+
   @IsOptional()
   @ValidateNested()
   @Type(() => LinkinDTO)
@@ -52,9 +58,4 @@ export class SeoDTO {
   @IsArray()
   @IsString({ each: true })
   public keywords: string[];
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  public autopublishDate: string[];
 }

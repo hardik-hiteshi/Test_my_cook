@@ -12,4 +12,6 @@ export class Ingredient {
   public unit: string;
   @Prop()
   public extra: string;
+  @Prop()
+  public reserved: boolean;
 }

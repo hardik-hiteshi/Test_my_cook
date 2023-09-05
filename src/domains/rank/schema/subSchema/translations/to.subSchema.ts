@@ -17,8 +17,3 @@ export class RankTranslationsTo {
 
 export const rankTranslationsToSchema =
   SchemaFactory.createForClass(RankTranslationsTo);
-//   {
-//           region: { type: String },
-//           niceName: { type: String },
-//           lastUpdate: { type: Date },
-//         },

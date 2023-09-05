@@ -15,52 +15,36 @@ export class Badges {
   @Prop()
   public name: string;
 
-  @Prop({
-    type: String,
-    enum: badgesNiceNames,
-    limitToOptions: false,
-    editOnCreate: true,
-    description:
-      'Automatic badges NiceNames are: recipes_0, recipes_5, recipes_10, recipes_25, recipes_50, video_1, video_5, video_10, comments_10, comments_25, comments_50, comments_100',
-  })
+  @Prop({ enum: badgesNiceNames })
   public niceName: string;
 
-  @Prop({ title: 'Index' })
+  @Prop()
   public index: number;
-
+  //what is this format
   @Prop({ format: 'mycook-image' })
   public image: string;
 
-  @Prop({
-    type: String,
-    required: true,
-    title: 'Range',
-    description:
-      'When the user will be given the badge, i.e When you publish 10 recipes.',
-  })
+  @Prop({ required: true })
   public range: string;
 
-  @Prop({
-    type: String,
-    required: true,
-    title: 'Description',
-    description: 'Long text explaining the badge.',
-  })
+  @Prop({ required: true })
   public description: string;
 
-  @Prop({ type: String, format: 'html', title: 'Prize text' })
+  @Prop({ format: 'html' })
   public prizeTxt: string;
 
-  @Prop({ type: String, title: 'Prize' })
+  @Prop()
   public prize: string;
 
-  @Prop({ type: String, title: 'Terms' })
+  @Prop()
   public terms: string;
 
-  @Prop({ type: String, required: true, enum: badgesRegions, title: 'Region' })
+  @Prop({ required: true, enum: badgesRegions })
   public region: string;
 
   @Prop(Translations)
   public translations: Translations;
+  @Prop({ default: true })
+  public isActive: boolean;
 }
 export const badgesSchema = SchemaFactory.createForClass(Badges);

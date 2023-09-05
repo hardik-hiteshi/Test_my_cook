@@ -14,13 +14,15 @@ export class Seo {
   public canonical: string;
 
   @Prop()
-  public url: string;
+  public autopublishDate: Date;
 
-  @Prop()
+  @Prop({ default: false })
   public index: boolean;
 
-  @Prop()
+  @Prop({ default: true })
   public follow: boolean;
+  @Prop()
+  public url: string;
 
   @Prop([Linkin])
   public linkin: Linkin[];
@@ -33,8 +35,5 @@ export class Seo {
 
   @Prop([String])
   public keywords: string[];
-
-  @Prop([String])
-  public autopublishDate: string[];
 }
 export const seoSchema = SchemaFactory.createForClass(Seo);

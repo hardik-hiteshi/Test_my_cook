@@ -5,3 +5,6 @@ export * from './source.schema';
 export * from '../recipe.schema';
 export * from './grants.schema';
 export * from './recipecategories.schema';
+export * from './comments/comments.schema';
+export * from './ratings/ratings.schema';
+export * from './seo/seo.schema';

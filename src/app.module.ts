@@ -1,4 +1,8 @@
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
+import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
+import { AuthorModule } from './domains/author/author.module';
+import { BadgesModule } from './domains/badges/badges.module';
+import { CategoryModule } from './domains/category/category.module';
 import { AliasModule } from './domains/alias/alias.module';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
@@ -6,6 +10,8 @@ import { ContactModule } from './domains/contact/contact.module';
 import { DietsModule } from './domains/diets/diets.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
+import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
+import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
 import { Module } from '@nestjs/common';
@@ -14,6 +20,7 @@ import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mai
 import { NewsModule } from './domains/news/news.module';
 import { PictosModule } from './domains/pictos/pictos.module';
 import { ProductModule } from './domains/product/product.module';
+import { NotesModule } from './domains/notes/notes.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
@@ -23,14 +30,17 @@ import { UserModule } from './domains/user/user.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI),
-    UserModule,
-    MachineModule,
-    MachineModelModule,
+    AdvertisementModule,
+    AlternativeRecipeModule,
+    BadgesModule,
+    CategoryModule,
     FactoryModule,
     FeaturedModule,
+    MachineModule,
+    MachineModelModule,
     RankModule,
     RecipeModule,
-    AdvertisementModule,
+    UserModule,
     CommonModule,
     TipModule,
     ProductModule,
@@ -41,6 +51,10 @@ import { UserModule } from './domains/user/user.module';
     NewsLetterMailModule,
     NewsModule,
     DietsModule,
+    LegalTermsModule,
+    NotesModule,
+    LegalRegistryModule,
+    AuthorModule,
   ],
 })
 export class AppModule {}
