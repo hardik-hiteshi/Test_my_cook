@@ -11,6 +11,7 @@ import { DietsModule } from './domains/diets/diets.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
 import { FoodGroupModule } from './domains/food-group/food-group.module';
+import { LegalHistoryModule } from './domains/legal-history/legal-history.module';
 import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
 import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
@@ -51,8 +52,10 @@ import { UserModule } from './domains/user/user.module';
     AliasModule,
     ContactModule,
     NewsLetterMailModule,
+    LegalHistoryModule,
     NewsModule,
     DietsModule,
+    LegalHistoryModule,
     LegalTermsModule,
     NotesModule,
     LegalRegistryModule,

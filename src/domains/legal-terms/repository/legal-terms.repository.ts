@@ -2,13 +2,18 @@ import { LegalTerms, LegalTermsDocument } from '../schema/legal-terms.schema';
 import { CreateLegalTermsDTO } from '../dto/createLegal-terms/legal-terms.create.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { LegalHistory } from 'src/domains/legal-history/schema/legal-history.schema';
 import { Model } from 'mongoose';
 import { UpdateLegalTermsDTO } from '../dto/updateLegal-terms/legal-terms.update.dto';
+import { v4 as uuid } from 'uuid';
+
 @Injectable()
 export class LegalTermsRepository {
   public constructor(
     @InjectModel(LegalTerms.name)
     public legalTermsModel: Model<LegalTerms>,
+    @InjectModel(LegalHistory.name)
+    public legalHistoryModel: Model<LegalHistory>,
   ) {}
 
   public async createLegalTerm(
@@ -16,6 +21,7 @@ export class LegalTermsRepository {
     body: CreateLegalTermsDTO,
   ): Promise<LegalTermsDocument> {
     const legalterm = await this.legalTermsModel.create({ region, ...body });
+    await this.legalHistoryModel.create({ region, ...body, uniqueId: uuid() });
 
     return legalterm;
   }
@@ -38,6 +44,7 @@ export class LegalTermsRepository {
       body,
       { new: true },
     );
+    await this.legalHistoryModel.create({ region, ...body, uniqueId: uuid() });
 
     return updatedLegalTerm;
   }
