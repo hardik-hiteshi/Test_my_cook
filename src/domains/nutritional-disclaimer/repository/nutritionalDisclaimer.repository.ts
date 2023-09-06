@@ -1,0 +1,86 @@
+import {
+  NutritionalDisclaimer,
+  NutritionalDisclaimerDocument,
+} from '../schema/nutritionalDisclaimer.schema';
+import { CreateNutritionalDisclaimerDTO } from '../dto/createNutritionalDisclaimer/createNutritionalDisclaimer.dto';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UpdateNutritionalDisclaimerDTO } from '../dto/updateNutritionalDisclaimer/updateNutritionalDisclaimer.dto';
+
+@Injectable()
+export class NutritionalDisclaimerRepository {
+  public constructor(
+    @InjectModel(NutritionalDisclaimer.name)
+    public ndModel: Model<NutritionalDisclaimer>,
+  ) {}
+
+  public async findOne(
+    region: string,
+    body: CreateNutritionalDisclaimerDTO,
+  ): Promise<NutritionalDisclaimerDocument> {
+    const existingndDoc = await this.ndModel.findOne({
+      region,
+      ...body,
+      isActive: true,
+    });
+
+    return existingndDoc;
+  }
+
+  public async create(
+    region: string,
+    body: CreateNutritionalDisclaimerDTO,
+  ): Promise<NutritionalDisclaimerDocument> {
+    const createdndDoc = await this.ndModel.create({
+      region,
+      ...body,
+    });
+
+    return createdndDoc;
+  }
+
+  public async fetchND(
+    region: string,
+    niceName: string,
+  ): Promise<NutritionalDisclaimerDocument> {
+    const ndDoc = await this.ndModel.findOne({ region, niceName });
+
+    return ndDoc;
+  }
+
+  public async fetchAllND(
+    region: string,
+  ): Promise<NutritionalDisclaimerDocument[]> {
+    const ndDocList = await this.ndModel.find({ region, isActive: true });
+
+    return ndDocList;
+  }
+
+  public async updateND(
+    region: string,
+    niceName: string,
+    body: UpdateNutritionalDisclaimerDTO,
+  ): Promise<NutritionalDisclaimerDocument> {
+    const updatedNDdoc = await this.ndModel.findOneAndUpdate(
+      { region, niceName, isActive: true },
+      body,
+      { new: true },
+    );
+
+    return updatedNDdoc;
+  }
+
+  public async deleteND(
+    region: string,
+    niceName: string,
+  ): Promise<NutritionalDisclaimerDocument> {
+    const deletedNDdoc = await this.ndModel.findOneAndUpdate(
+      { region, niceName, isActive: true },
+      { isActive: false },
+      { new: true },
+    );
+
+    return deletedNDdoc;
+  }
+}
