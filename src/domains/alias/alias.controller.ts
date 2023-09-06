@@ -43,6 +43,7 @@ export class AliasController {
     return await this.aliasService.findAll();
   }
 
+  // using hard delete might use soft delete in future
   @Delete(':nicename')
   private async deleteAlias(
     @Param('nicename') niceName: string,

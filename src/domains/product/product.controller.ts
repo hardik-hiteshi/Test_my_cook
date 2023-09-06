@@ -40,7 +40,7 @@ export class ProductController {
   ): Promise<ProductDocument> {
     return await this.productService.updateOne(niceName, body);
   }
-
+  // using hard delete for now
   @Delete(':nicename')
   private async deleteProduct(
     @Param('nicename') niceName: string,
