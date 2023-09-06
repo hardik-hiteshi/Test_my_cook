@@ -9,9 +9,12 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateDietDto, UpdateDietDto } from './dtos';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { DietDocument } from './schema/diets.schema';
 import { DietsService } from './diets.service';
+import { Role } from '../auth/roles/permission.roles';
 
+@AUTH(Role.admin)
 @Controller('diets')
 export class DietsController {
   public constructor(private dietService: DietsService) {}
