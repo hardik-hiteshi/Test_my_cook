@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import { DietFrom } from './DietsFrom.subSchema';
+import { DietFrom } from './dietsFrom.subSchema';
 import { DietTo } from './dietTo.subSchema';
 
 @Schema()

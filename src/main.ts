@@ -9,6 +9,7 @@ import regions from './common/enum/region.enum';
 import { ValidationPipe } from '@nestjs/common';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalInterceptors(
     new CheckRegionInterceptor(),
     new ValidateRegionInterceptor(regions),

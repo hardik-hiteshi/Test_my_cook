@@ -8,7 +8,9 @@ import { RecursivePartial } from 'src/common/interface';
 export class UserRepository {
   public constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  public async findOne(query: RecursivePartial<User>): Promise<UserDocument> {
+  public async findOne(
+    query: RecursivePartial<User> | object,
+  ): Promise<UserDocument> {
     return await this.userModel.findOne(query);
   }
   public async create(

@@ -14,16 +14,27 @@ export class AuthService {
     private userRepo: UserRepository,
   ) {}
 
-  public async signIn(body: SignInUserDto): Promise<{ token: string }> {
-    const user = await this.userRepo.findOne({ niceName: body.niceName });
+  public async signIn(body: SignInUserDto): Promise<object> {
+    const user = await this.userRepo.findOne({
+      /* eslint-disable @typescript-eslint/naming-convention */
+      'contact.mail': body.mail,
+    });
     if (!user) throw new BadRequestException('invalid user or password');
 
     const pwMatched = await bcrypt.compare(body.password, user.password);
     if (!pwMatched) throw new BadRequestException('invalid user or password');
 
     const token = await this.signJwt(user._id);
+    const data = {
+      niceName: user.niceName,
+      displayName: user.name.displayName,
+      email: user.contact.mail,
+      role: user.role,
+      allowedRegions: user.allowedRegions,
+      token,
+    };
 
-    return { token };
+    return data;
   }
 
   public async signJwt(
