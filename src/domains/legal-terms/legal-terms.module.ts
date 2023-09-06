@@ -1,3 +1,7 @@
+import {
+  LegalHistory,
+  legalhistorySchema,
+} from '../legal-history/schema/legal-history.schema';
 import { LegalTerms, legalTermsSchema } from './schema/legal-terms.schema';
 import { LegalTermsController } from './legal-terms.controller';
 import { LegalTermsRepository } from './repository/legal-terms.repository';
@@ -12,6 +16,9 @@ import { MongooseModule } from '@nestjs/mongoose';
         name: LegalTerms.name,
         schema: legalTermsSchema,
       },
+    ]),
+    MongooseModule.forFeature([
+      { name: LegalHistory.name, schema: legalhistorySchema },
     ]),
   ],
   controllers: [LegalTermsController],
