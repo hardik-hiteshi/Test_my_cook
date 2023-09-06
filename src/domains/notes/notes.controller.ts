@@ -50,7 +50,7 @@ export class NotesController {
     return this.noteServices.deleteNote(region, uniqueId);
   }
 
-  @Get('fetchall')
+  @Get()
   public async fetchNotes(
     @Headers('region') region: string,
   ): Promise<NotesDocument[]> {

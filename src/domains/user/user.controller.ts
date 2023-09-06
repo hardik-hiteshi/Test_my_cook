@@ -16,7 +16,7 @@ import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserService } from './user.service';
 
-@AUTH(Role.admin)
+// @AUTH(Role.admin)
 @Controller('user')
 export class UserController {
   public constructor(private userService: UserService) {}
