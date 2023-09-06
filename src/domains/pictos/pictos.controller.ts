@@ -7,18 +7,14 @@ import {
   Param,
   Patch,
   Post,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreatePictosDto, UpdatePictosDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { PictosDocument } from './schema/pictos.schema';
 import { PictosService } from './pictos.service';
-import { regionEnum } from './schema/enum/region.enum';
 import { Role } from '../auth/roles/permission.roles';
-import { ValidateRegionInterceptor } from 'src/common/interceptor';
 
 @AUTH(Role.admin)
-@UseInterceptors(new ValidateRegionInterceptor(regionEnum))
 @Controller('pictos')
 export class PictosController {
   public constructor(private pictosService: PictosService) {}

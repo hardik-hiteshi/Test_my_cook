@@ -10,6 +10,7 @@ import { ContactModule } from './domains/contact/contact.module';
 import { DietsModule } from './domains/diets/diets.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
+import { FoodGroupModule } from './domains/food-group/food-group.module';
 import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
 import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
@@ -57,6 +58,7 @@ import { UserModule } from './domains/user/user.module';
     LegalRegistryModule,
     AuthorModule,
     NutritionalDisclaimerModule,
+    FoodGroupModule,
   ],
 })
 export class AppModule {}
