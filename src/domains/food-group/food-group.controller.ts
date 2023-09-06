@@ -15,7 +15,7 @@ import { FoodGroupService } from './food-group.service';
 import { Role } from '../auth/roles/permission.roles';
 import { UpdateFoodGroupDto } from './dtos/updateFoodGroup/updateFoodGroup.dto';
 
-// @AUTH(Role.admin)
+@AUTH(Role.admin)
 @Controller('food-group')
 export class FoodGroupController {
   public constructor(private foodGroupService: FoodGroupService) {}

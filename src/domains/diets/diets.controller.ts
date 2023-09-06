@@ -51,6 +51,7 @@ export class DietsController {
     return await this.dietService.findAll(region);
   }
 
+  // using hard delete might use soft delete in future
   @Delete(':nicename')
   private async deleteDiet(
     @Param('nicename') niceName: string,
