@@ -28,6 +28,7 @@ import { RecipeModule } from './domains/recipe/recipe.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
+import { MachineLogModule } from './domains/machine-log/machine-log.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -59,6 +60,7 @@ import { UserModule } from './domains/user/user.module';
     AuthorModule,
     NutritionalDisclaimerModule,
     FoodGroupModule,
+    MachineLogModule,
   ],
 })
 export class AppModule {}
