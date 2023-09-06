@@ -49,6 +49,7 @@ export class NewsController {
     return await this.newsService.findAll(region);
   }
 
+  // using hard delete for now
   @Delete(':nicename')
   private async deleteNews(
     @Param('nicename') niceName: string,

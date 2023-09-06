@@ -1,6 +1,6 @@
 import { HydratedDocument, Schema as mongoSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { DietTranslate } from './subSchema/deitsTranslate.subSchema';
+import { DietTranslations } from './subSchema/deitsTranslate.subSchema';
 import regions from 'src/common/enum/region.enum';
 
 export type DietDocument = HydratedDocument<Diet>;
@@ -27,7 +27,7 @@ export class Diet {
   public tags: string[];
 
   @Prop()
-  public translations: DietTranslate;
+  public translations: DietTranslations;
 }
 
 export const dietSchema = SchemaFactory.createForClass(Diet);

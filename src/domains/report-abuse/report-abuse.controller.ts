@@ -53,7 +53,7 @@ export class ReportAbuseController {
       body,
     );
   }
-
+  // using hard delete for now
   @Delete(':reportedUserNiceName')
   private async deleteOne(
     @Headers('region') region: string,

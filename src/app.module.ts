@@ -11,8 +11,11 @@ import { DietsModule } from './domains/diets/diets.module';
 import { EbookModule } from './domains/ebook/ebook.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
+import { FoodGroupModule } from './domains/food-group/food-group.module';
+import { LegalHistoryModule } from './domains/legal-history/legal-history.module';
 import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
 import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
+import { MachineLogModule } from './domains/machine-log/machine-log.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
 import { Module } from '@nestjs/common';
@@ -20,6 +23,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mail.module';
 import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
+import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
 import { PictosModule } from './domains/pictos/pictos.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
@@ -50,13 +54,18 @@ import { UserModule } from './domains/user/user.module';
     AliasModule,
     ContactModule,
     NewsLetterMailModule,
+    LegalHistoryModule,
     NewsModule,
     DietsModule,
+    LegalHistoryModule,
     LegalTermsModule,
     NotesModule,
     LegalRegistryModule,
     AuthorModule,
     EbookModule,
+    NutritionalDisclaimerModule,
+    FoodGroupModule,
+    MachineLogModule,
   ],
 })
 export class AppModule {}
