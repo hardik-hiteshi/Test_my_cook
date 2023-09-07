@@ -31,6 +31,7 @@ import { RecipeModule } from './domains/recipe/recipe.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
+import { IngredientModule } from './domains/ingredient/ingredient.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -66,6 +67,7 @@ import { UserModule } from './domains/user/user.module';
     NutritionalDisclaimerModule,
     FoodGroupModule,
     MachineLogModule,
+    IngredientModule,
   ],
 })
 export class AppModule {}
