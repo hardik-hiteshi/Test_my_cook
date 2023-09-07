@@ -16,6 +16,6 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [LegalHistoryController],
   providers: [LegalHistoryService, LegalHistoryRepository],
-  exports: [LegalHistoryModule],
+  exports: [MongooseModule],
 })
 export class LegalHistoryModule {}
