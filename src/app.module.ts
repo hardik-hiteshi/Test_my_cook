@@ -30,6 +30,7 @@ import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
+import { UserLogModule } from './domains/user-log/user-log.module';
 import { UserModule } from './domains/user/user.module';
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { UserModule } from './domains/user/user.module';
     MachineModelModule,
     RankModule,
     RecipeModule,
+    UserLogModule,
     UserModule,
     CommonModule,
     TipModule,

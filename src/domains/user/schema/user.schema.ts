@@ -14,6 +14,7 @@ import {
   Translations,
 } from './SubSchema/index';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Done } from './SubSchema/dont.subschema';
 import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
@@ -82,6 +83,8 @@ export class User {
   public ebookConditions: OtherConditions;
   @Prop(OtherConditions)
   public contactConditions: OtherConditions;
+  @Prop(Done)
+  public done: Done[];
   @Prop(Translations)
   public translations: Translations;
   @Prop({ default: true, type: Boolean, required: true })

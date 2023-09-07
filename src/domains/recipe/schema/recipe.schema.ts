@@ -101,7 +101,7 @@ export class Recipe {
   @Prop(Grants)
   public grants: Grants;
 
-  @Prop(NutritionalKeys)
+  @Prop({ type: NutritionalKeys, default: {} })
   public nutritional: NutritionalKeys;
 
   @Prop()

@@ -6,98 +6,98 @@ import { IUscale } from './scales/IUscale.subschema';
 import { RAEscale } from './scales/RAEscale.subschema';
 @Schema({ _id: false })
 export class NutritionalKeys {
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Water: GramsScale;
-  @Prop(EnergyScale)
+  @Prop({ type: EnergyScale, default: {} })
   public Energy: EnergyScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Protein: GramsScale;
 
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public LipidTot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Ash: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Carbohydrt: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FiberTD: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public SugarTot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Calcium: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Iron: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Magnesium: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Phosphorus: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Potassium: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Sodium: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Zinc: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Copper: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Manganese: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Selenium: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitC: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Thiamin: GramsScale;
 
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Riboflavin: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Niacin: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public PantoAcid: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitB6: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FolateTot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FolicAcid: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FoodFolate: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FolateDFE: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public CholineTot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitB12: GramsScale;
-  @Prop(IUscale)
+  @Prop({ type: IUscale, default: {} })
   public VitAIU: IUscale;
-  @Prop(RAEscale)
+  @Prop({ type: RAEscale, default: {} })
   public VitARAE: RAEscale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Retinol: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public AlphaCarot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public BetaCarot: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public BetaCrypt: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Lycopene: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public LutplusZea: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitE: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitD: GramsScale;
-  @Prop(IUscale)
+  @Prop({ type: IUscale, default: {} })
   public VitDIU: IUscale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public VitK: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FASat: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FAMono: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public FAPoly: GramsScale;
-  @Prop(GramsScale)
+  @Prop({ type: GramsScale, default: {} })
   public Cholestrl: GramsScale;
 }

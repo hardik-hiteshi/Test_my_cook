@@ -21,6 +21,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { DoneDTO } from './subDto/done.subdto';
 import { Role } from 'src/domains/auth/roles/permission.roles';
 import { Type } from 'class-transformer';
 export class UserUpdateDto {
@@ -162,4 +163,9 @@ export class UserUpdateDto {
   @IsArray()
   @IsString({ each: true })
   public following?: string[];
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => DoneDTO)
+  public done: DoneDTO[];
 }
