@@ -66,8 +66,8 @@ export class User {
   public shopItem: ShopItem;
   @Prop()
   public following: string[];
-  @Prop(Recipe)
-  public recipeList: Recipe;
+  @Prop([Recipe])
+  public recipeList: Recipe[];
   @Prop(MemberConditions)
   public memberConditions: MemberConditions;
   @Prop(CommunityConditions)

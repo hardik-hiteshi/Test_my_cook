@@ -7,6 +7,6 @@ export class CommunityConditions {
   public dateAgreement: Date;
   @Prop()
   public version: string;
-  @Prop(ConditionHistory)
+  @Prop([ConditionHistory])
   public history: ConditionHistory[];
 }
