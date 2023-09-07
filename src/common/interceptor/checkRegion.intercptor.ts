@@ -15,7 +15,7 @@ export class CheckRegionInterceptor implements NestInterceptor {
   ): Promise<Observable<Express.Request>> {
     const req: Request = context.switchToHttp().getRequest();
 
-    if (req.path == '/login') {
+    if (req.path == '/login' || req.path.split('/').includes('region')) {
       return next.handle();
     }
     if (!req.headers.region) {

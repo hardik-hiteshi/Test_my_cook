@@ -28,6 +28,7 @@ import { PictosModule } from './domains/pictos/pictos.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
+import { RegionModule } from './domains/region/region.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
 import { UserModule } from './domains/user/user.module';
@@ -66,6 +67,7 @@ import { UserModule } from './domains/user/user.module';
     NutritionalDisclaimerModule,
     FoodGroupModule,
     MachineLogModule,
+    RegionModule,
   ],
 })
 export class AppModule {}

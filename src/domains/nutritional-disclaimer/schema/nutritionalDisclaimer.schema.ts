@@ -1,7 +1,7 @@
 import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { NutritionalDisclaimerTranslations } from './subschema/translations/NutritionalDisclaimerTranslations.subschema';
-import { NutritionalLegend } from './subschema/NutritionalLegend.subschema';
+import { NutritionalLegend } from './subschema/nutritionalLegend.subschema';
 import regions from '../../../common/elements/regions';
 
 export type NutritionalDisclaimerDocument =
