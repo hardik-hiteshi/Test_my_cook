@@ -12,6 +12,7 @@ import { EbookModule } from './domains/ebook/ebook.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
 import { FoodGroupModule } from './domains/food-group/food-group.module';
+import { IngredientModule } from './domains/ingredient/ingredient.module';
 import { LegalHistoryModule } from './domains/legal-history/legal-history.module';
 import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
 import { LegalTermsModule } from './domains/legal-terms/legal-terms.module';
@@ -31,6 +32,7 @@ import { RecipeModule } from './domains/recipe/recipe.module';
 import { RegionModule } from './domains/region/region.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
 import { TipModule } from './domains/tip/tip.module';
+import { UserLogModule } from './domains/user-log/user-log.module';
 import { UserModule } from './domains/user/user.module';
 @Module({
   imports: [
@@ -46,6 +48,7 @@ import { UserModule } from './domains/user/user.module';
     MachineModelModule,
     RankModule,
     RecipeModule,
+    UserLogModule,
     UserModule,
     CommonModule,
     TipModule,
@@ -68,6 +71,7 @@ import { UserModule } from './domains/user/user.module';
     FoodGroupModule,
     MachineLogModule,
     RegionModule,
+    IngredientModule,
   ],
 })
 export class AppModule {}

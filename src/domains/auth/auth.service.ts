@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import mongoose from 'mongoose';
 import { SignInUserDto } from './dtos';
+import { UserLogService } from '../user-log/user-log.service';
 import { UserRepository } from '../user/repository/user.repository';
 
 @Injectable()
@@ -12,6 +13,7 @@ export class AuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     private userRepo: UserRepository,
+    private ulServices: UserLogService,
   ) {}
 
   public async signIn(body: SignInUserDto): Promise<object> {

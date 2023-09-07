@@ -53,7 +53,7 @@ export class AdvertisementController {
       niceName,
     );
   }
-  @Get('fetchall')
+  @Get()
   public async fetchAdvertisements(
     @Headers('region') region: string,
     @Query('search') search: string,
