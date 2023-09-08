@@ -16,11 +16,40 @@ export class AuthService {
     private ulServices: UserLogService,
   ) {}
 
-  public async signIn(body: SignInUserDto): Promise<object> {
+  public async signIn(
+    body: SignInUserDto,
+    agent: string,
+    region: string,
+    ip?: string,
+    redirect?: string,
+    forwarded?: string,
+    date?: Date,
+    rate?: number,
+    commentId?: string,
+    legalType?: string,
+    type?: string,
+  ): Promise<object> {
     const user = await this.userRepo.findOne({
       /* eslint-disable @typescript-eslint/naming-convention */
       'contact.mail': body.mail,
     });
+    // console.log(ip);
+
+    await this.ulServices.createIncomingUserLog(
+      user,
+      agent,
+      region,
+      ip,
+      redirect,
+      forwarded,
+      date,
+      rate,
+      commentId,
+      legalType,
+      type,
+    );
+    // await this.ulServices.createIncomingUserLog()
+
     if (!user) throw new BadRequestException('invalid user or password');
 
     const pwMatched = await bcrypt.compare(body.password, user.password);
