@@ -3,7 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateRegionDTO } from './dto/createDTO/createregion.dto';
+import { ContextFields } from './schema/subSchema/contextFields.subSchema';
+import { CreateManyRegionDto } from './dto/createManyRegion/createManyRegion.dto';
+import { CreateRegionDTO } from './dto/createDTO/createRegion.dto';
 import { RegionDocument } from './schema/region.schema';
 import { RegionRepository } from './repository/region.repository';
 import { UpdateRegionDTO } from './dto/updateDTO/updateregion.dto';
@@ -49,5 +51,64 @@ export class RegionService {
   public async deleteOne(niceName: string): Promise<void> {
     const regionData = await this.regionRepo.deleteOne(niceName);
     if (!regionData) throw new NotFoundException(this.regionNotFound);
+  }
+
+  public async findOneAdminUser(niceName: string): Promise<RegionDocument> {
+    const regionData = await this.regionRepo.findOneAdminUser(niceName);
+    if (!regionData) throw new NotFoundException(this.regionNotFound);
+
+    return regionData;
+  }
+
+  public async findOneContextFields(niceName: string): Promise<RegionDocument> {
+    const regionData = await this.regionRepo.findOneContextFields(niceName);
+    if (!regionData) throw new NotFoundException(this.regionNotFound);
+
+    return regionData;
+  }
+
+  public async findOneContextFieldsByIndex(
+    niceName: string,
+    index: number,
+  ): Promise<ContextFields> {
+    const regionData = await this.regionRepo.findOneContextFieldsByIndex(
+      niceName,
+      index,
+    );
+    if (!regionData) throw new NotFoundException(this.regionNotFound);
+
+    return regionData;
+  }
+
+  public async createMany(body: CreateManyRegionDto): Promise<{
+    insertedDocuments: RegionDocument[];
+    skippedDocuments: RegionDocument[];
+  }> {
+    const insertedDocuments: RegionDocument[] = [];
+    const skippedDocuments: RegionDocument[] = [];
+
+    for (const doc of body.data) {
+      const regionData = await this.regionRepo.findOne(doc.niceName);
+      if (regionData) {
+        skippedDocuments.push(regionData);
+      } else {
+        const result = await this.regionRepo.createOne(doc);
+
+        insertedDocuments.push(result);
+      }
+    }
+    const finalData = {
+      insertedDocuments,
+      skippedDocuments,
+    };
+
+    return finalData;
+  }
+
+  public async findAllAdminUser(niceName: string): Promise<RegionDocument> {
+    const regionData = await this.regionRepo.findAllAdminUser(niceName);
+    if (!regionData) throw new NotFoundException(this.regionNotFound);
+
+    return regionData;
   }
 }

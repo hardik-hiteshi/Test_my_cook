@@ -1,4 +1,5 @@
 import {
+  IsIn,
   IsMongoId,
   IsNotEmpty,
   IsOptional,
@@ -6,12 +7,14 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ContextFieldsDTO } from './subDTO/contextFields.DTO';
+import regions from 'src/common/enum/region.enum';
 import { Schema } from 'mongoose';
 import { Type } from 'class-transformer';
 
 export class CreateRegionDTO {
   @IsString()
   @IsNotEmpty()
+  @IsIn(regions)
   public niceName: string;
 
   @IsString()
