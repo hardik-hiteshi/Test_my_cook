@@ -7,30 +7,30 @@ export type UserLogDocument = HydratedDocument<UserLog>;
 @Schema()
 export class UserLog {
   @Prop({ ref: 'User' })
-  public user: string;
+  public user?: string;
   @Prop()
-  public agent: string;
+  public agent?: string;
   @Prop({})
-  public type: string;
+  public type?: string;
   //  {
   //   type: String,
   //   map: require("./../elements/logtypes.json"),
   //   readonly: true,
   // }
   @Prop()
-  public legalType: string;
+  public legalType?: string;
   @Prop()
-  public niceName: string;
+  public niceName?: string;
   @Prop()
-  public ip: string;
+  public ip?: string;
   @Prop()
-  public machine: string;
+  public machine?: string;
   @Prop()
-  public date: Date;
+  public date?: Date;
   @Prop()
-  public rate: number;
+  public rate?: number;
   @Prop()
-  public commentId: string;
+  public commentId?: string;
   @Prop({ required: true, enum: regions })
   public region: string;
 }

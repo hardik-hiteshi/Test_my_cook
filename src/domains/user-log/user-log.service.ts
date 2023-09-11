@@ -1,9 +1,12 @@
+/* eslint-disable prettier/prettier */
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserLogDTO } from './dtos/createUserlog.dto';
+import moment from 'moment';
+import { UserDocument } from '../user/schema/user.schema';
 import { UserLogDocument } from './schema/user-log.schema';
 import { UserLogRepository } from './repository/UserLog.repository';
 
@@ -13,11 +16,105 @@ export class UserLogService {
   public notfound = 'UserLog not found';
   public constructor(public ulRepo: UserLogRepository) {}
 
+  public async createIncomingUserLog(
+    user: UserDocument,
+    agent: string,
+    region: string,
+    ip?: string,
+    redirect?: string,
+    forwarded?: string,
+    date?: Date,
+    rate?: number,
+    commentId?: string,
+    legalType?: string,
+    type?: string,
+  ): Promise<object> {
+    const incomingLogObj = {};
+    incomingLogObj['user'] = 'anonymous';
+    if (user) {
+      incomingLogObj['user'] = user._id;
+    }
+    if (ip) {
+      incomingLogObj['ip'] = ip;
+    }
+    if (redirect) {
+      incomingLogObj['ip'] = redirect;
+    }
+    if (forwarded) {
+      incomingLogObj['ip'] = forwarded;
+    }
+    if (ip) {
+      incomingLogObj['ip'] = ip;
+    }
+    if (user.role == 'machine') {
+      incomingLogObj['machine'] = user.role;
+    }
+    if (!date) {
+      incomingLogObj['date'] = new Date();
+    }
+    if (rate) {
+      incomingLogObj['rate'] = rate;
+    }
+    if (commentId) {
+      incomingLogObj['commentId'] = commentId;
+    }
+    if (legalType) {
+      incomingLogObj['legalType'] = legalType;
+    }
+    if (type) {
+      incomingLogObj['type'] = type;
+    }
+    incomingLogObj['date'] = new Date(date);
+    incomingLogObj['region'] = region;
+    incomingLogObj['agent'] = agent;
+    incomingLogObj['machine'] = undefined;
+    // console.log(incomingLogObj);
+    if (incomingLogObj[type] == 'recipe/cooked') {
+      let flag = false;
+      const recipe = await this.ulRepo.checkRepeatedRecipeCooked(
+        incomingLogObj,
+      );
+      let seconds = 0;
+      if (recipe) {
+        seconds = recipe.groups
+          ? recipe.groups.reduce(
+            (acum, group) =>
+              group.steps
+                ? acum +
+                    group.steps.reduce(
+                      (stepAcum, step) => stepAcum + step.cookTime,
+                      0,
+                    )
+                : acum,
+            0,
+          )
+          : 0;
+        const minimumTime = seconds
+          ? parseInt(String(seconds + seconds / 2))
+          : 5400; // Hora y media de default /;
+        const mom = moment(incomingLogObj['date']).subtract(
+          minimumTime,
+          'seconds',
+        );
+        incomingLogObj['date'] = { $gte: mom.toDate() };
+        const query = { $gte: mom.toDate() };
+        const log = await this.ulRepo.findquery(query);
+        flag = log ? true : false;
+        if (!flag) {
+          const newUserLog = await this.ulRepo.createnewlog(incomingLogObj);
+
+          return newUserLog;
+        }
+        if (!incomingLogObj['type']) {
+        }
+      }
+    }
+  }
+
   public async createUserLog(
     region: string,
     body: CreateUserLogDTO,
   ): Promise<UserLogDocument> {
-    // return await this.ulRepo.createUserLog(region, body);
     const userLog = await this.ulRepo.findOne(region, body);
     if (!userLog) {
       const userLog = await this.ulRepo.create(region, body);

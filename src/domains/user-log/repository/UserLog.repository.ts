@@ -1,3 +1,7 @@
+import {
+  Recipe,
+  RecipeDocument,
+} from 'src/domains/recipe/schema/recipe.schema';
 import { UserLog, UserLogDocument } from '../schema/user-log.schema';
 import { CreateUserLogDTO } from '../dtos/createUserlog.dto';
 import { Injectable } from '@nestjs/common';
@@ -8,7 +12,31 @@ import { Model } from 'mongoose';
 export class UserLogRepository {
   public constructor(
     @InjectModel(UserLog.name) public ulModel: Model<UserLog>,
+    @InjectModel(Recipe.name) public recipeModel: Model<Recipe>,
   ) {}
+
+  public async createnewlog(
+    incomingLogObj: Partial<UserLogDocument>,
+  ): Promise<UserLogDocument> {
+    const userlog = await this.ulModel.create(incomingLogObj);
+
+    return userlog;
+  }
+  public async checkRepeatedRecipeCooked(
+    incomingLogObj: Partial<UserLogDocument>,
+  ): Promise<RecipeDocument> {
+    const recipe = await this.recipeModel.findOne({
+      region: incomingLogObj.region,
+      niceName: incomingLogObj.niceName,
+    });
+
+    return recipe;
+  }
+  public async findquery(query: unknown): Promise<UserLogDocument> {
+    const userlog = await this.ulModel.findOne(query);
+
+    return userlog;
+  }
 
   public async findOne(
     region: string,
