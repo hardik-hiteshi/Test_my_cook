@@ -112,6 +112,7 @@ export class UserLogService {
       }
     }
 
+
     return incomingLogObj;
   }
 
