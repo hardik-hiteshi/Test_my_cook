@@ -3,15 +3,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateDietDto, UpdateDietDto } from './dtos';
+import { CreateDietDto, CreateManyDietDto, UpdateDietDto } from './dtos';
 import { DietDocument } from './schema/diets.schema';
 import { DietsRepository } from './repository/diets.repository';
+import { DietTo } from './schema/subSchema/dietTo.subSchema';
 
 @Injectable()
 export class DietsService {
-  public dietAlreadyExist = 'diet already exist';
-  public dietNotFound = 'diet not found';
-
+  private dietAlreadyExist = 'diet already exist';
+  private dietNotFound = 'diet not found';
+  private tagsNotFound = 'tags not found';
+  private translationNotFound = 'translation not found';
   public constructor(private dietRepo: DietsRepository) {}
 
   public async createOne(
@@ -49,7 +51,7 @@ export class DietsService {
   }
 
   public async findAll(region: string): Promise<DietDocument[]> {
-    const diet = await this.dietRepo.findAll(region);
+    const diet = await this.dietRepo.findAll({ region });
 
     if (diet.length <= 0) throw new NotFoundException(this.dietNotFound);
 
@@ -59,5 +61,97 @@ export class DietsService {
   public async deleteOne(niceName: string, region: string): Promise<void> {
     const diet = await this.dietRepo.deleteOne(niceName, region);
     if (!diet) throw new NotFoundException(this.dietNotFound);
+  }
+
+  public async findTags(
+    niceName: string,
+    region,
+  ): Promise<DietDocument['tags']> {
+    const tags = await this.dietRepo.findTags(niceName, region);
+    if (tags.length <= 0) throw new NotFoundException(this.tagsNotFound);
+
+    return tags;
+  }
+
+  public async findOneTag(
+    niceName: string,
+    index: number,
+    region: string,
+  ): Promise<string> {
+    const tags = await this.dietRepo.findOneTag(niceName, index, region);
+    if (!tags) throw new NotFoundException(this.tagsNotFound);
+
+    return tags;
+  }
+
+  public async findOneTranslation(
+    niceName: string,
+    index: number,
+    region: string,
+  ): Promise<DietTo> {
+    const translation = await this.dietRepo.findOneTranslation(
+      niceName,
+      index,
+      region,
+    );
+
+    if (!translation) throw new NotFoundException(this.translationNotFound);
+
+    return translation;
+  }
+
+  public async findTranslation(
+    niceName: string,
+    region: string,
+  ): Promise<DietTo[]> {
+    const translation = await this.dietRepo.findTranslation(niceName, region);
+
+    if (!translation) throw new NotFoundException(this.translationNotFound);
+
+    return translation;
+  }
+  public async findDistinctNiceName(region: string): Promise<string[]> {
+    const niceName = await this.dietRepo.findDistinctNiceName(region);
+
+    if (!niceName) throw new NotFoundException('not found');
+
+    return niceName;
+  }
+
+  public async createManyDiet(
+    body: CreateManyDietDto,
+  ): Promise<DietDocument[]> {
+    const data = body.data.map((i) => i.niceName);
+    const existingItems = await this.dietRepo.findAll({
+      niceName: { $in: data },
+    });
+
+    const existingItemSerial = existingItems.map((item) => [
+      item.niceName,
+      item.region,
+    ]);
+
+    const itemsToInsert = body.data.filter(
+      (item) =>
+        !existingItemSerial.some(
+          (i) => i[0] == item.niceName && i[1] == item.region,
+        ),
+    );
+
+    if (itemsToInsert.length === 0) {
+      throw new BadRequestException('All items already exist');
+    }
+
+    return await this.dietRepo.createManyDiet(itemsToInsert);
+  }
+
+  public async deleteImage(region: string, niceName: string): Promise<void> {
+    const diet = await this.dietRepo.findOne(niceName, region);
+
+    if (!diet) throw new NotFoundException(this.dietNotFound);
+
+    diet.image = [];
+
+    await diet.save();
   }
 }

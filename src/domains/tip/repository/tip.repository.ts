@@ -42,4 +42,19 @@ export class TipRepository {
   ): Promise<TipDocument> {
     return await this.tipModel.create({ ...body, region });
   }
+  public async getTipCount(region: string): Promise<number> {
+    return await this.tipModel.count({ region }).lean().exec();
+  }
+
+  public async findRandomTip(
+    region: string,
+    max: number,
+  ): Promise<TipDocument> {
+    const data = await this.tipModel
+      .findOne({ region }, { _id: 0, text: 1 })
+      .skip(Math.floor(Math.random() * (max - 1)))
+      .exec();
+
+    return data;
+  }
 }

@@ -8,7 +8,7 @@ export class DietTranslations {
   public from: DietFrom;
 
   @Prop([DietTo])
-  public to: DietTo;
+  public to: DietTo[];
 
   @Prop()
   public preserve: boolean;
