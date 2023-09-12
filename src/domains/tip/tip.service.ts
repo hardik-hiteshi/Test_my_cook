@@ -44,4 +44,16 @@ export class TipService {
 
     return tip;
   }
+
+  public async findRandomTip(region: string): Promise<TipDocument> {
+    const max = await this.tipRepo.getTipCount(region);
+
+    if (!max) throw new NotFoundException('tip not found');
+
+    const tip = await this.tipRepo.findRandomTip(region, max);
+
+    if (!tip) throw new NotFoundException('tip not found');
+
+    return tip;
+  }
 }

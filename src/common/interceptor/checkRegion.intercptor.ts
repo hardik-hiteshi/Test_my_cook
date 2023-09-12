@@ -15,11 +15,11 @@ export class CheckRegionInterceptor implements NestInterceptor {
   ): Promise<Observable<Express.Request>> {
     const req: Request = context.switchToHttp().getRequest();
 
-    if (
-      req.path == '/login' ||
-      req.path.split('/').includes('region') ||
-      req.path.split('/').includes('regions')
-    ) {
+    // req.path == '/login' ||
+    // req.path.split('/').includes('region') ||
+    // req.path.split('/').includes('regions')
+
+    if (allowedRegion(req.path, 'login', 'region', 'regions', 'image')) {
       return next.handle();
     }
     if (!req.headers.region) {
@@ -28,4 +28,8 @@ export class CheckRegionInterceptor implements NestInterceptor {
 
     return next.handle();
   }
+}
+
+function allowedRegion(path: string, ...arr: string[]): boolean {
+  return arr.some((a) => path.indexOf(a) !== -1);
 }
