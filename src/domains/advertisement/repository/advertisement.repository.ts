@@ -111,4 +111,37 @@ export class AdvertisementRepository {
 
     return advertisementList;
   }
+
+  public async countDocs(obj: object): Promise<number> {
+    const docCount = await this.advertisementModel.countDocuments(obj);
+
+    return docCount;
+  }
+
+  public async fetchbyCatAdvertisement(
+    where: object,
+    optionalParam: object,
+  ): Promise<AdvertisementDocument> {
+    const adbyCat = await this.advertisementModel.findOne(where, optionalParam);
+
+    return adbyCat;
+  }
+
+  public async incrementView(wUpdate: object): Promise<AdvertisementDocument> {
+    const add = await this.advertisementModel.findOneAndUpdate(wUpdate, {
+      $inc: { views: 1 },
+    });
+
+    return add;
+  }
+
+  public async incrementclick(where: object): Promise<AdvertisementDocument> {
+    const incClick = await this.advertisementModel.findOneAndUpdate(
+      where,
+      { $inc: { clicks: 1 } },
+      { new: true },
+    );
+
+    return incClick;
+  }
 }
