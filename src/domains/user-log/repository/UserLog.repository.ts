@@ -2,6 +2,7 @@ import {
   Recipe,
   RecipeDocument,
 } from 'src/domains/recipe/schema/recipe.schema';
+import { User, UserDocument } from 'src/domains/user/schema/user.schema';
 import { UserLog, UserLogDocument } from '../schema/user-log.schema';
 import { CreateUserLogDTO } from '../dtos/createUserlog.dto';
 import { Injectable } from '@nestjs/common';
@@ -13,6 +14,7 @@ export class UserLogRepository {
   public constructor(
     @InjectModel(UserLog.name) public ulModel: Model<UserLog>,
     @InjectModel(Recipe.name) public recipeModel: Model<Recipe>,
+    @InjectModel(User.name) public userModel: Model<User>,
   ) {}
 
   public async createnewlog(
@@ -92,5 +94,14 @@ export class UserLogRepository {
     );
 
     return deletedUserLog;
+  }
+
+  public async findUserandUpdate(
+    query: object,
+    body: object,
+  ): Promise<UserDocument> {
+    const user = await this.userModel.findOneAndUpdate(query, { $set: body });
+
+    return user;
   }
 }
