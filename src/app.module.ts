@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
 import { AliasModule } from './domains/alias/alias.module';
 import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
@@ -31,11 +32,16 @@ import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { RegionModule } from './domains/region/region.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { TipModule } from './domains/tip/tip.module';
 import { UserLogModule } from './domains/user-log/user-log.module';
 import { UserModule } from './domains/user/user.module';
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '../uploads'),
+      serveRoot: '/image', // Specify the route prefix for serving static files
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI),
     AdvertisementModule,
