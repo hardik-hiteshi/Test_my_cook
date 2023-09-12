@@ -17,6 +17,7 @@ import { UpdateAdvertisementDTO } from './dto/updateadvertisement.dto';
 @Controller('Advertisement')
 export class AdvertisementController {
   public constructor(public adverstimentServices: AdvertisementService) {}
+
   @Get(':niceName')
   public async fetchAdvertisement(
     @Headers('region') region: string,
@@ -24,6 +25,7 @@ export class AdvertisementController {
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.fetchAdvertisement(region, niceName);
   }
+
   @Post('')
   public async createAdvertisement(
     @Headers('region') region: string,
@@ -31,6 +33,7 @@ export class AdvertisementController {
   ): Promise<AdvertisementDocument> {
     return await this.adverstimentServices.createAdvertisement(region, body);
   }
+
   @Patch(':niceName')
   public async updateAdvertisement(
     @Headers('region') region: string,
@@ -43,6 +46,7 @@ export class AdvertisementController {
       body,
     );
   }
+
   @Delete(':niceName')
   public async deleteAdvertisement(
     @Headers('region') region: string,
@@ -53,11 +57,31 @@ export class AdvertisementController {
       niceName,
     );
   }
+
   @Get()
   public async fetchAdvertisements(
     @Headers('region') region: string,
     @Query('search') search: string,
   ): Promise<AdvertisementDocument[]> {
     return await this.adverstimentServices.fetchAdvertisements(region, search);
+  }
+
+  @Get('/cat/:category')
+  public async fetchrandomAdvertisement(
+    @Headers('region') region: string,
+    @Param('category') category: string,
+  ): Promise<AdvertisementDocument> {
+    return await this.adverstimentServices.fetchrandomAdvertisement(
+      region,
+      category,
+    );
+  }
+
+  @Patch('/click/:niceName')
+  public async addClick(
+    @Headers('region') region: string,
+    @Param('niceName') niceName: string,
+  ): Promise<AdvertisementDocument> {
+    return await this.adverstimentServices.addClick(region, niceName);
   }
 }

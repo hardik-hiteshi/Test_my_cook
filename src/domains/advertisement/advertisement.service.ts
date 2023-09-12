@@ -5,12 +5,16 @@ import {
 } from '@nestjs/common';
 import { AdvertisementDocument } from './schemas/advertisement.schema';
 import { AdvertisementRepository } from './repository/advertisement.repository';
+import { CategoryRepository } from '../category/repository/category.repository';
 import { CreateAdvertisementDTO } from './dto/createadvertisement.dto';
 import { UpdateAdvertisementDTO } from './dto/updateadvertisement.dto';
 
 @Injectable()
 export class AdvertisementService {
-  public constructor(public adRepo: AdvertisementRepository) {}
+  public constructor(
+    public adRepo: AdvertisementRepository,
+    public categoryRepo: CategoryRepository,
+  ) {}
 
   public async createAdvertisement(
     region: string,
@@ -70,6 +74,7 @@ export class AdvertisementService {
 
     return deletedAdvertisement;
   }
+
   public async fetchAdvertisements(
     region: string,
     search: string,
@@ -82,5 +87,59 @@ export class AdvertisementService {
       return advertisementList;
     }
     throw new NotFoundException('No Advertisements found.');
+  }
+
+  public async fetchrandomAdvertisement(
+    region: string,
+    category: string,
+  ): Promise<AdvertisementDocument> {
+    const niceName = category;
+    const cat = await this.categoryRepo.fetchCategory(region, niceName);
+    const where = {};
+    where['category'] = cat._id;
+    where['region'] = region;
+
+    if (!cat) {
+      throw new NotFoundException(`Category ${category} not found.`);
+    }
+    const count = await this.adRepo.countDocs(where);
+    const skipped = Math.floor(Math.random() * count) + 0;
+    const optionalParam = { skip: skipped };
+    const ad = await this.adRepo.fetchbyCatAdvertisement(where, optionalParam);
+    if (!ad) {
+      throw new NotFoundException(
+        `Advertisement with ${category} in ${region} not found`,
+      );
+    }
+    const wUpdate = {};
+    wUpdate['_id'] = ad._id;
+    wUpdate['region'] = region;
+    const add = await this.adRepo.incrementView(wUpdate);
+    // const copy = JSON.parse(JSON.stringify(add));
+    // console.log(copy)
+
+    return add;
+  }
+
+  public async addClick(
+    region: string,
+    niceName: string,
+  ): Promise<AdvertisementDocument> {
+    const date = parseInt(niceName);
+
+    if (isNaN(date) || date < 0) {
+      throw new BadRequestException('Invalid niceName');
+    } else {
+      const where = {};
+      where['niceName'] = date.toString();
+      where['region'] = region;
+
+      const incrementedClick = await this.adRepo.incrementclick(where);
+      if (!incrementedClick) {
+        throw new NotFoundException();
+      }
+
+      return incrementedClick;
+    }
   }
 }
