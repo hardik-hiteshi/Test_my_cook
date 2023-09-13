@@ -80,7 +80,7 @@ export class Recipe {
   @Prop()
   public videos: string[];
 
-  @Prop()
+  @Prop([Group])
   public groups: Group[];
 
   @Prop([String])

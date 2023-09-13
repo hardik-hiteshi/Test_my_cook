@@ -11,6 +11,6 @@ import { RecipeService } from './recipe.service';
   ],
   controllers: [RecipeController],
   providers: [RecipeService, RecipeRepository],
-  exports: [MongooseModule],
+  exports: [MongooseModule, RecipeRepository],
 })
 export class RecipeModule {}

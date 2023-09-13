@@ -1,5 +1,6 @@
 import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Steps } from './subSchema/steps.subSchema';
 
 export type NotesDocument = HydratedDocument<Notes>;
 
@@ -24,8 +25,8 @@ export class Notes {
   @Prop({ required: true })
   public region: string;
 
-  @Prop({ required: true })
-  public steps: mongooseSchema.Types.Mixed;
+  @Prop({ default: {}, required: true })
+  public steps: Steps;
 
   @Prop({ default: true })
   public isActive: boolean;

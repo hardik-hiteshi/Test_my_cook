@@ -1,15 +1,18 @@
+import { Model, Types } from 'mongoose';
 import { Notes, NotesDocument } from '../schema/notes.schema';
 import { CreateNotesDTO } from '../dto/notes.create.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { UpdateNotesDTO } from '../dto/notes.update.dto';
+import { User } from 'src/domains/user/schema/user.schema';
 import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class NotesRepository {
   public constructor(
     @InjectModel(Notes.name) public notesModel: Model<Notes>,
+    // @InjectModel(Recipe.name) public recipeModel: Model<Recipe>,
+    @InjectModel(User.name) public userModel: Model<User>,
   ) {}
 
   public async findOne(
@@ -24,6 +27,7 @@ export class NotesRepository {
 
     return notes;
   }
+
   public async createNote(
     region: string,
     body: CreateNotesDTO,
@@ -82,5 +86,40 @@ export class NotesRepository {
     const notesList = await this.notesModel.find({ region, isActive: true });
 
     return notesList;
+  }
+
+  public async fetchNoteRecipe(
+    region: string,
+    recipe: string,
+  ): Promise<NotesDocument> {
+    const notes = (await this.notesModel
+      .find({
+        region,
+        isActive: true,
+      })
+      .populate('recipe niceName -_id')) as Array<
+      NotesDocument & {
+        recipe: { niceName: string };
+      }
+    >;
+
+    const result = notes.find((note) => note?.recipe?.niceName === recipe);
+
+    return result;
+  }
+
+  public async fetchRecipeNotesRecipe(
+    user: Types.ObjectId,
+    region: string,
+    recipe: Types.ObjectId,
+  ): Promise<NotesDocument> {
+    const notes = await this.notesModel.findOne({
+      region,
+      user,
+      recipe,
+      isActive: true,
+    });
+
+    return notes;
   }
 }
