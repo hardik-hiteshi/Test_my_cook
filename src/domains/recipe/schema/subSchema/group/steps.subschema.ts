@@ -3,7 +3,8 @@ import { Ingredient } from './ingredients.subschema';
 import stepFunction from '../enums/stepfunction.enum';
 import stepType from '../enums/steptype.enum';
 
-@Schema({ _id: false })
+// @Schema({ _id: false })
+@Schema()
 export class Steps {
   @Prop()
   public description: string;

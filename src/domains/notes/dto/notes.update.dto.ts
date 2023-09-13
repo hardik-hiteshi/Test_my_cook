@@ -10,5 +10,5 @@ export class UpdateNotesDTO {
   public recipe: Schema.Types.ObjectId;
   @IsNotEmpty()
   @IsObject()
-  public steps: Schema.Types.Mixed;
+  public steps: { [key: string]: object };
 }

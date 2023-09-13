@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreatePictosDto, UpdatePictosDto } from './dtos';
+import { CreateManyPictostDto, CreatePictosDto, UpdatePictosDto } from './dtos';
 import { PictosDocument } from './schema/pictos.schema';
 import { PictosRepository } from './repository/pictos.repository';
 
@@ -45,7 +45,7 @@ export class PictosService {
   }
 
   public async findAll(region: string): Promise<PictosDocument[]> {
-    const pictos = await this.pictosRepo.findAll(region);
+    const pictos = await this.pictosRepo.findAllByRegion(region);
 
     if (pictos.length <= 0) throw new NotFoundException(this.pictosNotFound);
 
@@ -74,5 +74,56 @@ export class PictosService {
     if (!pictos) throw new NotFoundException(this.pictosNotFound);
 
     return pictos;
+  }
+
+  public async createMany(
+    body: CreateManyPictostDto,
+  ): Promise<PictosDocument[]> {
+    let existingItemSerial: string[][];
+    let itemsToInsert: CreatePictosDto[];
+    const data = body.data.map((i) => i.niceName);
+    const existingItems = await this.pictosRepo.findAll({
+      niceName: { $in: data },
+      isDeleted: false,
+    });
+
+    if (existingItems.length > 0) {
+      existingItemSerial = existingItems.map((item) => [
+        item.niceName,
+        item.region,
+      ]);
+
+      itemsToInsert = body.data.filter(
+        (item) =>
+          !existingItemSerial.some(
+            (i) => i[0] == item.niceName && i[1] == item.region,
+          ),
+      );
+    } else {
+      itemsToInsert = body.data;
+    }
+
+    if (itemsToInsert.length === 0) {
+      throw new BadRequestException('All items already exist');
+    }
+
+    return await this.pictosRepo.createMany(itemsToInsert);
+  }
+  public async deleteImage(region: string, niceName: string): Promise<void> {
+    const pictos = await this.pictosRepo.findOne({ region, niceName });
+
+    if (!pictos) throw new NotFoundException(this.pictosNotFound);
+
+    pictos.image = [];
+
+    await pictos.save();
+  }
+
+  public async findDistinctNiceName(region: string): Promise<string[]> {
+    const niceName = await this.pictosRepo.findDistinctNiceName(region);
+
+    if (!niceName) throw new NotFoundException('not found');
+
+    return niceName;
   }
 }
