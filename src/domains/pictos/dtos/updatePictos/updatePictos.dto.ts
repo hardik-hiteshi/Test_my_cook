@@ -1,7 +1,7 @@
-import { IsNotEmpty } from 'class-validator';
-import { Schema } from 'mongoose';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UpdatePictosDto {
   @IsNotEmpty()
-  public image: Schema.Types.Mixed;
+  @IsString({ each: true })
+  public image: string[];
 }

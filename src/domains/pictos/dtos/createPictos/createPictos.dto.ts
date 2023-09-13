@@ -1,5 +1,4 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Schema } from 'mongoose';
 
 export class CreatePictosDto {
   @IsString()
@@ -7,5 +6,6 @@ export class CreatePictosDto {
   public niceName: string;
 
   @IsNotEmpty()
-  public image: Schema.Types.Mixed;
+  @IsString({ each: true })
+  public image: string[];
 }

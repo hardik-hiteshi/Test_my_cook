@@ -19,7 +19,7 @@ export class ValidateRegionInterceptor implements NestInterceptor {
     }
     const req = context.switchToHttp().getRequest();
 
-    if (allowedRegion(req.path, 'login', 'region', 'regions', 'image')) {
+    if (allowedRegion(req.path, 'login', 'region', 'regions')) {
       return next.handle();
     }
     if (!this.isRegionValid(req.headers.region)) {
