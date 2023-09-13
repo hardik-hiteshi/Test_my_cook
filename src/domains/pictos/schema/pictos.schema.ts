@@ -1,5 +1,5 @@
-import { HydratedDocument, Schema as mongoSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 import regions from 'src/common/enum/region.enum';
 
 export type PictosDocument = HydratedDocument<Pictos>;
@@ -9,8 +9,8 @@ export class Pictos {
   @Prop({ required: true })
   public niceName: string;
 
-  @Prop({ type: mongoSchema.Types.Mixed })
-  public image: mongoSchema.Types.Mixed;
+  @Prop([String])
+  public image: string[];
 
   @Prop({ enum: regions, required: true })
   public region: string;
