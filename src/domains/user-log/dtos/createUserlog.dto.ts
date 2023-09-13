@@ -1,5 +1,11 @@
-import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
-
+import {
+  IsDateString,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import logtypes from 'src/common/elements/logtypes';
 export class CreateUserLogDTO {
   @IsOptional()
   @IsString()
@@ -9,6 +15,7 @@ export class CreateUserLogDTO {
   public agent: string;
   @IsOptional()
   @IsString()
+  @IsEnum(logtypes)
   public type: string;
   //  {
   //   type: String,

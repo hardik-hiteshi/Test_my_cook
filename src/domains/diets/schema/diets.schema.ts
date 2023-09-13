@@ -17,8 +17,8 @@ export class Diet {
   @Prop()
   public name: string;
 
-  @Prop({ type: mongoSchema.Types.Mixed })
-  public image: mongoSchema.Types.Mixed;
+  @Prop([String])
+  public image: string[];
 
   @Prop([{ type: mongoSchema.Types.Mixed, ref: 'FoodGroup' }])
   public foodGroups: mongoSchema.Types.Mixed[];

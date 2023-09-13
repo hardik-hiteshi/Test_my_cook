@@ -19,11 +19,7 @@ export class ValidateRegionInterceptor implements NestInterceptor {
     }
     const req = context.switchToHttp().getRequest();
 
-    if (
-      req.path == '/login' ||
-      req.path.split('/').includes('region') ||
-      req.path.split('/').includes('regions')
-    ) {
+    if (allowedRegion(req.path, 'login', 'region', 'regions', 'image')) {
       return next.handle();
     }
     if (!this.isRegionValid(req.headers.region)) {
@@ -41,4 +37,7 @@ export class ValidateRegionInterceptor implements NestInterceptor {
   private isRegionValid(region: string): boolean {
     return this.allowedRegions.includes(region);
   }
+}
+function allowedRegion(path: string, ...arr: string[]): boolean {
+  return arr.some((a) => path.indexOf(a) !== -1);
 }

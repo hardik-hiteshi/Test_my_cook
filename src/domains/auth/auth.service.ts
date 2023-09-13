@@ -61,6 +61,9 @@ export class AuthService {
       displayName: user.name.displayName,
       email: user.contact.mail,
       role: user.role,
+      rank: user.rank,
+      // eslint-disable-next-line object-shorthand
+      ip: ip,
       allowedRegions: user.allowedRegions,
       token,
     };

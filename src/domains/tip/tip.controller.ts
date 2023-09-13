@@ -28,6 +28,13 @@ export class TipController {
   ): Promise<TipDocument[]> {
     return await this.tipService.findAll(region, search);
   }
+
+  @Get('random')
+  public async getRandomTip(
+    @Headers('region') region: string,
+  ): Promise<TipDocument> {
+    return await this.tipService.findRandomTip(region);
+  }
   @Get(':id')
   public async getTip(
     @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,

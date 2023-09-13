@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable prettier/prettier */
 import {
   BadRequestException,
@@ -6,15 +7,19 @@ import {
 } from '@nestjs/common';
 import { CreateUserLogDTO } from './dtos/createUserlog.dto';
 import moment from 'moment';
+import { RecipeRepository } from '../recipe/repository/recipe.repository';
 import { UserDocument } from '../user/schema/user.schema';
 import { UserLogDocument } from './schema/user-log.schema';
 import { UserLogRepository } from './repository/UserLog.repository';
+import { UserRepository } from '../user/repository/user.repository';
+
 
 @Injectable()
 export class UserLogService {
   public exists = 'UserLog Already exists';
   public notfound = 'UserLog not found';
-  public constructor(public ulRepo: UserLogRepository) {}
+  public constructor(public ulRepo: UserLogRepository,
+  public userRepo:UserRepository, public recipeRepo:RecipeRepository) {}
 
   public async createIncomingUserLog(
     user: UserDocument,
@@ -68,8 +73,7 @@ export class UserLogService {
     incomingLogObj['region'] = region;
     incomingLogObj['agent'] = agent;
     incomingLogObj['machine'] = undefined;
-    // console.log(incomingLogObj);
-    if (incomingLogObj[type] == 'recipe/cooked') {
+    if(incomingLogObj[type] == 'recipe/cooked') { 
       let flag = false;
       const recipe = await this.ulRepo.checkRepeatedRecipeCooked(
         incomingLogObj,
@@ -105,10 +109,11 @@ export class UserLogService {
 
           return newUserLog;
         }
-        if (!incomingLogObj['type']) {
-        }
       }
     }
+
+
+    return incomingLogObj;
   }
 
   public async createUserLog(
@@ -161,5 +166,52 @@ export class UserLogService {
     }
 
     return deletedUserLog;
+  }
+
+  public async incrementDoneCount(incomingLogObj:Partial<UserLogDocument>): Promise<void>{
+    const region = incomingLogObj.region;
+    const niceName = incomingLogObj.user;
+    const recipeNiceName = incomingLogObj.niceName;
+
+    let query = {
+      region,
+      niceName,
+      done: { $elemMatch: { niceName: recipeNiceName } },
+    };
+    const user = await this.userRepo.findOne(query);
+    const recipe = await this.recipeRepo.fetchOne(region, recipeNiceName);
+    if (recipe) {
+      if (user) {
+        const d = user.done.find(
+          (element) => element.niceName == recipeNiceName,
+        );
+        const cookedCount = d.cooked + 1;
+        query = {
+          region,
+          niceName,
+          done: { $elemMatch: { niceName: recipeNiceName } },
+        };
+        const body={
+          'done.$.lastTime': Date.now(),
+          'done.$.cooked': cookedCount,
+        };
+        await this.ulRepo.findUserandUpdate(query, body);
+      }
+      else{
+        const query={region,niceName};
+        const body= {
+          'done.$.niceName': recipeNiceName,
+          'done.$.firstTime': Date.now(),
+          'done.$.lastTime': Date.now(),
+          'done.$.cooked': 1,
+        };
+        await this.ulRepo.findUserandUpdate(query, body);
+      };
+
+
+    }
+    else{
+      throw new NotFoundException('Recipe not found');
+    }
   }
 }
