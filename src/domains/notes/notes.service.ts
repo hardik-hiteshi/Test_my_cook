@@ -6,11 +6,16 @@ import {
 import { CreateNotesDTO } from './dto/notes.create.dto';
 import { NotesDocument } from './schema/notes.schema';
 import { NotesRepository } from './repository/notes.repository';
+import { RecipeRepository } from '../recipe/repository/recipe.repository';
 import { UpdateNotesDTO } from './dto/notes.update.dto';
+import { UserDocument } from '../user/schema/user.schema';
 
 @Injectable()
 export class NotesService {
-  public constructor(public notesRepo: NotesRepository) {}
+  public constructor(
+    public notesRepo: NotesRepository,
+    public recipeRepo: RecipeRepository,
+  ) {}
 
   public async createNote(
     region: string,
@@ -69,4 +74,105 @@ export class NotesService {
     }
     throw new NotFoundException('Notes not found.');
   }
+
+  public async fetchNoteRecipe(
+    region: string,
+    recipe: string,
+  ): Promise<NotesDocument> {
+    const note = await this.notesRepo.fetchNoteRecipe(region, recipe);
+    if (!note) {
+      throw new NotFoundException('Note not found.');
+    }
+
+    return note;
+  }
+
+  public async fetchRecipeNotesRecipe(
+    user: UserDocument,
+    region: string,
+    recipe: string,
+  ): Promise<NotesDocument> {
+    const recipeData = await this.recipeRepo.fetchOne(region, recipe);
+    if (!recipeData) {
+      throw new NotFoundException('Recipe not found.');
+    }
+    const note = await this.notesRepo.fetchRecipeNotesRecipe(
+      user._id,
+      region,
+      recipeData._id,
+    );
+    if (!note) {
+      throw new NotFoundException('Note not found.');
+    }
+
+    return note;
+  }
+
+  // public async insertRecipeNotesRecipe(
+  //   user: UserDocument,
+  //   region: string,
+  //   recipe: string,
+  //   body: UpdateNotesDTO,
+  // ): Promise<NotesDocument> {
+  //   const recipeData: RecipeDocument = await this.recipeRepo.fetchOne(
+  //     region,
+  //     recipe,
+  //   );
+  //   if (!recipeData) {
+  //     throw new NotFoundException('Recipe not found.');
+  //   }
+
+  //   if (recipeData) {
+  //     let existsStep = false;
+
+  //     if (recipeData.groups) {
+  //       for (const group of recipeData.groups) {
+  //         if (group.steps && !existsStep) {
+  //           existsStep = group.steps.find(
+  //             (s: HydratedDocument<Steps>) => s._id == body.id,
+  //           )
+  //             ? true
+  //             : false;
+  //         }
+  //       }
+  //     }
+
+  //     if (existsStep) {
+  //       let notes = await this.notesRepo.fetchRecipeNotesRecipe(
+  //         user._id,
+  //         region,
+  //         recipeData._id,
+  //       );
+
+  //       if (!notes) {
+  //         notes = await this.notesRepo.createNote(region, {
+  //           user: user._id,
+  //           recipe: recipeData._id,
+  //           steps: {},
+  //         });
+  //       }
+
+  //       const noteData = (notes.steps[body.id] = { note: body.note });
+  //       const result = await this.notesRepo.updateNote(
+  //         region,
+  //         notes.uniqueId,
+  //         noteData,
+  //       );
+
+  //       notes.markModified('steps');
+  //       await notes.save();
+
+  //       return notes.steps;
+  //     }
+  //     throw new NotFoundException('Step not found.');
+  //   }
+
+  //   // const note = await this.notesRepo.fetchRecipeNotesRecipe(
+  //   //   user._id,
+  //   //   region,
+  //   //   recipeData._id,
+  //   // );
+
+  // //  return note;
+  // }
 }

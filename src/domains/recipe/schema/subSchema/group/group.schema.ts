@@ -1,7 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Steps } from './steps.subschema';
 
-@Schema({ _id: false })
+@Schema()
 export class Group {
   @Prop()
   public name: string;
