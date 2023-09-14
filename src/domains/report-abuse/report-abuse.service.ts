@@ -1,5 +1,10 @@
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateReportDto, UpdateReportDto } from './dtos';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateManyReportsDto } from './dtos/createManyReports/createManyReports.dto';
 import { ReportAbuseDocument } from './schema/report-abuse.schema';
 import { ReportAbuseRepository } from './repository/report-abuse.repository';
 
@@ -53,5 +58,16 @@ export class ReportAbuseService {
     if (reports.length <= 0) throw new NotFoundException(this.reportNotFound);
 
     return reports;
+  }
+
+  public async createManyReports(
+    region: string,
+    body: CreateManyReportsDto,
+  ): Promise<ReportAbuseDocument[]> {
+    for (let i = 0; i < body.data.length; i++) {
+      body.data[i]['region'] = region;
+    }
+
+    return await this.reportRepo.createManyReports(body.data);
   }
 }

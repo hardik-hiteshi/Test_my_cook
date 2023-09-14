@@ -10,15 +10,16 @@ import {
 } from '@nestjs/common';
 import { CreateReportDto, UpdateReportDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
+import { CreateManyReportsDto } from './dtos/createManyReports/createManyReports.dto';
 import { ReportAbuseDocument } from './schema/report-abuse.schema';
 import { ReportAbuseService } from './report-abuse.service';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('report-abuse')
+@Controller('reportAbuses')
 export class ReportAbuseController {
   public constructor(private reportService: ReportAbuseService) {}
-  @Post()
+  @Post('create')
   private async createReport(
     @Headers('region') region: string,
     @Body() body: CreateReportDto,
@@ -60,5 +61,13 @@ export class ReportAbuseController {
     @Param('reportedUserNiceName') reportedUserNiceName: string,
   ): Promise<void> {
     await this.reportService.deleteOne(region, reportedUserNiceName);
+  }
+
+  @Post()
+  private async createManyReports(
+    @Headers('region') region: string,
+    @Body() body: CreateManyReportsDto,
+  ): Promise<ReportAbuseDocument[]> {
+    return await this.reportService.createManyReports(region, body);
   }
 }

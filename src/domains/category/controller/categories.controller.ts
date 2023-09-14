@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Res, StreamableFile } from '@nestjs/common';
+import { Controller, Headers, Post, Res, StreamableFile } from '@nestjs/common';
 import { CategoryService } from '../category.service';
 import { Response } from 'express';
 
@@ -6,7 +6,7 @@ import { Response } from 'express';
 export class CategoriesController {
   public constructor(public categoryServices: CategoryService) {}
 
-  @Get('/export-to-json')
+  @Post('/export-to-json')
   public async exportToJson(
     @Headers('region') region: string,
     @Res({ passthrough: true }) res: Response,
