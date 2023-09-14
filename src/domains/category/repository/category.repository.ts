@@ -9,6 +9,7 @@ export class CategoryRepository {
   public constructor(
     @InjectModel(Category.name) public categoryModel: Model<Category>,
   ) {}
+
   public async createCategory(
     region: string,
     body: CreateCategoryDTO,
@@ -17,6 +18,7 @@ export class CategoryRepository {
 
     return category;
   }
+
   public async findOne(
     region: string,
     body?: CreateCategoryDTO,

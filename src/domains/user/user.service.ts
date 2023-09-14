@@ -40,12 +40,14 @@ export class UserService {
 
     return user;
   }
+
   public async findAll(region: string): Promise<UserDocument[]> {
     const users = await this.userRepo.findAll({ isActive: true, region });
     if (users.length <= 0) throw new NotFoundException('user not found');
 
     return users;
   }
+
   public async findOneAndUpdate(
     user: UserDocument,
     niceName: string,

@@ -7,8 +7,8 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -50,7 +50,7 @@ export class MachineController {
   ): Promise<MachineDocument[]> {
     return await this.machineService.findAll(region);
   }
-  @Patch(':unique_id')
+  @Put(':unique_id')
   private async updateMachine(
     @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineDto,

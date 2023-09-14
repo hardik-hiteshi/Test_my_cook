@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 
 import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
@@ -58,7 +58,7 @@ export class UserController {
     await this.userService.deleteOne(user, niceName, region);
   }
 
-  @Patch('updatePassword')
+  @Put('updatePassword')
   private async updatePassword(
     @GET_USER() user: UserDocument,
     @Body() body: UpdatePasswordDto,
@@ -66,7 +66,7 @@ export class UserController {
     await this.userService.updatePassword(user, body);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateUser(
     @GET_USER() user: UserDocument,
     @Body() body: UserUpdateDto,

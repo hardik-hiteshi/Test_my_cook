@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateFactoryDTO } from './dto/createfactory.dto';
 import { FactoryDocument } from './schema/factory.schema';
@@ -32,7 +32,7 @@ export class FactoryController {
     return await this.factoryServices.find(region);
   }
 
-  @Patch(':uniqueId')
+  @Put(':uniqueId')
   public async updateFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,

@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateAliasDto, UpdateAliasDto } from './dtos';
 import { AliasDocument } from './schema/alias.schema';
@@ -24,7 +24,7 @@ export class AliasController {
   ): Promise<AliasDocument> {
     return this.aliasService.createOne(body);
   }
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateAlias(
     @Param('nicename') niceName: string,
     @Body() body: UpdateAliasDto,

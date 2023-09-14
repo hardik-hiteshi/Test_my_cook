@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CategoryDocument } from '../schema/category.schema';
@@ -14,11 +14,11 @@ import { CategoryService } from '../category.service';
 import { CreateCategoryDTO } from '../dto/createcategory/createcategory.dto';
 import { UpdateCategoryDTO } from '../dto/updatecategory/updatecategory.dto';
 
-@Controller('category')
+@Controller()
 export class CategoryController {
   public constructor(public categoryServices: CategoryService) {}
 
-  @Post()
+  @Post('category')
   public async createCategory(
     @Headers('region') region: string,
     @Body() body: CreateCategoryDTO,
@@ -27,14 +27,14 @@ export class CategoryController {
     return await this.categoryServices.createCategory(region, body);
   }
 
-  @Get(':niceName')
+  @Get('category/:niceName')
   public async fetchCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<CategoryDocument> {
     return await this.categoryServices.fetchCategory(region, niceName);
   }
-  @Patch(':niceName')
+  @Put('category/:niceName')
   public async updateCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -42,14 +42,14 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.updateCategory(region, niceName, body);
   }
-  @Delete(':niceName')
+  @Delete('category/:niceName')
   public async deleteCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<CategoryDocument> {
     return await this.categoryServices.deleteCategory(region, niceName);
   }
-  @Get()
+  @Get('categories')
   public async fetchCategories(
     @Headers('region') region: string,
     @Query('search') search: string,

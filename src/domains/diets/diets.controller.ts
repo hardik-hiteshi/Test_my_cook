@@ -6,8 +6,8 @@ import {
   Headers,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateDietDto, CreateManyDietDto, UpdateDietDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -29,7 +29,7 @@ export class DietsController {
     return await this.dietService.createOne(body, region);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateDiet(
     @Headers('region') region: string,
     @Param('nicename') niceName: string,

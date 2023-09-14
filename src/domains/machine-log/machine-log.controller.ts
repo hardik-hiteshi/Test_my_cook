@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateMachineLogDto, UpdateMachineLogDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -50,7 +50,7 @@ export class MachineLogController {
     await this.machineLogService.deleteOne(region, uniqueId);
   }
 
-  @Patch(':uniqueId')
+  @Put(':uniqueId')
   private async updateMachineLog(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,

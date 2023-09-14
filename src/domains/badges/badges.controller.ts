@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { BadgesDocument } from './schema/badges.schema';
@@ -17,6 +17,7 @@ import { UpdateBadgesDTO } from './dto/updatedto/updatebadge.dto';
 @Controller('badge')
 export class BadgesController {
   public constructor(public badgesServies: BadgesService) {}
+
   @Post()
   public async createBadge(
     @Headers('region') region: string,
@@ -24,6 +25,7 @@ export class BadgesController {
   ): Promise<BadgesDocument> {
     return await this.badgesServies.createBadge(region, body);
   }
+
   @Get(':niceName')
   public async fetchBadge(
     @Headers('region') region: string,
@@ -32,7 +34,7 @@ export class BadgesController {
     return await this.badgesServies.fetchBadge(region, niceName);
   }
 
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateBadge(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -48,6 +50,7 @@ export class BadgesController {
   ): Promise<BadgesDocument> {
     return await this.badgesServies.deleteBadge(region, niceName);
   }
+
   @Get()
   public async fetchBadges(
     @Headers('region') region: string,
