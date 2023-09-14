@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CreateTipDto, UpdateTipDto } from './dtos';
@@ -50,7 +50,7 @@ export class TipController {
     return await this.tipService.createOne(body, region);
   }
 
-  @Patch(':id')
+  @Put(':id')
   public async updateTip(
     @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
     @Body() body: UpdateTipDto,

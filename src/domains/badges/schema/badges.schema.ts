@@ -44,6 +44,7 @@ export class Badges {
 
   @Prop(Translations)
   public translations: Translations;
+
   @Prop({ default: true })
   public isActive: boolean;
 }

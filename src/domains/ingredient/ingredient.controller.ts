@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateIngredientDto, UpdateIngredientDto } from './dtos';
 import { IngredientDocument } from './schema/ingredient.schema';
@@ -24,7 +24,7 @@ export class IngredientController {
     return await this.ingredientService.createOne(body, region);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateIngredient(
     @Body() body: UpdateIngredientDto,
     @Param('nicename') niceName: string,

@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateContactDto, UpdateContactDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -27,7 +27,7 @@ export class ContactController {
     return await this.contactService.createOne(region, body);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateContact(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,

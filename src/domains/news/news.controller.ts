@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateNewsDto, UpdateNewsDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -25,7 +25,7 @@ export class NewsController {
   ): Promise<NewsDocument> {
     return await this.newsService.createOne(body, region);
   }
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updatNews(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,

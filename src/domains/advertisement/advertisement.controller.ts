@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { AdvertisementDocument } from './schemas/advertisement.schema';
@@ -34,7 +34,7 @@ export class AdvertisementController {
     return await this.adverstimentServices.createAdvertisement(region, body);
   }
 
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateAdvertisement(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -77,7 +77,7 @@ export class AdvertisementController {
     );
   }
 
-  @Patch('/click/:niceName')
+  @Put('/click/:niceName')
   public async addClick(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

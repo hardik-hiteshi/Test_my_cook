@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CreateRankDTO } from './dto/createDto/createrank.dto';
@@ -33,7 +33,7 @@ export class RankController {
   ): Promise<RankDocument> {
     return await this.rankServices.fetchRank(region, niceName);
   }
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateRank(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

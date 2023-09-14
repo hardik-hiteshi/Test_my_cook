@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateNotesDTO } from './dto/notes.create.dto';
@@ -38,7 +38,7 @@ export class NotesController {
     return this.noteServices.fetchNote(region, uniqueId);
   }
 
-  @Patch('note/:uniqueId')
+  @Put('note/:uniqueId')
   public async updateNote(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,

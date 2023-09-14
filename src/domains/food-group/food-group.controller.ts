@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateFoodGroupDto } from './dtos/createFoodGroup/createFoodGroup.dto';
@@ -28,7 +28,7 @@ export class FoodGroupController {
     return await this.foodGroupService.createOne(body, region);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateFoodService(
     @Body() body: UpdateFoodGroupDto,
     @Headers('region') region: string,
