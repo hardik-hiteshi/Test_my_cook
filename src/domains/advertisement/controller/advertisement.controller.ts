@@ -9,10 +9,10 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { AdvertisementDocument } from './schemas/advertisement.schema';
-import { AdvertisementService } from './advertisement.service';
-import { CreateAdvertisementDTO } from './dto/createadvertisement.dto';
-import { UpdateAdvertisementDTO } from './dto/updateadvertisement.dto';
+import { AdvertisementDocument } from '../schemas/advertisement.schema';
+import { AdvertisementService } from '../advertisement.service';
+import { CreateAdvertisementDTO } from '../dto/createadvertisement.dto';
+import { UpdateAdvertisementDTO } from '../dto/updateadvertisement.dto';
 
 @Controller('Advertisement')
 export class AdvertisementController {

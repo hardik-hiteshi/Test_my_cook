@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-export interface Response<T> {
-  data: T;
-}
+import { Response } from 'express';
+// export interface Response<T> {
+//   data: T;
+// }
 
 @Injectable()
 export class ResponseStructureInterceptor implements NestInterceptor {
@@ -17,16 +17,18 @@ export class ResponseStructureInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<object>> {
-    const response = await context.switchToHttp().getResponse();
+    const response: Response = await context.switchToHttp().getResponse();
 
-    return next
-      .handle()
-      .pipe(
-        map((data) =>
-          data
-            ? { status: response.statusCode, msg: 'success', data }
-            : { status: response.statusCode, msg: 'success' },
-        ),
-      );
+    return next.handle().pipe(
+      map((data) => {
+        if (response.getHeaders()['content-disposition']) {
+          return data;
+        }
+
+        return data
+          ? { status: response.statusCode, msg: 'success', data }
+          : { status: response.statusCode, msg: 'success' };
+      }),
+    );
   }
 }
