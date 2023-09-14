@@ -1,9 +1,9 @@
+import { CreateFoodGroupDto, UpdateFoodGroupDto } from '../dtos';
 import { FoodGroup, FoodGroupDocument } from '../schema/food-group.schema';
-import { CreateFoodGroupDto } from '../dtos/createFoodGroup/createFoodGroup.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UpdateFoodGroupDto } from '../dtos/updateFoodGroup/updateFoodGroup.dto';
+import { RecursivePartial } from 'src/common/interface';
 
 @Injectable()
 export class FoodGroupRepository {
@@ -29,10 +29,14 @@ export class FoodGroupRepository {
     });
   }
 
-  public async findAll(region: string): Promise<FoodGroupDocument[]> {
+  public async findAllByRegion(region: string): Promise<FoodGroupDocument[]> {
     return await this.foodGroupModel.find({ region, isActive: true });
   }
-
+  public async findAll(
+    query: RecursivePartial<FoodGroup> | object,
+  ): Promise<FoodGroupDocument[]> {
+    return await this.foodGroupModel.find(query);
+  }
   public async updateOne(
     region: string,
     niceName: string,
@@ -54,5 +58,14 @@ export class FoodGroupRepository {
       { isActive: false },
       { new: true },
     );
+  }
+
+  public async createMany(
+    data: CreateFoodGroupDto[],
+  ): Promise<FoodGroupDocument[]> {
+    return (await this.foodGroupModel.insertMany(data)) as FoodGroupDocument[];
+  }
+  public async findDistinctNiceName(region: string): Promise<string[]> {
+    return await this.foodGroupModel.distinct('niceName', { region }).lean();
   }
 }
