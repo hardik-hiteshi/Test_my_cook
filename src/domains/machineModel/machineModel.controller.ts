@@ -25,29 +25,29 @@ import { MachineModelService } from './machineModel.service';
 import type { Response } from 'express';
 import { Role } from '../auth/roles/permission.roles';
 @AUTH(Role.admin)
-@Controller('machine-model')
+@Controller()
 export class MachineModelController {
   public constructor(public machineModelService: MachineModelService) {}
-  @Post()
+  @Post('machinemodel')
   private async createMachineModel(
     @Body() body: CreateMachineModelDto,
   ): Promise<MachineModelDocument> {
     return await this.machineModelService.createOne(body);
   }
 
-  @Get(':unique_id')
+  @Get('machinemodel/:unique_id')
   private async getMachineModel(
     @Param('unique_id') uniqueId: string,
   ): Promise<MachineModelDocument> {
     return await this.machineModelService.findOne(uniqueId);
   }
 
-  @Get()
+  @Get('machinemodels')
   private async getAllMachineModel(): Promise<MachineModelDocument[]> {
     return await this.machineModelService.findAll();
   }
 
-  @Patch(':unique_id')
+  @Patch('machinemodel/:unique_id')
   private async updateMachineModel(
     @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineModelDto,
@@ -55,7 +55,7 @@ export class MachineModelController {
     return await this.machineModelService.findOneAndUpdate(uniqueId, body);
   }
 
-  @Delete(':unique_id')
+  @Delete('machinemodel/:unique_id')
   private async deleteMachineModel(
     @Param('unique_id') uniqueId: string,
   ): Promise<void> {
@@ -63,7 +63,7 @@ export class MachineModelController {
     await this.machineModelService.deleteOne(uniqueId);
   }
   @HttpCode(HttpStatus.OK)
-  @Post('import')
+  @Post('machinemodel/import')
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
   private async createManyMachineModel(
     @Body() body: CreateManyMachineModelDto,
@@ -71,7 +71,7 @@ export class MachineModelController {
     await this.machineModelService.createMany(body);
   }
 
-  @Get('export/:type')
+  @Get('machinemodel/export/:type')
   private async exportManyMachineModel(
     @Param('type') type: string,
     @Res({ passthrough: true }) res: Response,

@@ -4,7 +4,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { Schema } from 'mongoose';
 import { TranslationDto } from './subDto/translate.dto';
 import { Type } from 'class-transformer';
 
@@ -14,7 +13,8 @@ export class UpdateFoodGroupDto {
   public name?: string;
 
   @IsOptional()
-  public image?: Schema.Types.Mixed;
+  @IsString({ each: true })
+  public image?: string[];
 
   @IsOptional()
   @ValidateNested()

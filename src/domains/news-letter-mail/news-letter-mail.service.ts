@@ -3,8 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateNewsLetterDto } from './dtos';
+import { CreateManyNewsLetterDto, CreateNewsLetterDto } from './dtos';
 import { INewsLetter } from './interface/newsLetter.interface';
+import { NewsLetterDto } from './dtos/createManyNewsLetter/subDto/createNewsLetter.dto';
 import { NewsLetterMailDocument } from './schema/news.letter-mail.schema';
 import { NewsLetterMailRepository } from './repository/news-letter-mail.repository';
 import { v4 as uuid } from 'uuid';
@@ -44,5 +45,38 @@ export class NewsLetterMailService {
       throw new NotFoundException('news-letter not found');
 
     return newsLetter;
+  }
+
+  public async createMany(
+    body: CreateManyNewsLetterDto,
+  ): Promise<NewsLetterMailDocument[]> {
+    let existingItemSerial: string[];
+    let itemsToInsert: NewsLetterDto[];
+    const data = body.data.map((i) => i.emailAddress);
+    const existingItems = await this.newsLetterRepo.findAllByQuery({
+      emailAddress: { $in: data },
+    });
+
+    if (existingItems.length > 0) {
+      existingItemSerial = existingItems.map(
+        (item: CreateNewsLetterDto) => item.emailAddress,
+      );
+
+      itemsToInsert = body.data.filter(
+        (item) => !existingItemSerial.includes(item.emailAddress),
+      );
+    } else {
+      itemsToInsert = body.data;
+    }
+
+    if (itemsToInsert.length === 0) {
+      throw new BadRequestException('All items already exist');
+    }
+    const itemsWithUniqueId: INewsLetter[] = itemsToInsert.map((i) => ({
+      ...i,
+      uniqueId: uuid(),
+    }));
+
+    return await this.newsLetterRepo.createMany(itemsWithUniqueId);
   }
 }

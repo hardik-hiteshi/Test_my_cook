@@ -1,11 +1,13 @@
 import {
   IsBoolean,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { TranslationDto } from './subDto/translate.dto';
+import regions from 'src/common/enum/region.enum';
+import { TranslationDto } from './translate.dto';
 import { Type } from 'class-transformer';
 
 export class CreateFoodGroupDto {
@@ -29,4 +31,8 @@ export class CreateFoodGroupDto {
   @IsOptional()
   @IsBoolean()
   public mustShow?: boolean;
+
+  @IsString()
+  @IsIn(regions)
+  public region: string;
 }
