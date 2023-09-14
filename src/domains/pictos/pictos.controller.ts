@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateManyPictostDto, CreatePictosDto, UpdatePictosDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -34,7 +34,7 @@ export class PictosController {
     return await this.pictosService.createMany(body);
   }
 
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updatePictos(
     @Headers('region') region: string,
     @Param('nicename') niceName: string,

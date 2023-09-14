@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import {
   CreateFoodGroupDto,
@@ -38,7 +38,7 @@ export class FoodGroupController {
     return await this.foodGroupService.createMany(body);
   }
 
-  @Patch('foodgroup/:nicename')
+  @Put('foodgroup/:nicename')
   private async updateFoodService(
     @Body() body: UpdateFoodGroupDto,
     @Headers('region') region: string,

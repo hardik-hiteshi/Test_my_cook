@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { ContextFields } from './schema/subSchema/contextFields.subSchema';
@@ -28,7 +28,7 @@ export class RegionController {
     return await this.regionService.createOne(body);
   }
 
-  @Patch('region/:niceName')
+  @Put('region/:niceName')
   private async updateRegion(
     @Param('niceName') niceName: string,
     @Body() body: UpdateRegionDTO,

@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateNutritionalDisclaimerDTO } from './dto/createNutritionalDisclaimer/createNutritionalDisclaimer.dto';
 import { NutritionalDisclaimerDocument } from './schema/nutritionalDisclaimer.schema';
@@ -36,7 +36,7 @@ export class NutritionalDisclaimerController {
   ): Promise<NutritionalDisclaimerDocument[]> {
     return await this.ndservice.fetchAllNutritionalDisclaimer(region);
   }
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateNutritionalDisclaimer(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

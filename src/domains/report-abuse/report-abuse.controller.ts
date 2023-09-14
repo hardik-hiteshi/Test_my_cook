@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateReportDto, UpdateReportDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -41,7 +41,7 @@ export class ReportAbuseController {
     return await this.reportService.findAll(region);
   }
 
-  @Patch(':reportedUserNiceName')
+  @Put(':reportedUserNiceName')
   private async updateOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,

@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { AlternativeRecipeDocument } from './schema/alternativeRecipe.schema';
@@ -34,7 +34,7 @@ export class AlternativeRecipeController {
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.createRecipe(region, body);
   }
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

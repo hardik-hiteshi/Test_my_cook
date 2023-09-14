@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Headers,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateLegalTermsDTO } from './dto/createLegal-terms/legal-terms.create.dto';
 import { LegalTermsDocument } from './schema/legal-terms.schema';
@@ -31,7 +31,7 @@ export class LegalTermsController {
     return await this.legaltermsServices.fetchLegalTerm(region);
   }
 
-  @Patch()
+  @Put()
   public async updateLegalTerm(
     @Headers('region') region: string,
     @Body() body: UpdateLegalTermsDTO,

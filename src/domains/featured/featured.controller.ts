@@ -5,7 +5,7 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
+  Put,
   Query,
 } from '@nestjs/common';
 
@@ -33,7 +33,7 @@ export class FeaturedController {
   ): Promise<FeaturedDocument> {
     return await this.featuredServices.fetchFeatured(region, type, search);
   }
-  @Patch()
+  @Put()
   public async updateFeatured(
     @Headers('region') region: string,
     @Body() body: UpdateFeatureDTO,

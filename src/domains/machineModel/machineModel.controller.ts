@@ -6,8 +6,8 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Res,
   StreamableFile,
   UseInterceptors,
@@ -24,6 +24,7 @@ import { MachineModelDocument } from './schema/machineModel.schema';
 import { MachineModelService } from './machineModel.service';
 import type { Response } from 'express';
 import { Role } from '../auth/roles/permission.roles';
+
 @AUTH(Role.admin)
 @Controller()
 export class MachineModelController {
@@ -47,7 +48,7 @@ export class MachineModelController {
     return await this.machineModelService.findAll();
   }
 
-  @Patch('machinemodel/:unique_id')
+  @Put('machinemodel/:unique_id')
   private async updateMachineModel(
     @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineModelDto,
@@ -62,6 +63,7 @@ export class MachineModelController {
     // using hard delete might use soft delete in future
     await this.machineModelService.deleteOne(uniqueId);
   }
+
   @HttpCode(HttpStatus.OK)
   @Post('machinemodel/import')
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())

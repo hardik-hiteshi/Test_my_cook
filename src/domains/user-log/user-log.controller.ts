@@ -37,7 +37,7 @@ export class UserLogController {
     return await this.ulservice.fetchAllUserLog(region);
   }
   // //not clear if user logs are updated or not.
-  //   @Patch(':niceName')
+  //   @Put(':niceName')
   //   public async updateUserLog(
   //     @Headers('region') region: string,
   //     @Param('niceName') niceName: string,

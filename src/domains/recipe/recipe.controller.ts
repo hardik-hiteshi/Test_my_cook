@@ -5,8 +5,8 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { CreateRecipeDto } from './dto/createRecipe/createRecipe.dto';
@@ -42,7 +42,7 @@ export class RecipeController {
     return await this.recipeService.fetchRecipe(region, niceName);
   }
 
-  @Patch(':niceName')
+  @Put(':niceName')
   public async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

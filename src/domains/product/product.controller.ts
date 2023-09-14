@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { CreateProductDto, UpdateProductDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -33,7 +33,7 @@ export class ProductController {
   private async getAllProducts(): Promise<ProductDocument[]> {
     return await this.productService.findAll();
   }
-  @Patch(':nicename')
+  @Put(':nicename')
   private async updateProduct(
     @Param('nicename') niceName: string,
     @Body() body: UpdateProductDto,

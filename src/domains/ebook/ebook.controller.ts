@@ -5,22 +5,22 @@ import {
   Get,
   Headers,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
-// import { AUTH } from '../auth/decorator/auth.decorator';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookService } from './ebook.service';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdateEbookDTO } from './dtos/updateEbook/updateEbook.dto';
-// import { Role } from '../auth/roles/permission.roles';
 
-//   @AUTH(Role.admin)
-@Controller('ebook')
+@AUTH(Role.admin)
+@Controller()
 export class EbookController {
   public constructor(private ebookService: EbookService) {}
 
-  @Post()
+  @Post('ebook')
   private async createEbook(
     @Headers('region') region: string,
     @Body() body: CreateEbookDTO,
@@ -28,7 +28,7 @@ export class EbookController {
     return await this.ebookService.createOne(region, body);
   }
 
-  @Patch(':nicename')
+  @Put('ebook/:nicename')
   private async updateEbook(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -36,7 +36,8 @@ export class EbookController {
   ): Promise<EbookDocument> {
     return await this.ebookService.updateOne(region, niceName, body);
   }
-  @Delete(':nicename')
+
+  @Delete('ebook/:nicename')
   private async deleteEbook(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -44,17 +45,26 @@ export class EbookController {
     await this.ebookService.deleteOne(niceName, region);
   }
 
-  @Get(':nicename')
+  @Get('ebook/:nicename')
   private async getEbook(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
   ): Promise<EbookDocument> {
     return await this.ebookService.findOne(niceName, region);
   }
-  @Get()
+
+  @Get('ebooks')
   private async getAllEbook(
     @Headers('region') region: string,
   ): Promise<EbookDocument[]> {
     return await this.ebookService.findAll(region);
   }
+
+  // @Get('ebook/recipeByEbook/:skip')
+  // private async getEbook(
+  //   @Param('nicename') niceName: string,
+  //   @Headers('region') region: string,
+  // ): Promise<EbookDocument> {
+  //   return await this.ebookService.findOne(niceName, region);
+  // }
 }

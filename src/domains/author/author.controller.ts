@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
   Post,
+  Put,
 } from '@nestjs/common';
 import { AuthorDocument } from './schema/author.schema';
 import { AuthorService } from './author.service';
@@ -29,7 +29,7 @@ export class AuthorController {
     return await this.authorServices.createAuthor(body);
   }
 
-  @Patch(':uniqueId')
+  @Put(':uniqueId')
   public async updateAuthor(
     @Param('uniqueId') uniqueId: string,
     @Body() body: UpdateAuthorDTO,
