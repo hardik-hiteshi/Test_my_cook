@@ -17,6 +17,14 @@ export class UpdateEbookDTO {
   @IsNotEmpty()
   public publishDate: Date;
 
+  @IsString()
+  @IsNotEmpty()
+  public niceName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public region: string;
+
   @IsOptional()
   @IsString()
   public url: string;

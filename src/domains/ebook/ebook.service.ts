@@ -6,13 +6,19 @@ import {
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookRepository } from './repository/ebook.repository';
+import { RecipeDocument } from '../recipe/schema/recipe.schema';
+import { RecipeRepository } from '../recipe/repository/recipe.repository';
 import { UpdateEbookDTO } from './dtos/updateEbook/updateEbook.dto';
 
 @Injectable()
 export class EbookService {
   public ebookNotFound = 'Ebook not found';
+  public recipeNotFound = 'This ebook doesnt have any recipe';
   public ebookAlreadyExist = 'Ebook already exist';
-  public constructor(private ebookRepo: EbookRepository) {}
+  public constructor(
+    private ebookRepo: EbookRepository,
+    private recipeRepo: RecipeRepository,
+  ) {}
 
   public async findOne(
     niceName: string,
@@ -56,5 +62,55 @@ export class EbookService {
   public async deleteOne(niceName: string, region: string): Promise<void> {
     const ebook = await this.ebookRepo.deleteOne(niceName, region);
     if (!ebook) throw new NotFoundException(this.ebookNotFound);
+  }
+
+  public async findEbookRecipes(
+    niceName: string,
+    region: string,
+    skip: number,
+  ): Promise<RecipeDocument[]> {
+    const query = { region, niceName };
+
+    const ebook = await this.ebookRepo.findOneByQuery(query);
+
+    if (!ebook) throw new NotFoundException(this.ebookNotFound);
+
+    if (ebook['recipes'].length > 0) {
+      const recipeNiceName = ebook['recipes'].map(
+        (item: { niceName: string }) => item.niceName,
+      );
+
+      const skips = skip != null ? skip || 0 : 0;
+      const recipes = await this.recipeRepo.fetchAllByQuery(
+        region,
+        skips,
+        recipeNiceName,
+      );
+
+      if (!recipes) {
+        throw new NotFoundException(this.ebookNotFound);
+      } else {
+        return recipes;
+      }
+    } else {
+      throw new NotFoundException(this.recipeNotFound);
+    }
+  }
+
+  public async upsertEbookRecipe(
+    region: string,
+    niceName: string,
+    body: UpdateEbookDTO,
+  ): Promise<EbookDocument> {
+    const query = { region, niceName };
+    const data = { $set: { recipes: body.recipes } };
+    const result = await this.ebookRepo.updateEbook(query, data);
+    if (result) {
+      return result;
+    }
+    body.region = region;
+    const ebook = await this.ebookRepo.createOne(region, body);
+
+    return ebook;
   }
 }
