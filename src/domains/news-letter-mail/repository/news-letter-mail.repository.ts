@@ -28,4 +28,16 @@ export class NewsLetterMailRepository {
   public async findAll(region: string): Promise<NewsLetterMailDocument[]> {
     return await this.newsLetterModel.find({ region });
   }
+  public async findAllByQuery(
+    query: RecursivePartial<NewsLetterMail> | object,
+  ): Promise<NewsLetterMailDocument[]> {
+    return await this.newsLetterModel.find(query);
+  }
+  public async createMany(
+    itemsToInsert: INewsLetter[],
+  ): Promise<NewsLetterMailDocument[]> {
+    return (await this.newsLetterModel.insertMany(
+      itemsToInsert,
+    )) as NewsLetterMailDocument[];
+  }
 }
