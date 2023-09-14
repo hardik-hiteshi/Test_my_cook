@@ -74,7 +74,7 @@ export class CategoryRepository {
 
   public async fetchCategories(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<Array<CategoryDocument>> {
     {
       const query: CategoryQueryInterface = {};
@@ -106,9 +106,11 @@ export class CategoryRepository {
         ];
       }
 
-      const categoriesList = await this.categoryModel.find({
-        $and: [query, { isActive: true }, { region }],
-      });
+      const categoriesList = (await this.categoryModel
+        .find({
+          $and: [query, { isActive: true }, { region }],
+        })
+        .lean()) as CategoryDocument[];
       if (categoriesList.length > 0) {
         return categoriesList;
       }

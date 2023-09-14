@@ -72,12 +72,22 @@ export class CategoryService {
 
   public async fetchCategories(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<CategoryDocument[]> {
     const categories = await this.categoryRepo.fetchCategories(region, search);
     if (categories.length > 0) {
       return categories;
     }
     throw new NotFoundException('No Categories found.');
+  }
+
+  public async exportToJson(region: string): Promise<Buffer> {
+    const data = await this.categoryRepo.fetchCategories(region);
+    if (data.length <= 0) {
+      throw new NotFoundException('No data to export');
+    }
+    const expData = Buffer.from(JSON.stringify(data));
+
+    return expData;
   }
 }
