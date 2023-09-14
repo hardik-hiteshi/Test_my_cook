@@ -19,7 +19,7 @@ export class CheckRegionInterceptor implements NestInterceptor {
     // req.path.split('/').includes('region') ||
     // req.path.split('/').includes('regions')
 
-    if (allowedRegion(req.path, 'login', 'region', 'regions', 'image')) {
+    if (allowedRegion(req.path, 'login', 'region', 'regions')) {
       return next.handle();
     }
     if (!req.headers.region) {

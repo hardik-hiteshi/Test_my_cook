@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreatePictosDto, UpdatePictosDto } from './dtos';
+import { CreateManyPictostDto, CreatePictosDto, UpdatePictosDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { PictosDocument } from './schema/pictos.schema';
 import { PictosService } from './pictos.service';
@@ -27,6 +27,13 @@ export class PictosController {
     return await this.pictosService.createOne(body, region);
   }
 
+  @Post('create-many')
+  private async createManyPictos(
+    @Body() body: CreateManyPictostDto,
+  ): Promise<PictosDocument[]> {
+    return await this.pictosService.createMany(body);
+  }
+
   @Put(':nicename')
   private async updatePictos(
     @Headers('region') region: string,
@@ -35,6 +42,14 @@ export class PictosController {
   ): Promise<PictosDocument> {
     return await this.pictosService.updateOne(niceName, body, region);
   }
+
+  @Get('enum')
+  private async getDistinctNiceName(
+    @Headers('region') region: string,
+  ): Promise<string[]> {
+    return this.pictosService.findDistinctNiceName(region);
+  }
+
   @Get(':nicename')
   private async getOne(
     @Headers('region') region: string,
@@ -54,5 +69,13 @@ export class PictosController {
     @Headers('region') region: string,
   ): Promise<void> {
     await this.pictosService.deleteOne(region, niceName);
+  }
+
+  @Delete(':nicename/image')
+  private async deleteImage(
+    @Param('nicename') niceName: string,
+    @Headers('region') region: string,
+  ): Promise<void> {
+    return await this.pictosService.deleteImage(region, niceName);
   }
 }

@@ -16,7 +16,13 @@ export class PictosRepository {
   ): Promise<PictosDocument> {
     return await this.pictosModel.findOne(query);
   }
-  public async findAll(region: string): Promise<PictosDocument[]> {
+  public async findAll(
+    query: RecursivePartial<Pictos> | object,
+  ): Promise<PictosDocument[]> {
+    return await this.pictosModel.find(query);
+  }
+
+  public async findAllByRegion(region: string): Promise<PictosDocument[]> {
     return await this.pictosModel.find({ isDeleted: false, region });
   }
   public async createOne(
@@ -33,5 +39,13 @@ export class PictosRepository {
     return await this.pictosModel.findOneAndUpdate({ niceName, region }, body, {
       new: true,
     });
+  }
+
+  public async createMany(data: CreatePictosDto[]): Promise<PictosDocument[]> {
+    return await this.pictosModel.insertMany(data);
+  }
+
+  public async findDistinctNiceName(region: string): Promise<string[]> {
+    return await this.pictosModel.distinct('niceName', { region }).lean();
   }
 }
