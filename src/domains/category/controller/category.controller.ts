@@ -9,10 +9,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CategoryDocument } from './schema/category.schema';
-import { CategoryService } from './category.service';
-import { CreateCategoryDTO } from './dto/createcategory/createcategory.dto';
-import { UpdateCategoryDTO } from './dto/updatecategory/updatecategory.dto';
+import { CategoryDocument } from '../schema/category.schema';
+import { CategoryService } from '../category.service';
+import { CreateCategoryDTO } from '../dto/createcategory/createcategory.dto';
+import { UpdateCategoryDTO } from '../dto/updatecategory/updatecategory.dto';
 
 @Controller('category')
 export class CategoryController {
