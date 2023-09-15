@@ -18,7 +18,8 @@ export class UserService {
     region: string,
   ): Promise<UserDocument> {
     const user = await this.userRepo.findOne({
-      niceName: body.niceName,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      $or: [{ niceName: body.niceName }, { 'contact.mail': body.contact.mail }],
       region,
     });
     if (user) throw new BadRequestException('user already exist');

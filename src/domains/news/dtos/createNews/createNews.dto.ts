@@ -2,7 +2,6 @@ import {
   IsDateString,
   IsIn,
   IsMongoId,
-  IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
@@ -13,10 +12,6 @@ import { Schema } from 'mongoose';
 import { Type } from 'class-transformer';
 
 export class CreateNewsDto {
-  @IsString()
-  @IsNotEmpty()
-  public niceName: string;
-
   @IsOptional()
   @IsDateString()
   public scheduleStart?: Date;
@@ -55,7 +50,8 @@ export class CreateNewsDto {
   public video?: string;
 
   @IsOptional()
-  public image?: Schema.Types.Mixed;
+  @IsString({ each: true })
+  public image?: string[];
 
   @IsOptional()
   @ValidateNested()
