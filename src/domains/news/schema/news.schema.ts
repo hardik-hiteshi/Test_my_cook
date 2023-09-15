@@ -8,8 +8,10 @@ export type NewsDocument = HydratedDocument<News>;
   shardKey: { region: 1 },
 })
 export class News {
-  @Prop({ required: true })
+  @Prop({ required: true, default: new Date().getTime() })
   public niceName: string;
+  @Prop({ default: new Date().toISOString() })
+  public date: Date;
 
   @Prop({ required: true, enum: regions })
   public region: string;
@@ -38,8 +40,8 @@ export class News {
   @Prop()
   public video: string;
 
-  @Prop({ type: mongoSchema.Types.Mixed })
-  public image: mongoSchema.Types.Mixed;
+  @Prop([String])
+  public image: string[];
 
   @Prop({ default: true })
   public enabled: boolean;

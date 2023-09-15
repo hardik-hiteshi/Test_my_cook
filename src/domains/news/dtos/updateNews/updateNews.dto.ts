@@ -51,7 +51,8 @@ export class UpdateNewsDto {
   public video?: string;
 
   @IsOptional()
-  public image?: Schema.Types.Mixed;
+  @IsString({ each: true })
+  public image?: string[];
 
   @IsOptional()
   @IsBoolean()
