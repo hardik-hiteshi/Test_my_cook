@@ -160,4 +160,21 @@ export class RecipeRepository {
 
     return recipe;
   }
+
+  public async fetchAllByQuery(
+    region: string,
+    skip: number,
+    ebook: string[],
+  ): Promise<Array<RecipeDocument>> {
+    const query = { region, niceName: { $in: ebook } };
+
+    const data = await this.recipeModel
+      .find(query, { __v: 0, _id: 0 })
+      .skip(skip)
+      .limit(10);
+
+    if (data.length > 0) {
+      return data;
+    }
+  }
 }

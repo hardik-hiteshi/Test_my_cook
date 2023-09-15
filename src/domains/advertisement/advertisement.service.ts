@@ -7,6 +7,7 @@ import { AdvertisementDocument } from './schemas/advertisement.schema';
 import { AdvertisementRepository } from './repository/advertisement.repository';
 import { CategoryRepository } from '../category/repository/category.repository';
 import { CreateAdvertisementDTO } from './dto/createadvertisement.dto';
+import { PaginationDTO } from './dto/pagination.dto';
 import { UpdateAdvertisementDTO } from './dto/updateadvertisement.dto';
 
 @Injectable()
@@ -141,5 +142,64 @@ export class AdvertisementService {
 
       return incrementedClick;
     }
+  }
+
+  public async getbyQuery(
+    region: string,
+    body: PaginationDTO,
+  ): Promise<number | AdvertisementDocument[]> {
+    const query = body;
+    query['region'] = region;
+
+    const profile = query.profile;
+    let skipItems = 0;
+    let limitItems = 20;
+    let orderBy;
+
+    if (query.order) {
+      orderBy = query.order;
+    }
+
+    if (query.skip) {
+      skipItems = parseInt(query.skip);
+    }
+
+    if (query.limit) {
+      limitItems = parseInt(query.limit);
+    }
+
+    const sortedBy = this.handleSort(query['sortBy'], query['orderBy']);
+    const options = {};
+    options['limit'] = limitItems;
+    options['skip'] = skipItems;
+    // if (!common.isEmpty(sortedBy)) {
+    //   options['sort'] = sortedBy;
+    // }
+
+    // common.searchAndPaginate(
+    //   req,
+    //   Advertisement,
+    //   query,
+    //   { _id: 0, __v: 0 },
+    //   options,
+    // );
+
+    return 34;
+  }
+
+  public async handleSort(sortBy: string, orderBy: string): Promise<object> {
+    const sortedBy = {};
+    switch (sortBy) {
+      case 'views':
+      case 'clicks':
+      case 'recent':
+        sortedBy['sortBy'] = orderBy === 'ascendant' ? 1 : -1;
+        break;
+      case 'niceName':
+        sortedBy['sortBy'] = orderBy === 'descendant' ? -1 : 1;
+        break;
+    }
+
+    return sortedBy;
   }
 }

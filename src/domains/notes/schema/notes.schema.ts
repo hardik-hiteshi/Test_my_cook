@@ -12,6 +12,7 @@ export type NotesDocument = HydratedDocument<Notes>;
 export class Notes {
   @Prop()
   public uniqueId: string;
+
   @Prop({
     type: mongooseSchema.Types.ObjectId,
     required: true,

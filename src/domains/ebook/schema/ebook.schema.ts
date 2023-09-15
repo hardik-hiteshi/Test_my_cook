@@ -1,4 +1,4 @@
-import { HydratedDocument, Schema as mongoSchema } from 'mongoose';
+import { HydratedDocument, Schema as mongoSchema, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import regions from 'src/common/enum/region.enum';
 
@@ -22,8 +22,8 @@ export class Ebook {
   @Prop({ required: true })
   public description: string;
 
-  @Prop({ type: [String] })
-  public recipes: string;
+  @Prop({ type: [Types.ObjectId], ref: 'Recipe' })
+  public recipes: Types.ObjectId[];
 
   @Prop({ required: true, enum: regions })
   public region: string;

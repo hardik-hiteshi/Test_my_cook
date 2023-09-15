@@ -52,4 +52,10 @@ export class ReportAbuseRepository {
       { new: true },
     );
   }
+
+  public async createManyReports(
+    body: CreateReportDto[],
+  ): Promise<ReportAbuseDocument[]> {
+    return (await this.reportModel.insertMany(body)) as ReportAbuseDocument[];
+  }
 }
