@@ -69,7 +69,7 @@ export class EbookService {
     region: string,
     skip: number,
   ): Promise<RecipeDocument[]> {
-    const query = { region, niceName };
+    const query = { region, niceName, isActive: true };
 
     const ebook = await this.ebookRepo.findOneByQuery(query);
 
@@ -102,7 +102,7 @@ export class EbookService {
     niceName: string,
     body: UpdateEbookDTO,
   ): Promise<EbookDocument> {
-    const query = { region, niceName };
+    const query = { region, niceName, isActive: true };
     const data = { $set: { recipes: body.recipes } };
     const result = await this.ebookRepo.updateEbook(query, data);
     if (result) {

@@ -18,14 +18,14 @@ export class EbookRepository {
     return await this.ebookModel.findOne({
       niceName,
       region,
-      //isActive: true,
+      isActive: true,
     });
   }
 
   public async findAll(region: string): Promise<EbookDocument[]> {
     return await this.ebookModel.find({
       region,
-      //isActive: true
+      isActive: true,
     });
   }
 
@@ -45,7 +45,7 @@ export class EbookRepository {
       {
         region,
         niceName,
-        // isActive: true
+        isActive: true,
       },
       body,
       { new: true },
@@ -57,7 +57,7 @@ export class EbookRepository {
     region: string,
   ): Promise<EbookDocument> {
     return await this.ebookModel.findOneAndUpdate(
-      { isActive: true, niceName, region },
+      { niceName, region },
       { isActive: false },
       { new: true },
     );
