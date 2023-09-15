@@ -117,7 +117,6 @@ export class AdvertisementService {
     wUpdate['region'] = region;
     const add = await this.adRepo.incrementView(wUpdate);
     // const copy = JSON.parse(JSON.stringify(add));
-    // console.log(copy)
 
     return add;
   }

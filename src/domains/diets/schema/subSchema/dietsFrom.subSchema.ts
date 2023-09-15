@@ -6,6 +6,7 @@ export class DietFrom {
   @Prop()
   public niceName: string;
 
-  @Prop({ enum: regions })
+  // @Prop({ enum: regions })
+  @Prop()
   public region: string;
 }

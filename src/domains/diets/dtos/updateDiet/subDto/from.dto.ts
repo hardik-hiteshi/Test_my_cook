@@ -8,6 +8,6 @@ export class DietFromDto {
 
   @IsOptional()
   @IsString()
-  @IsIn(regions)
+  //@IsIn(regions)
   public region?: string;
 }

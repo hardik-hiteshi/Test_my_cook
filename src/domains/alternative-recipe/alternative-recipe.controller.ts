@@ -40,7 +40,6 @@ export class AlternativeRecipeController {
     @Param('niceName') niceName: string,
     @Body() body: UpdateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
-    // console.log(body)
     return await this.alternativeRecipeServices.updateRecipe(
       region,
       body,

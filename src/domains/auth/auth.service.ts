@@ -33,7 +33,6 @@ export class AuthService {
       /* eslint-disable @typescript-eslint/naming-convention */
       'contact.mail': body.mail,
     });
-    // console.log(ip);
 
     await this.ulServices.createIncomingUserLog(
       user,

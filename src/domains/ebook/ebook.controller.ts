@@ -78,8 +78,6 @@ export class EbookController {
   //   @Headers('region') region: string,
   //   @Body() body: UpdateEbookDTO,
   // ): Promise<EbookDocument> {
-  //   // console.log('region', region);
-
   //   return await this.ebookService.upsertEbookRecipe(region, niceName, body);
   // }
 }

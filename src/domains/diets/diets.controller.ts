@@ -17,11 +17,11 @@ import { DietTo } from './schema/subSchema/dietTo.subSchema';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('diets')
+@Controller()
 export class DietsController {
   public constructor(private dietService: DietsService) {}
 
-  @Post()
+  @Post('diet')
   private async createDiet(
     @Body() body: CreateDietDto,
     @Headers('region') region: string,
@@ -29,7 +29,7 @@ export class DietsController {
     return await this.dietService.createOne(body, region);
   }
 
-  @Put(':nicename')
+  @Put('diet/:nicename')
   private async updateDiet(
     @Headers('region') region: string,
     @Param('nicename') niceName: string,
@@ -38,14 +38,14 @@ export class DietsController {
     return await this.dietService.updateOne(region, niceName, body);
   }
 
-  @Get('enum')
+  @Get('diet/enum')
   private async getDistinctNiceName(
     @Headers('region') region: string,
   ): Promise<string[]> {
     return this.dietService.findDistinctNiceName(region);
   }
 
-  @Get(':nicename')
+  @Get('diet/:nicename')
   private async getdiet(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -53,14 +53,14 @@ export class DietsController {
     return await this.dietService.findOne(niceName, region);
   }
 
-  @Get()
+  @Get('diets')
   private async findAll(
     @Headers('region') region: string,
   ): Promise<DietDocument[]> {
     return await this.dietService.findAll(region);
   }
   // using hard delete might use soft delete in future
-  @Delete(':nicename')
+  @Delete('diet/:nicename')
   private async deleteDiet(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -68,14 +68,14 @@ export class DietsController {
     await this.dietService.deleteOne(niceName, region);
   }
 
-  @Get('/:nicename/tags')
+  @Get('diet/:nicename/tags')
   private async getTagsByNiceName(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
   ): Promise<DietDocument['tags']> {
     return this.dietService.findTags(niceName, region);
   }
-  @Get('/:nicename/tags/:index')
+  @Get('diet/:nicename/tags/:index')
   private async getTagsByNiceNameIndex(
     @Param('nicename') niceName: string,
     @Param('index', new ParseIntPipe()) index: number,
@@ -84,7 +84,7 @@ export class DietsController {
     return this.dietService.findOneTag(niceName, index, region);
   }
 
-  @Get('/:nicename/translation.to/:index')
+  @Get('diet/:nicename/translation.to/:index')
   private async getTranslationByniceNameIndex(
     @Param('nicename') niceName: string,
     @Param('index', new ParseIntPipe()) index: number,
@@ -93,7 +93,7 @@ export class DietsController {
     return this.dietService.findOneTranslation(niceName, index, region);
   }
 
-  @Get('/:nicename/translation.to')
+  @Get('diet/:nicename/translation.to')
   private async getTranslationByniceName(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -101,13 +101,13 @@ export class DietsController {
     return this.dietService.findTranslation(niceName, region);
   }
 
-  @Post('create-many')
+  @Post('diet/create-many')
   private async createManyDiet(
     @Body() body: CreateManyDietDto,
   ): Promise<DietDocument[]> {
     return this.dietService.createManyDiet(body);
   }
-  @Delete(':nicename/image')
+  @Delete('diet/:nicename/image')
   private async deleteImage(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,

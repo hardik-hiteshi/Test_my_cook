@@ -48,7 +48,6 @@ export class RecipeController {
     @Param('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
   ): Promise<RecipeDocument> {
-    // console.log(body)
     return await this.recipeService.updateRecipe(region, body, niceName);
   }
 

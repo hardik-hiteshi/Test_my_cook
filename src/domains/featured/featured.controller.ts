@@ -38,7 +38,6 @@ export class FeaturedController {
     @Headers('region') region: string,
     @Body() body: UpdateFeatureDTO,
   ): Promise<FeaturedDocument> {
-    // console.log(region, body)
     return await this.featuredServices.updateFeatured(region, body);
   }
   @Delete(':type')

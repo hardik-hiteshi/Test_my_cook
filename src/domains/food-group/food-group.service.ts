@@ -26,6 +26,7 @@ export class FoodGroupService {
 
     return await this.foodGroupRepo.createOne(body, region);
   }
+
   public async updateOne(
     body: UpdateFoodGroupDto,
     region: string,
@@ -40,6 +41,7 @@ export class FoodGroupService {
 
     return foodGroup;
   }
+
   public async findOne(
     niceName: string,
     region: string,
@@ -50,6 +52,7 @@ export class FoodGroupService {
 
     return foodGroup;
   }
+
   public async findAll(region): Promise<FoodGroupDocument[]> {
     const foodGroup = await this.foodGroupRepo.findAllByRegion(region);
 
@@ -58,11 +61,13 @@ export class FoodGroupService {
 
     return foodGroup;
   }
+
   public async deleteOne(niceName: string, region: string): Promise<void> {
     const foodGroup = await this.foodGroupRepo.deleteOne(region, niceName);
 
     if (!foodGroup) throw new NotFoundException(this.foodGroupNotFound);
   }
+
   public async findDistinctNiceName(region: string): Promise<string[]> {
     const niceName = await this.foodGroupRepo.findDistinctNiceName(region);
 
@@ -70,6 +75,7 @@ export class FoodGroupService {
 
     return niceName;
   }
+
   public async deleteImage(region: string, niceName: string): Promise<void> {
     const foodGroup = await this.foodGroupRepo.findOne(region, niceName);
 
@@ -79,6 +85,7 @@ export class FoodGroupService {
 
     await foodGroup.save();
   }
+
   public async createMany(
     body: CreateManyFoodGroupDto,
   ): Promise<FoodGroupDocument[]> {
