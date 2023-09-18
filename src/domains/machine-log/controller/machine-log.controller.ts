@@ -8,11 +8,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateMachineLogDto, UpdateMachineLogDto } from './dtos';
-import { AUTH } from '../auth/decorator/auth.decorator';
-import { MachineLogDocument } from './schema/machine-log.schema';
-import { MachineLogService } from './machine-log.service';
-import { Role } from '../auth/roles/permission.roles';
+
+import { AUTH } from 'src/domains/auth/decorator/auth.decorator';
+import { CreateMachineLogDto } from '../dtos/create-machine-log.dto';
+import { MachineLogDocument } from '../schema/machine-log.schema';
+import { MachineLogService } from '../machine-log.service';
+import { Role } from 'src/domains/auth/roles/permission.roles';
+import { UpdateMachineLogDto } from '../dtos/update-machine-log.dto';
 
 @AUTH(Role.admin)
 @Controller('machine-log')

@@ -1,5 +1,10 @@
-import { CreateMachineLogDto, UpdateMachineLogDto } from './dtos';
+import {
+  CreateMachineLogDto,
+  CreateManyMachineLogDTO,
+  UpdateMachineLogDto,
+} from './dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { json2csv } from 'json-2-csv';
 import { MachineLogDocument } from './schema/machine-log.schema';
 import { MachineLogRepository } from './repository/machine-log.repository';
 import { v4 as uuid } from 'uuid';
@@ -57,5 +62,33 @@ export class MachineLogService {
     if (!machineLog) throw new NotFoundException(this.machinelogNotfound);
 
     return machineLog;
+  }
+
+  public async createManyMachineLogs(
+    body: CreateManyMachineLogDTO,
+  ): Promise<MachineLogDocument[]> {
+    for (let i = 0; i < body.data.length; i++) {
+      // console.log(i)
+      body.data[i]['uniqueId'] = uuid();
+    }
+    const bulkData = await this.machineLogRepo.createManyMachineLogs(body);
+    if (bulkData.length <= 0) {
+      throw new NotFoundException('Data not inserted.');
+    }
+
+    return bulkData;
+  }
+
+  public async exportToCSV(region: string): Promise<Buffer> {
+    const machineLogs = await this.machineLogRepo.findAll(region);
+
+    if (machineLogs.length <= 0) {
+      throw new NotFoundException('machine_models not found');
+    }
+    // console.log(machineLogs);
+    const csv = await json2csv(machineLogs, { unwindArrays: true });
+    const data = Buffer.from(csv);
+
+    return data;
   }
 }

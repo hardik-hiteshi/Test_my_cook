@@ -69,4 +69,24 @@ export class FactoryRepository {
 
     return factory;
   }
+
+  public async fetchFactory(
+    region: string,
+    uniqueId: string,
+  ): Promise<FactoryDocument> {
+    const factory = await this.factoryModel.findOne({ region, uniqueId });
+
+    return factory;
+  }
+  // public async findAll(region: string) {}
+  public async fetchFactoryMachineType(
+    region: string,
+    uniqueId: string,
+  ): Promise<Partial<FactoryDocument>> {
+    const machineType = await this.factoryModel
+      .findOne({ region, uniqueId, isActive: true })
+      .select('machineType -_id');
+
+    return machineType;
+  }
 }
