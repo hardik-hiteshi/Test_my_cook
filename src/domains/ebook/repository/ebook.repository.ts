@@ -18,21 +18,24 @@ export class EbookRepository {
     return await this.ebookModel.findOne({
       niceName,
       region,
-      //isActive: true,
+      isActive: true,
     });
   }
+
   public async findAll(region: string): Promise<EbookDocument[]> {
     return await this.ebookModel.find({
       region,
-      //isActive: true
+      isActive: true,
     });
   }
+
   public async createOne(
     region: string,
     body: CreateEbookDTO,
   ): Promise<EbookDocument> {
     return await this.ebookModel.create({ ...body, region });
   }
+
   public async updateOne(
     niceName: string,
     region: string,
@@ -42,20 +45,38 @@ export class EbookRepository {
       {
         region,
         niceName,
-        // isActive: true
+        isActive: true,
       },
       body,
       { new: true },
     );
   }
+
   public async deleteOne(
     niceName: string,
     region: string,
   ): Promise<EbookDocument> {
     return await this.ebookModel.findOneAndUpdate(
-      { isActive: true, niceName, region },
+      { niceName, region },
       { isActive: false },
       { new: true },
     );
+  }
+
+  public async findOneByQuery(query: object): Promise<object> {
+    const data = await this.ebookModel
+      .findOne(query)
+      .populate('recipes', 'niceName -_id');
+
+    const object = { data, recipes: data.recipes };
+
+    return object;
+  }
+
+  public async updateEbook(
+    query: object,
+    data: object,
+  ): Promise<EbookDocument> {
+    return await this.ebookModel.findOneAndUpdate(query, data, { new: true });
   }
 }

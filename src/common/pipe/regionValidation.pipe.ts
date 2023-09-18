@@ -11,7 +11,6 @@ export class RegionValidationPipe implements PipeTransform<string, string> {
 
   public transform(value: string, metadata: ArgumentMetadata): string {
     metadata;
-    //console.log(value);
     if (!this.isRegionValid(value)) {
       throw new BadRequestException([
         'Invalid region specified in the headers',

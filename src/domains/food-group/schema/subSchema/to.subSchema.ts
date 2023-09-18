@@ -6,7 +6,8 @@ export class To {
   @Prop()
   public niceName: string;
 
-  @Prop({ enum: regions })
+  @Prop()
+  // @Prop({ enum: regions })
   public region: string;
 
   @Prop()

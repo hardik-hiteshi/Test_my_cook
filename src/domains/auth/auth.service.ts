@@ -33,21 +33,20 @@ export class AuthService {
       /* eslint-disable @typescript-eslint/naming-convention */
       'contact.mail': body.mail,
     });
-    // console.log(ip);
 
-    await this.ulServices.createIncomingUserLog(
-      user,
-      agent,
-      region,
-      ip,
-      redirect,
-      forwarded,
-      date,
-      rate,
-      commentId,
-      legalType,
-      type,
-    );
+    // await this.ulServices.createIncomingUserLog(
+    //   user,
+    //   agent,
+    //   region,
+    //   ip,
+    //   redirect,
+    //   forwarded,
+    //   date,
+    //   rate,
+    //   commentId,
+    //   legalType,
+    //   type,
+    // );
     // await this.ulServices.createIncomingUserLog()
 
     if (!user) throw new BadRequestException('invalid user or password');

@@ -54,7 +54,7 @@ export class FoodGroupRepository {
     niceName: string,
   ): Promise<FoodGroupDocument> {
     return await this.foodGroupModel.findOneAndUpdate(
-      { niceName, region, isActive: true },
+      { niceName, region },
       { isActive: false },
       { new: true },
     );

@@ -5,13 +5,16 @@ import {
   Get,
   Headers,
   Param,
+  ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookService } from './ebook.service';
+import { RecipeDocument } from '../recipe/schema/recipe.schema';
 import { Role } from '../auth/roles/permission.roles';
 import { UpdateEbookDTO } from './dtos/updateEbook/updateEbook.dto';
 
@@ -60,11 +63,21 @@ export class EbookController {
     return await this.ebookService.findAll(region);
   }
 
-  // @Get('ebook/recipeByEbook/:skip')
-  // private async getEbook(
+  @Get('ebook/recipeByEbook/:skip')
+  private async getEbookRecipes(
+    @Query('niceName') niceName: string,
+    @Headers('region') region: string,
+    @Param('skip', new ParseIntPipe()) skip: number,
+  ): Promise<RecipeDocument[]> {
+    return await this.ebookService.findEbookRecipes(niceName, region, skip);
+  }
+
+  // @Put('test')
+  // private async addEbook(
   //   @Param('nicename') niceName: string,
   //   @Headers('region') region: string,
+  //   @Body() body: UpdateEbookDTO,
   // ): Promise<EbookDocument> {
-  //   return await this.ebookService.findOne(niceName, region);
+  //   return await this.ebookService.upsertEbookRecipe(region, niceName, body);
   // }
 }

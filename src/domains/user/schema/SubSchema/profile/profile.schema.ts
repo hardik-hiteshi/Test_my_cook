@@ -12,4 +12,8 @@ export class Profile {
   public birthday: string;
   @Prop()
   public language: string;
+  @Prop()
+  public lastViewNotifications: Date;
+  @Prop()
+  public lastViewNews: Date;
 }

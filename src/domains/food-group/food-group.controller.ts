@@ -67,6 +67,7 @@ export class FoodGroupController {
   ): Promise<FoodGroupDocument[]> {
     return await this.foodGroupService.findAll(region);
   }
+
   @Delete('foodgroup/:nicename')
   private async deleteFoodGroup(
     @Param('nicename') niceName: string,
@@ -74,6 +75,7 @@ export class FoodGroupController {
   ): Promise<void> {
     await this.foodGroupService.deleteOne(niceName, region);
   }
+
   @Delete('foodgroup/:nicename/image')
   private async deleteImage(
     @Param('nicename') niceName: string,

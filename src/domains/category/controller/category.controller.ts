@@ -23,7 +23,6 @@ export class CategoryController {
     @Headers('region') region: string,
     @Body() body: CreateCategoryDTO,
   ): Promise<CategoryDocument> {
-    // console.log(body.translations.to)
     return await this.categoryServices.createCategory(region, body);
   }
 
