@@ -8,32 +8,33 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateFactoryDTO } from './dto/createfactory.dto';
-import { FactoryDocument } from './schema/factory.schema';
-import { FactoryService } from './factory.service';
-import { UpdateFactoryDTO } from './dto/updatefactory.dto';
+import { CreateFactoryDTO } from '../dto/createfactory.dto';
+import { FactoryDocument } from '../schema/factory.schema';
+import { FactoryService } from '../factory.service';
+import { UpdateFactoryDTO } from '../dto/updatefactory.dto';
 
 @Controller('factory')
 export class FactoryController {
-  public constructor(public factoryServices: FactoryService) {}
+  public constructor(private factoryServices: FactoryService) {}
 
   @Post()
-  public async createFactory(
+  private async createFactory(
     @Headers('region') region: string,
     @Body() body: CreateFactoryDTO,
   ): Promise<FactoryDocument> {
     return await this.factoryServices.createFactory(region, body);
   }
 
-  @Get()
-  public async findAll(
+  @Get(':uniqueId')
+  private async findAll(
     @Headers('region') region: string,
-  ): Promise<FactoryDocument[]> {
-    return await this.factoryServices.find(region);
+    @Param('uniqueId') uniqueId: string,
+  ): Promise<FactoryDocument> {
+    return await this.factoryServices.findFactory(region, uniqueId);
   }
 
   @Put(':uniqueId')
-  public async updateFactory(
+  private async updateFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
     @Body() body: UpdateFactoryDTO,
@@ -42,10 +43,18 @@ export class FactoryController {
   }
 
   @Delete(':uniqueId')
-  public async deleteFactory(
+  private async deleteFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
   ): Promise<FactoryDocument> {
     return await this.factoryServices.deleteFactory(region, uniqueId);
+  }
+
+  @Get(':uniqueId/machineType')
+  private async fetchFactoryMachineType(
+    @Headers('region') region: string,
+    @Param('uniqueId') uniqueId: string,
+  ): Promise<Partial<FactoryDocument>> {
+    return await this.factoryServices.fetchFactoryMachineType(region, uniqueId);
   }
 }

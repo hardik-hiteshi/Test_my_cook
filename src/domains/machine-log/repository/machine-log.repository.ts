@@ -1,4 +1,8 @@
-import { CreateMachineLogDto, UpdateMachineLogDto } from '../dtos';
+import {
+  CreateMachineLogDto,
+  CreateManyMachineLogDTO,
+  UpdateMachineLogDto,
+} from '../dtos';
 import { MachineLog, MachineLogDocument } from '../schema/machine-log.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -62,5 +66,13 @@ export class MachineLogRepository {
       body,
       { new: true },
     );
+  }
+
+  public async createManyMachineLogs(
+    body: CreateManyMachineLogDTO,
+  ): Promise<MachineLogDocument[]> {
+    return (await this.machineLogModel.insertMany(
+      body.data,
+    )) as MachineLogDocument[];
   }
 }
