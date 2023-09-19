@@ -16,12 +16,12 @@ import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserService } from './user.service';
 
-@AUTH(Role.admin)
+@AUTH(Role.admin, Role.superadmin)
 @Controller('user')
 export class UserController {
   public constructor(private userService: UserService) {}
 
-  @Post('create')
+  @Post()
   private async create(
     @Body() body: UserCreateDto,
     @Headers('region') region: string,

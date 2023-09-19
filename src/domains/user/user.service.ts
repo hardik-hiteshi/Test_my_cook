@@ -72,7 +72,7 @@ export class UserService {
     const deleteUser = await this.userRepo.deleteOne({
       niceName,
       isActive: true,
-      role: Role.user,
+      //role: Role.user,
       region,
     });
     if (!deleteUser) throw new NotFoundException('user not found');

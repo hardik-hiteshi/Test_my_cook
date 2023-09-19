@@ -18,12 +18,8 @@ export class UpdateEbookDTO {
   public publishDate: Date;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   public niceName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  public region: string;
 
   @IsOptional()
   @IsString()
