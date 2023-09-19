@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
-import { Role } from '../auth/roles/permission.roles';
+// import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
 
