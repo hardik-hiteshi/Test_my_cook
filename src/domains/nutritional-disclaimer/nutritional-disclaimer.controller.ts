@@ -16,6 +16,7 @@ import { UpdateNutritionalDisclaimerDTO } from './dto/updateNutritionalDisclaime
 @Controller('nutritional-disclaimer')
 export class NutritionalDisclaimerController {
   public constructor(public ndservice: NutritionalDisclaimerService) {}
+
   @Post()
   public async createNutritionalDisclaimer(
     @Headers('region') region: string,
@@ -23,6 +24,7 @@ export class NutritionalDisclaimerController {
   ): Promise<NutritionalDisclaimerDocument> {
     return await this.ndservice.createNutritionalDisclaimer(region, body);
   }
+
   @Get(':niceName')
   public async fetchNutritionalDisclaimer(
     @Headers('region') region: string,
@@ -30,12 +32,14 @@ export class NutritionalDisclaimerController {
   ): Promise<NutritionalDisclaimerDocument> {
     return await this.ndservice.fetchNutritionalDisclaimer(region, niceName);
   }
+
   @Get()
   public async fetchAllNutritionalDisclaimer(
     @Headers('region') region: string,
   ): Promise<NutritionalDisclaimerDocument[]> {
     return await this.ndservice.fetchAllNutritionalDisclaimer(region);
   }
+
   @Put(':niceName')
   public async updateNutritionalDisclaimer(
     @Headers('region') region: string,

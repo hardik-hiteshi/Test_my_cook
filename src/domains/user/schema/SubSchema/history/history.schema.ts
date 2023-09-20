@@ -6,7 +6,7 @@ import LastLogin from '../lastlogin.schema';
 export class History {
   @Prop()
   public registration: Date;
-  @Prop()
+  @Prop({ default: null })
   public unregistration: Date;
   @Prop({ type: LastLogin, default: {} })
   public lastLoginCMS: LastLogin;

@@ -109,6 +109,7 @@ export class PictosService {
 
     return await this.pictosRepo.createMany(itemsToInsert);
   }
+
   public async deleteImage(region: string, niceName: string): Promise<void> {
     const pictos = await this.pictosRepo.findOne({ region, niceName });
 

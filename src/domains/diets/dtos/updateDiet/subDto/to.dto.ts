@@ -1,5 +1,5 @@
-import { IsDateString, IsIn, IsOptional, IsString } from 'class-validator';
-import regions from 'src/common/enum/region.enum';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
+// import regions from 'src/common/enum/region.enum';
 
 export class DietToDto {
   @IsOptional()
