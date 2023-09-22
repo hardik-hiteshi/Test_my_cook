@@ -45,6 +45,11 @@ export class CreateRecipeDto {
   @IsOptional()
   @IsString()
   public category: string;
+
+  @IsOptional()
+  @IsMongoId()
+  public id: mongooseSchema.Types.ObjectId;
+
   @IsOptional()
   @IsNumber()
   public rate: number;
@@ -54,9 +59,10 @@ export class CreateRecipeDto {
   public categoryNiceName: string;
 
   @IsOptional()
+  @IsArray()
   @ValidateNested()
   @Type(() => CategoriesDTO)
-  public categories: CategoriesDTO;
+  public categories: CategoriesDTO[];
 
   @IsOptional()
   @IsIn(recipecourses, { each: true })

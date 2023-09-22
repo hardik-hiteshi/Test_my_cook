@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
-// import { CreateManyEbookDto } from './dtos/createEbook/createManyEbook.dto';
+import { CreateManyEbookDto } from './dtos/createEbook/createManyEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookRepository } from './repository/ebook.repository';
 import { RecipeDocument } from '../recipe/schema/recipe.schema';

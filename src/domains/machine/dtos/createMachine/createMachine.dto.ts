@@ -33,21 +33,25 @@ export class CreateMachineDto {
   @Type(() => MachineHistoryDto)
   public history?: MachineHistoryDto[];
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  public mac: string;
+  public mac?: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
+  @IsOptional()
   @IsDateString()
-  public manufactureDate: Date;
+  public manufactureDate?: Date;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  public model: string;
+  public model?: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
+  @IsOptional()
   @IsDateString()
-  public purchaseDate: Date;
+  public purchaseDate?: Date;
 
   @IsOptional()
   @IsString()

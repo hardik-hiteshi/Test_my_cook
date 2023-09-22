@@ -17,11 +17,11 @@ import { UserDocument } from './schema/user.schema';
 import { UserService } from './user.service';
 
 @AUTH(Role.admin, Role.superadmin)
-@Controller('user')
+@Controller()
 export class UserController {
   public constructor(private userService: UserService) {}
 
-  @Post()
+  @Post('user')
   private async create(
     @Body() body: UserCreateDto,
     @Headers('region') region: string,
@@ -29,19 +29,19 @@ export class UserController {
     return await this.userService.create(body, region);
   }
 
-  @Get('me')
+  @Get('user')
   private getMe(@GET_USER() user: UserDocument): UserDocument {
     return user;
   }
 
-  @Get()
+  @Get('users')
   private async getAllUsers(
     @Headers('region') region: string,
   ): Promise<UserDocument[]> {
     return await this.userService.findAll(region);
   }
 
-  @Get(':nicename')
+  @Get('user/:nicename')
   private async getUser(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -49,7 +49,7 @@ export class UserController {
     return await this.userService.findOne(niceName, region);
   }
 
-  @Delete(':nicename')
+  @Delete('user/:nicename')
   private async deleteUser(
     @GET_USER() user: UserDocument,
     @Param('nicename') niceName: string,
@@ -58,7 +58,7 @@ export class UserController {
     await this.userService.deleteOne(user, niceName, region);
   }
 
-  @Put('updatePassword')
+  @Put('user/updatePassword/:nicename')
   private async updatePassword(
     @GET_USER() user: UserDocument,
     @Body() body: UpdatePasswordDto,
@@ -66,7 +66,7 @@ export class UserController {
     await this.userService.updatePassword(user, body);
   }
 
-  @Put(':nicename')
+  @Put('user/:nicename')
   private async updateUser(
     @GET_USER() user: UserDocument,
     @Body() body: UserUpdateDto,

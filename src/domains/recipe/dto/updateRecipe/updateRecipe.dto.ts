@@ -48,9 +48,10 @@ export class UpdateRecipeDto {
   public categoryNiceName: string;
 
   @IsOptional()
+  @IsArray()
   @ValidateNested()
   @Type(() => CategoriesDTO)
-  public categories: CategoriesDTO;
+  public categories: CategoriesDTO[];
 
   @IsOptional()
   @IsIn(recipecourses, { each: true })

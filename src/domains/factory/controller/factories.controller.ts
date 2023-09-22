@@ -14,6 +14,7 @@ export class FactoriesController {
   ): Promise<FactoryDocument[]> {
     return await this.factoryServices.find(region);
   }
+
   //is not speficied right now
   // @Post()
   // public async createManyFactories(

@@ -9,11 +9,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateRecipeDto } from './dto/createRecipe/createRecipe.dto';
 import { RecipeDocument } from './schema/recipe.schema';
 import { RecipeService } from './recipe.service';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 
+@AUTH(Role.admin, Role.superadmin)
 @Controller('recipe')
 export class RecipeController {
   public constructor(private recipeService: RecipeService) {}
