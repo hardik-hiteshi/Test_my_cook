@@ -1,11 +1,13 @@
 import {
   IsArray,
+  IsMongoId,
   IsNumber,
   IsObject,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
+import { Schema } from 'mongoose';
 
 import { CategoriesDTO, GroupsDTO, InfoDTO } from './subDto/index';
 import { Type } from 'class-transformer';
@@ -14,12 +16,19 @@ export class UpdateAlternativeRecipeDTO {
   @IsOptional()
   @IsString()
   public title: string;
+
   @IsOptional()
   @IsString()
   public category: string;
+
   @IsOptional()
   @IsString()
   public categoryNiceName: string;
+
+  @IsOptional()
+  @IsMongoId()
+  public catId: Schema.Types.ObjectId;
+
   @IsOptional()
   @IsArray()
   @ValidateNested()

@@ -26,23 +26,20 @@ export class RecipeService {
   ): Promise<RecipeDocument> {
     if (body.categories && !body.category && !body.categoryNiceName) {
       if (body.categories.length > 0) {
-        body.categories.map((item: object, index: number) => {
-          body.id = body.categories[index].id;
-          body.category = body.categories[index].name;
-          body.categoryNiceName = body.categories[index].niceName;
-        });
+        body.category = body.categories[0].name;
+        body.categoryNiceName = body.categories[0].niceName;
       }
     }
     if (body.category && body.categoryNiceName) {
       if (!body.categories && body.category && body.categoryNiceName) {
         body.categories = [];
         const obj = {
-          id: body.id,
+          id: body.catId,
           name: `${body.category}`,
           niceName: `${body.categoryNiceName}`,
         };
         const data = body.categories.find((item: CategoriesDTO) => {
-          item.id === body.id;
+          item.id === body.catId;
         });
         if (!data) {
           body.categories.push(obj);
@@ -87,6 +84,32 @@ export class RecipeService {
     body: UpdateRecipeDto,
     niceName: string,
   ): Promise<RecipeDocument> {
+    //if (body.categories && !body.category && !body.categoryNiceName) {
+    if (body.categories.length > 0) {
+      body.category = body.categories[0].name;
+      body.categoryNiceName = body.categories[0].niceName;
+    } else {
+      body.category = '';
+      body.categoryNiceName = '';
+    }
+    //}
+    if (body.category && body.categoryNiceName) {
+      if (!body.categories && body.category && body.categoryNiceName) {
+        body.categories = [];
+        const obj = {
+          id: body.catId,
+          name: `${body.category}`,
+          niceName: `${body.categoryNiceName}`,
+        };
+        const data = body.categories.find((item: CategoriesDTO) => {
+          item.id === body.catId;
+        });
+        if (!data) {
+          body.categories.push(obj);
+        }
+      }
+    }
+
     const recipe = await this.recipeRepo.updateRecipe(region, body, niceName);
     if (!recipe) {
       throw new NotFoundException('Recipe Does not exist.');

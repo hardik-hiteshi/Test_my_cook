@@ -39,6 +39,9 @@ export class Recipe {
   public categoryNiceName: string;
 
   @Prop()
+  public catId: mongooseSchema.Types.ObjectId;
+
+  @Prop()
   public rate: number;
 
   @Prop(Categories)

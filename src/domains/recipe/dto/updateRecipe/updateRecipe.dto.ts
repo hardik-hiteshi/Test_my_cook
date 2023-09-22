@@ -48,6 +48,10 @@ export class UpdateRecipeDto {
   public categoryNiceName: string;
 
   @IsOptional()
+  @IsMongoId()
+  public catId: mongooseSchema.Types.ObjectId;
+
+  @IsOptional()
   @IsArray()
   @ValidateNested()
   @Type(() => CategoriesDTO)

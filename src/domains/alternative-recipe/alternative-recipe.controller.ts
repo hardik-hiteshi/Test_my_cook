@@ -27,6 +27,7 @@ export class AlternativeRecipeController {
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.fetchRecipe(region, niceName);
   }
+
   @Post()
   public async createRecipe(
     @Headers('region') region: string,
@@ -34,6 +35,7 @@ export class AlternativeRecipeController {
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.createRecipe(region, body);
   }
+
   @Put(':niceName')
   public async updateRecipe(
     @Headers('region') region: string,
