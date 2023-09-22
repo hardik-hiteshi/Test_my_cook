@@ -12,6 +12,8 @@ import { promisify } from 'util';
 import { RecipeDocument } from './schema/subSchema';
 import { RecipeRepository } from './repository/recipe.repository';
 import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
+import { UserDocument } from '../user/schema/user.schema';
+
 // import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 
 @Injectable()
@@ -127,28 +129,26 @@ export class RecipeService {
 
     return recipe;
   }
-
+  //this api is not working as expexted at the moment.
   public async cloneToNewTouch(
     region: string,
     identifier: string,
     body: RecipeDocument,
   ): Promise<Partial<RecipeDocument>> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/naming-convention
-    const { _id, __v, ...actualRecipe } = body;
-    const originalNiceName = actualRecipe['recipe']['niceName'];
-    const doc = actualRecipe;
+    const { _id, __v, ...actualRecipe } = body['recipe'];
+    const originalNiceName = actualRecipe.niceName;
+    const doc = await this.recipeRepo.createRecipe(region, actualRecipe);
+
     if (doc) {
-      if (
-        doc['recipe']['compatibility'] &&
-        doc['recipe']['compatibility'][identifier]
-      ) {
+      if (doc.compatibility && doc.compatibility[identifier]) {
         return { compatibility: doc['recipe']['compatibility'][identifier] };
       }
 
-      doc['recipe']['comments'] = [];
-      doc['recipe']['ratings'] = [];
-      if (!doc['recipe']['social']) {
-        doc['recipe']['social'] = {
+      doc.comments = [];
+      doc.ratings = [];
+      if (!doc.social) {
+        doc.social = {
           favorite: 0,
           facebook: 0,
           comments: 0,
@@ -156,49 +156,44 @@ export class RecipeService {
           todo: 0,
         };
       }
-      doc['recipe']['status']['nutritional'] = 'Auto (Good)';
+      doc.status.nutritional = 'Auto (Good)';
 
-      if (!doc['recipe']['compatibility']) doc['recipe']['compatibility'] = {};
+      if (!doc.compatibility) doc.compatibility = {};
 
-      doc['recipe']['compatibility']['current'] = [identifier];
+      doc.compatibility['current'] = [identifier];
 
-      doc['recipe']['status'] = '';
+      doc.status.idParent = '';
 
       //NiceName to recognize recipes
       const regex = /^(.*)(-s\d+)$/;
-      const matches = doc['recipe']['niceName'].match(regex);
+      const matches = doc.niceName.match(regex);
       if (matches != null) {
-        doc['recipe']['niceName'] = matches[1];
+        doc.niceName = matches[1];
       }
 
-      doc['recipe']['niceName'] += '-' + identifier;
-      if (!doc['recipe']['grants']) {
-        doc['recipe']['grants'] = { _: '', search: [], view: [] };
+      doc.niceName += '-' + identifier;
+      if (!doc.grants) {
+        doc.grants = { _: '', search: [], view: [] };
       }
 
-      doc['recipe']['grants']['search'] = doc['recipe']['grants']['search']
-        ? doc['recipe']['grants']['search'].filter((grant) => grant != 'main')
+      doc.grants.search = doc.grants.search
+        ? doc.grants.search.filter((grant) => grant != 'main')
         : ['public'];
-      doc['recipe']['normalizeNiceName'] = true;
-      //find an alternative for this.
-      // await doc['recipe'].save();
-      // const docs = doc['recipe'];
-      // await docs.save();
 
-      const oldSize = { ...doc['recipe']['size'] };
+      const oldSize = { ...doc.size };
 
-      doc['recipe']['size'] = {};
-      doc['recipe']['size']['current'] = oldSize['current'];
-      doc['recipe']['size'][doc['recipe']['size']['current']] =
-        doc['recipe']['niceName'];
+      doc.size = {};
+      doc.size['current'] = oldSize['current'];
+      doc.size[doc.size['current']] = doc.niceName;
+
       const sizesToCheck = Object.keys(oldSize).filter(
         (k) => k != 'current' && k != oldSize['current'],
       );
 
-      /* Vinculamos las recetas para los sizes que esten adaptados al nuevo sistema */
       const sizesToUpdate = [];
       for (const k of sizesToCheck) {
         const sizedRecipeNiceName = oldSize[k];
+
         const existsForNewCompat = await this.recipeRepo.findOneforCompat(
           {
             niceName: sizedRecipeNiceName,
@@ -209,51 +204,43 @@ export class RecipeService {
         );
 
         if (existsForNewCompat) {
-          sizesToUpdate.push(existsForNewCompat['compatibility'][identifier]);
+          sizesToUpdate.push(existsForNewCompat.compatibility[identifier]);
 
-          doc.size[k] = existsForNewCompat['compatibility'][identifier];
+          doc.size[k] = existsForNewCompat.compatibility[identifier];
           await this.recipeRepo.updateOneNewCompat(
             region,
             existsForNewCompat['compatibility'][identifier],
-            doc['recipe']['niceName'],
+            doc.niceName,
             oldSize['current'],
           );
         }
       }
 
-      if (
-        sizesToUpdate.length &&
-        !doc['recipe']['grants']['search'].includes('multisize')
-      ) {
-        doc['recipe']['grants']['search'].push('multisize');
+      if (sizesToUpdate.length && !doc.grants.search.includes('multisize')) {
+        doc.grants.search.push('multisize');
       } else if (
         !sizesToUpdate.length &&
-        doc['recipe']['grants']['search'].includes('multisize')
+        doc.grants.search.includes('multisize')
       ) {
-        doc['recipe']['grants']['search'] = doc['recipe']['grants'][
-          'search'
-        ].filter((g) => g != 'multisize');
+        doc.grants.search = doc.grants.search.filter((g) => g != 'multisize');
       }
+      doc.compatibility[identifier] = doc.niceName;
 
-      doc['recipe']['compatibility'][identifier] = doc['recipe']['niceName'];
+      doc.markModified('size');
+      doc.markModified('compatibility');
+      doc.markModified('grants');
 
-      // doc.markModified('size');
-      // doc.markModified('compatibility');
-      // doc.markModified('grants');
+      await doc.save();
 
-      // await doc.save();
-
-      let niceNamesToUpdate = Object.values(
-        doc['recipe']['compatibility'],
-      ).filter((val) => {
-        !Array.isArray(val) && val != doc['recipe']['niceName'];
+      let niceNamesToUpdate = Object.values(doc.compatibility).filter((val) => {
+        !Array.isArray(val) && val != doc.niceName;
       });
       niceNamesToUpdate = niceNamesToUpdate.filter((r, idx, arr) => {
         arr.indexOf(r) === idx;
       });
 
       const newFormat = {};
-      newFormat['compatibility.' + identifier] = doc['recipe']['niceName'];
+      newFormat['compatibility.' + identifier] = doc.niceName;
 
       /* Set formats for all recipes: Pax, original and new: */
       await this.recipeRepo.updateniceNames(
@@ -335,14 +322,9 @@ export class RecipeService {
       // }
 
       if (body['copyImage']) {
-        // console.log(path.join(__dirname, 'cd ../../../../'));
-        //C:\Users\gautam.atre\Desktop\mycook-api-nest\uploads
-
-        // return;
         const imagePath = path.join(__dirname, '..', '..', '..', '/uploads');
         let fromPath;
         let found = false;
-
         for (const ext of ['.jpg', '.png', '.webp']) {
           fromPath = path.join(
             imagePath,
@@ -356,7 +338,6 @@ export class RecipeService {
             break;
           }
         }
-        // console.log('eror');
         if (found) {
           let cacheFiles = [];
           cacheFiles = glob.sync(
@@ -364,19 +345,14 @@ export class RecipeService {
               '/.cache/' +
               region +
               '/recipe/**/' +
-              doc['recipe']['niceName'] +
+              doc.niceName +
               '$0.*',
           );
           for (const cacheFile of cacheFiles)
             await promisify(fs.unlink)(cacheFile);
 
           const oldFiles = await promisify(glob)(
-            imagePath +
-              '/' +
-              region +
-              '/recipe/' +
-              doc['recipe']['niceName'] +
-              '$0.*',
+            imagePath + '/' + region + '/recipe/' + doc.niceName + '$0.*',
           );
 
           for (const oldFile of oldFiles) await promisify(fs.unlink)(oldFile);
@@ -385,26 +361,56 @@ export class RecipeService {
             imagePath,
             region,
             'recipe',
-            doc['recipe']['niceName'] + '$0' + path.extname(fromPath),
+            doc.niceName + '$0' + path.extname(fromPath),
           );
-
           fs.copyFileSync(fromPath, toPath);
         } else {
           const imagePath = path.join(__dirname, '..', '..', '..', '/uploads');
           const oldFiles = await promisify(glob)(
-            imagePath +
-              '/' +
-              region +
-              '/recipe/' +
-              doc['recipe']['niceName'] +
-              '$0.*',
+            imagePath + '/' + region + '/recipe/' + doc.niceName + '$0.*',
           );
 
           for (const oldFile of oldFiles) await promisify(fs.unlink)(oldFile);
 
-          return { niceName: doc['recipe']['niceName'] };
+          return { niceName: doc.niceName };
         }
       }
     }
   }
+
+  // public async addComment(
+  //   region: string,
+  //   niceName: string,
+  //   parent: string,
+  //   body: RecipeDocument,
+  //   user: UserDocument,
+  // ): Promise<Partial<RecipeDocument>> {
+  //   // return await this.recipeRepo.addComment(region, niceName, parent, body);
+  //   let commentId;
+  //   const recipeNiceName = niceName;
+  //   const comment = body;
+
+  //   if (!comment['text']) {
+  //     return new BadRequestException(
+  //       "The comment body should contain a 'text' variable",
+  //     );
+  //   }
+  //   const where = {};
+
+  //   where['region'] = region;
+
+  //   where['niceName'] = recipeNiceName;
+
+  //   // eslint-disable-next-line @typescript-eslint/naming-convention
+  //   // await Recipe.findOne(where, { _id: 0, __v: 0 });
+  //   // .lean()
+  //   // .exec()
+  //   // .then(update, error)
+  //   // .then(addLog, error);
+  //   // have to add log for this
+
+  //   const userNiceName = user.niceName;
+
+  //   return userNiceName;
+  // }
 }

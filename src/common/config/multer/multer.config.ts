@@ -3,7 +3,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 export const storage = diskStorage({
   destination(req, file, cb) {
-    const uploadPath = `./uploads/${req.params.type}`;
+    const uploadPath = `./uploads/${req.headers.region}/${req.params.type}`;
 
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
