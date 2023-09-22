@@ -22,7 +22,7 @@ export class RecipeController {
   public constructor(private recipeService: RecipeService) {}
 
   @Post()
-  public async createRecipe(
+  private async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateRecipeDto,
   ): Promise<RecipeDocument> {
@@ -30,7 +30,7 @@ export class RecipeController {
   }
 
   @Get()
-  public async fetchAllRecipes(
+  private async fetchAllRecipes(
     @Headers('region') region: string,
     @Query('search') search?: string,
   ): Promise<Array<RecipeDocument>> {
@@ -38,7 +38,7 @@ export class RecipeController {
   }
 
   @Get(':niceName')
-  public async fetchRecipe(
+  private async fetchRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName,
   ): Promise<RecipeDocument> {
@@ -46,7 +46,7 @@ export class RecipeController {
   }
 
   @Put(':niceName')
-  public async updateRecipe(
+  private async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
     @Body() body: UpdateRecipeDto,
@@ -55,10 +55,21 @@ export class RecipeController {
   }
 
   @Delete(':niceName')
-  public async deleteRecipe(
+  private async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<RecipeDocument> {
     return await this.recipeService.deleteRecipe(region, niceName);
+  }
+  @Post('/toNewTouch/:identifier')
+  private async cloneToNewTouch(
+    @Headers('region') region: string,
+    @Param('identifier') identifier: string,
+    @Body() body: RecipeDocument,
+  ): Promise<Partial<RecipeDocument>> {
+    return await this.recipeService.cloneToNewTouch(region, identifier, body);
+
+    // return 32;
+    //this function is incomplete.
   }
 }
