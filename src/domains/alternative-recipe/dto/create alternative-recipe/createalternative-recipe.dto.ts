@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsObject,
@@ -7,10 +8,10 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-
-import { CategoriesDTO, GroupsDTO, InfoDTO } from './subDto/index';
+import { Schema } from 'mongoose';
 import { Type } from 'class-transformer';
 
+import { CategoriesDTO, GroupsDTO, InfoDTO } from './subDto/index';
 export class CreateAlternativeRecipeDTO {
   @IsOptional()
   @IsString()
@@ -18,21 +19,30 @@ export class CreateAlternativeRecipeDTO {
   @IsNotEmpty()
   @IsString()
   public niceName: string;
+
   @IsOptional()
   @IsString()
   public category: string;
+
   @IsOptional()
   @IsString()
   public categoryNiceName: string;
+
+  @IsOptional()
+  @IsMongoId()
+  public catId: Schema.Types.ObjectId;
+
   @IsOptional()
   @IsArray()
   @ValidateNested()
   @Type(() => CategoriesDTO)
   public categories: CategoriesDTO[];
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
   public course: string[];
+
   @IsOptional()
   @ValidateNested()
   @Type(() => InfoDTO)

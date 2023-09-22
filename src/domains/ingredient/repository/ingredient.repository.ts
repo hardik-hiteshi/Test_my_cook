@@ -32,13 +32,12 @@ export class IngredientRepository {
     niceName: string,
     region: string,
   ): Promise<IngredientDocument> {
-    return await this.ingredientModel
-      .findOne({
-        niceName,
-        region,
-        isActive: true,
-      })
-      .populate('foodGroup');
+    return await this.ingredientModel.findOne({
+      niceName,
+      region,
+      isActive: true,
+    });
+    //.populate('foodGroup');
   }
 
   public async findAll(region: string): Promise<IngredientDocument[]> {

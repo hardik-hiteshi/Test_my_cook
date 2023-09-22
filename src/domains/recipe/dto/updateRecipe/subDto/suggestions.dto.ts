@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 export class SuggestionsDTO {
   @IsOptional()
   @IsMongoId()
-  public _id: Types.ObjectId;
+  public id: Types.ObjectId;
 
   @IsOptional()
   @IsString()

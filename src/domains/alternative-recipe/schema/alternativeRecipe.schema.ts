@@ -1,7 +1,7 @@
 import { Categories, Group, Info } from './subSchema/index';
+import { HydratedDocument, Schema as mongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import alternativeRecipeCourses from './subSchema/enums/AlternativeRecipeCourses.enum';
-import { HydratedDocument } from 'mongoose';
 
 export type AlternativeRecipeDocument = HydratedDocument<AlternativeRecipe>;
 @Schema({
@@ -14,12 +14,18 @@ export class AlternativeRecipe {
   public title: string;
   @Prop()
   public niceName: string;
+
   @Prop()
   public category: string;
   @Prop()
   public categoryNiceName: string;
+
   @Prop([Categories])
   public categories: Categories[];
+
+  @Prop()
+  public catId: mongooseSchema.Types.ObjectId;
+
   @Prop([{ type: String, enum: alternativeRecipeCourses }])
   public course: string[];
   @Prop(Info)
@@ -33,7 +39,11 @@ export class AlternativeRecipe {
   @Prop()
   public price: number;
   @Prop({ type: Object })
-  public size: object;
+  public size: {
+    // Use an index signature to allow dynamic keys
+    [key: string]: string;
+    current: string;
+  };
   @Prop([String])
   public images: string[];
   @Prop()

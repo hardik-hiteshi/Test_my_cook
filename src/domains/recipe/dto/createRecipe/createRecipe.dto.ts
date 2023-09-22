@@ -48,7 +48,7 @@ export class CreateRecipeDto {
 
   @IsOptional()
   @IsMongoId()
-  public id: mongooseSchema.Types.ObjectId;
+  public catId: mongooseSchema.Types.ObjectId;
 
   @IsOptional()
   @IsNumber()
