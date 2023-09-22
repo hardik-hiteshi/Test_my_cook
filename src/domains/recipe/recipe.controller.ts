@@ -68,8 +68,15 @@ export class RecipeController {
     @Body() body: RecipeDocument,
   ): Promise<Partial<RecipeDocument>> {
     return await this.recipeService.cloneToNewTouch(region, identifier, body);
-
-    // return 32;
-    //this function is incomplete.
   }
+  // @Post('/:niceName/comment/:parent')
+  // private async addComment(
+  //   @Headers('region') region: string,
+  //   @Param('niceName') niceName: string,
+  //   @Param('parent') parent: string,
+  //   @Body() body: RecipeDocument,
+  //   @GET_USER() user: UserDocument,
+  // ): Promise<Partial<RecipeDocument>> {
+  //   return await this.recipeService.addComment(region, niceName, parent, body, user);
+  // }
 }

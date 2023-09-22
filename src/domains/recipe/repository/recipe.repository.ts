@@ -213,4 +213,12 @@ export class RecipeRepository {
 
     return data;
   }
+  public async addComment(
+    region: string,
+    niceName: string,
+    parent: string,
+    body: RecipeDocument,
+  ): Promise<void> {
+    // return await this.recipeModel.region, niceName, parent, body);
+  }
 }
