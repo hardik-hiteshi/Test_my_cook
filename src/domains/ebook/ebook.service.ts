@@ -4,6 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
+import { CreateEbookMultiDTO } from './dtos/createManyEbook/createEbook.dto';
+import { CreateManyEbookDto } from './dtos/createManyEbook/createManyEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookRepository } from './repository/ebook.repository';
 import { RecipeDocument } from '../recipe/schema/recipe.schema';
@@ -108,9 +110,42 @@ export class EbookService {
     if (result) {
       return result;
     }
-    body.region = region;
-    const ebook = await this.ebookRepo.createOne(region, body);
+    const reqBody: UpdateEbookDTO & { region: string } = { ...body, region };
+
+    const ebook = await this.ebookRepo.createOne(region, reqBody);
 
     return ebook;
+  }
+
+  public async createMany(
+    body: CreateManyEbookDto,
+    region: string,
+  ): Promise<EbookDocument[]> {
+    let existingItemSerial: string[][];
+    let itemsToInsert: CreateEbookMultiDTO[];
+    const data = body.data.map((i) => i.niceName);
+    const existingItems = await this.ebookRepo.findAll(region);
+
+    if (existingItems.length > 0) {
+      existingItemSerial = existingItems.map((item) => [
+        item.niceName,
+        item.region,
+      ]);
+
+      itemsToInsert = body.data.filter(
+        (item) =>
+          !existingItemSerial.some(
+            (i) => i[0] == item.niceName && i[1] == item.region,
+          ),
+      );
+    } else {
+      itemsToInsert = body.data;
+    }
+
+    if (itemsToInsert.length === 0) {
+      throw new BadRequestException('All items already exist');
+    }
+
+    return await this.ebookRepo.createMany(itemsToInsert);
   }
 }

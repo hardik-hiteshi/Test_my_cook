@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Post } from '@nestjs/common';
 import { AdvertisementDocument } from '../schemas/advertisement.schema';
 import { AdvertisementService } from '../advertisement.service';
 import { PaginationDTO } from '../dto/pagination.dto';

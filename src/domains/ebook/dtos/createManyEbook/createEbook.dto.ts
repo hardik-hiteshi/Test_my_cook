@@ -1,14 +1,16 @@
 import {
   IsDateString,
+  IsIn,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
+import regions from 'src/common/enum/region.enum';
 import { Schema } from 'mongoose';
 
-export class UpdateEbookDTO {
+export class CreateEbookMultiDTO {
   @IsString()
   @IsNotEmpty()
   public title: string;
@@ -17,8 +19,8 @@ export class UpdateEbookDTO {
   @IsNotEmpty()
   public publishDate: Date;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
   public niceName: string;
 
   @IsOptional()
@@ -42,4 +44,8 @@ export class UpdateEbookDTO {
 
   @IsOptional()
   public pdf?: Schema.Types.Mixed;
+
+  @IsIn(regions)
+  @IsString()
+  public region: string;
 }

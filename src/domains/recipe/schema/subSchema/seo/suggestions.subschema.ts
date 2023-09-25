@@ -1,7 +1,10 @@
 import { Prop, Schema } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 
-@Schema({ _id: false })
+@Schema()
 export class Suggestions {
+  @Prop()
+  public id: Types.ObjectId;
   @Prop()
   public title: string;
   @Prop()

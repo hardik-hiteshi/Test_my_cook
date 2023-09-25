@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
-import { CreateManyFactoriesDTO } from '../dto/createManyFactories.dto';
+// import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Controller, Get, Headers } from '@nestjs/common';
+// import { CreateManyFactoriesDTO } from '../dto/createManyFactories.dto';
 import { FactoryDocument } from '../schema/factory.schema';
 import { FactoryService } from '../factory.service';
 
@@ -13,6 +14,7 @@ export class FactoriesController {
   ): Promise<FactoryDocument[]> {
     return await this.factoryServices.find(region);
   }
+
   //is not speficied right now
   // @Post()
   // public async createManyFactories(

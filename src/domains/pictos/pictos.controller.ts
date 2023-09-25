@@ -15,11 +15,11 @@ import { PictosService } from './pictos.service';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('pictos')
+@Controller()
 export class PictosController {
   public constructor(private pictosService: PictosService) {}
 
-  @Post()
+  @Post('picto')
   private async createPictos(
     @Headers('region') region: string,
     @Body() body: CreatePictosDto,
@@ -27,14 +27,14 @@ export class PictosController {
     return await this.pictosService.createOne(body, region);
   }
 
-  @Post('create-many')
+  @Post('pictos')
   private async createManyPictos(
     @Body() body: CreateManyPictostDto,
   ): Promise<PictosDocument[]> {
     return await this.pictosService.createMany(body);
   }
 
-  @Put(':nicename')
+  @Put('picto/:nicename')
   private async updatePictos(
     @Headers('region') region: string,
     @Param('nicename') niceName: string,
@@ -43,27 +43,29 @@ export class PictosController {
     return await this.pictosService.updateOne(niceName, body, region);
   }
 
-  @Get('enum')
+  @Get('picto/enum')
   private async getDistinctNiceName(
     @Headers('region') region: string,
   ): Promise<string[]> {
     return this.pictosService.findDistinctNiceName(region);
   }
 
-  @Get(':nicename')
+  @Get('picto/:nicename')
   private async getOne(
     @Headers('region') region: string,
     @Param('nicename') niceName: string,
   ): Promise<PictosDocument> {
     return await this.pictosService.findOne(niceName, region);
   }
-  @Get()
+
+  @Get('picto')
   private async getAll(
     @Headers('region') region: string,
   ): Promise<PictosDocument[]> {
     return await this.pictosService.findAll(region);
   }
-  @Delete(':nicename')
+
+  @Delete('picto/:nicename')
   private async deleteOne(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -71,7 +73,7 @@ export class PictosController {
     await this.pictosService.deleteOne(region, niceName);
   }
 
-  @Delete(':nicename/image')
+  @Delete('picto/:nicename/image')
   private async deleteImage(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,

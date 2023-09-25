@@ -8,7 +8,7 @@ export class MachineModel {
   @Prop({ required: true, unique: true })
   public uniqueId: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   public code: string;
 
   @Prop({ required: true })

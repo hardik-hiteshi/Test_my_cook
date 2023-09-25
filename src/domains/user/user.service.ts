@@ -8,7 +8,7 @@ import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
 // import { IGetFollowindAndFlowers } from './interface/returnType.interface';
 import { json2csv } from 'json-2-csv';
 import { RecipeRepository } from '../recipe/repository/recipe.repository';
-import { Role } from '../auth/roles/permission.roles';
+// import { Role } from '../auth/roles/permission.roles';
 import { TransactionService } from 'src/common/services/transaction.service';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
@@ -79,7 +79,7 @@ export class UserService {
     const deleteUser = await this.userRepo.deleteOne({
       niceName,
       isActive: true,
-      role: Role.user,
+      //role: Role.user,
       region,
     });
     if (!deleteUser) throw new NotFoundException('user not found');

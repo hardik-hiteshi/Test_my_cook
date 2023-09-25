@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateFactoryDTO } from './dto/createfactory.dto';
-import { CreateManyFactoriesDTO } from './dto/createManyFactories.dto';
+// import { CreateManyFactoriesDTO } from './dto/createManyFactories.dto';
 import { FactoryDocument } from './schema/factory.schema';
 import { FactoryRepository } from './repository/factory.repository';
 import { UpdateFactoryDTO } from './dto/updatefactory.dto';

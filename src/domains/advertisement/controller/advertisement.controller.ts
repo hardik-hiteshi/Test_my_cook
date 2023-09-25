@@ -14,11 +14,11 @@ import { AdvertisementService } from '../advertisement.service';
 import { CreateAdvertisementDTO } from '../dto/createadvertisement.dto';
 import { UpdateAdvertisementDTO } from '../dto/updateadvertisement.dto';
 
-@Controller('Advertisement')
+@Controller()
 export class AdvertisementController {
   public constructor(public adverstimentServices: AdvertisementService) {}
 
-  @Get(':niceName')
+  @Get('Advertisement/:niceName')
   public async fetchAdvertisement(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -26,7 +26,7 @@ export class AdvertisementController {
     return await this.adverstimentServices.fetchAdvertisement(region, niceName);
   }
 
-  @Post('')
+  @Post('Advertisement')
   public async createAdvertisement(
     @Headers('region') region: string,
     @Body() body: CreateAdvertisementDTO,
@@ -34,7 +34,7 @@ export class AdvertisementController {
     return await this.adverstimentServices.createAdvertisement(region, body);
   }
 
-  @Put(':niceName')
+  @Put('Advertisement/:niceName')
   public async updateAdvertisement(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -47,7 +47,7 @@ export class AdvertisementController {
     );
   }
 
-  @Delete(':niceName')
+  @Delete('Advertisement/:niceName')
   public async deleteAdvertisement(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -58,7 +58,7 @@ export class AdvertisementController {
     );
   }
 
-  @Get()
+  @Get('Advertisements')
   public async fetchAdvertisements(
     @Headers('region') region: string,
     @Query('search') search: string,
@@ -66,7 +66,7 @@ export class AdvertisementController {
     return await this.adverstimentServices.fetchAdvertisements(region, search);
   }
 
-  @Get('/cat/:category')
+  @Get('Advertisement/cat/:category')
   public async fetchrandomAdvertisement(
     @Headers('region') region: string,
     @Param('category') category: string,
@@ -77,7 +77,7 @@ export class AdvertisementController {
     );
   }
 
-  @Put('/click/:niceName')
+  @Put('Advertisement/click/:niceName')
   public async addClick(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

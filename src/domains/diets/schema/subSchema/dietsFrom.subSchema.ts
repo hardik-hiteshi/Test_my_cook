@@ -1,5 +1,5 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import regions from 'src/common/enum/region.enum';
+// import regions from 'src/common/enum/region.enum';
 
 @Schema()
 export class DietFrom {

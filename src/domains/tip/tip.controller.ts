@@ -18,31 +18,25 @@ import { TipDocument } from './schema/tip.schema';
 import { TipService } from './tip.service';
 
 @AUTH(Role.admin)
-@Controller('tip')
+@Controller()
 export class TipController {
   public constructor(private tipService: TipService) {}
-  @Get()
-  public async getAllTip(
-    @Headers('region') region: string,
-    @Query('search') search?: string,
-  ): Promise<TipDocument[]> {
-    return await this.tipService.findAll(region, search);
-  }
 
-  @Get('random')
+  @Get('tip/random')
   public async getRandomTip(
     @Headers('region') region: string,
   ): Promise<TipDocument> {
     return await this.tipService.findRandomTip(region);
   }
-  @Get(':id')
+
+  @Get('tip/:id')
   public async getTip(
     @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
   ): Promise<TipDocument> {
     return await this.tipService.findOne(id);
   }
 
-  @Post()
+  @Post('tip')
   public async createTip(
     @Headers('region') region: string,
     @Body() body: CreateTipDto,
@@ -50,18 +44,27 @@ export class TipController {
     return await this.tipService.createOne(body, region);
   }
 
-  @Put(':id')
+  @Put('tip/:id')
   public async updateTip(
     @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
     @Body() body: UpdateTipDto,
   ): Promise<TipDocument> {
     return this.tipService.updateOne(id, body);
   }
-  @Delete(':id')
+
+  @Delete('tip/:id')
   public async deleteTip(
     @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
   ): Promise<void> {
     // using hard delete might use soft delete in future
     return await this.tipService.deleteOne(id);
+  }
+
+  @Get('tips')
+  public async getAllTip(
+    @Headers('region') region: string,
+    @Query('search') search?: string,
+  ): Promise<TipDocument[]> {
+    return await this.tipService.findAll(region, search);
   }
 }

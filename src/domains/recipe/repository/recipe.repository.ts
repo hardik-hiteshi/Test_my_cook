@@ -186,4 +186,47 @@ export class RecipeRepository {
       region,
     });
   }
+  public async findOneforCompat(
+    options: object,
+    filterOptions?: object,
+  ): Promise<RecipeDocument> {
+    return await this.recipeModel.findOne(options, filterOptions);
+  }
+  public async updateOneNewCompat(
+    region: string,
+    niceName: string,
+    docNiceName: string,
+    current: string,
+  ): Promise<RecipeDocument> {
+    const updatedCompat = await this.recipeModel.findOneAndUpdate(
+      {
+        niceName,
+        region,
+      },
+      { $set: { ['size.' + current]: docNiceName } },
+      { new: true },
+    );
+
+    return updatedCompat;
+  }
+
+  public async updateniceNames(
+    filteroptions?: object,
+    setData?: object,
+  ): Promise<RecipeDocument> {
+    const data = await this.recipeModel.findOneAndUpdate(
+      filteroptions,
+      setData,
+    );
+
+    return data;
+  }
+  // public async addComment(
+  //   region: string,
+  //   niceName: string,
+  //   parent: string,
+  //   body: RecipeDocument,
+  // ): Promise<void> {
+  //   // return await this.recipeModel.region, niceName, parent, body);
+  // }
 }

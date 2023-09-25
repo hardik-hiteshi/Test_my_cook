@@ -6,6 +6,7 @@ export class HistoryDto {
   @IsDateString()
   public registration?: Date;
 
+  @IsOptional()
   @IsDateString()
   public unregistration?: Date;
 

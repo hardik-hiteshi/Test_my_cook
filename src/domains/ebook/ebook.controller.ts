@@ -12,13 +12,14 @@ import {
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
+import { CreateManyEbookDto } from './dtos/createManyEbook/createManyEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookService } from './ebook.service';
 import { RecipeDocument } from '../recipe/schema/recipe.schema';
 import { Role } from '../auth/roles/permission.roles';
 import { UpdateEbookDTO } from './dtos/updateEbook/updateEbook.dto';
 
-@AUTH(Role.admin)
+@AUTH(Role.admin, Role.superadmin)
 @Controller()
 export class EbookController {
   public constructor(private ebookService: EbookService) {}
@@ -29,6 +30,15 @@ export class EbookController {
     @Body() body: CreateEbookDTO,
   ): Promise<EbookDocument> {
     return await this.ebookService.createOne(region, body);
+  }
+
+  @Put('ebook/addEbook')
+  private async addEbook(
+    @Headers('region') region: string,
+    @Param('nicename') niceName: string,
+    @Body() body: UpdateEbookDTO,
+  ): Promise<EbookDocument> {
+    return await this.ebookService.upsertEbookRecipe(region, niceName, body);
   }
 
   @Put('ebook/:nicename')
@@ -72,12 +82,11 @@ export class EbookController {
     return await this.ebookService.findEbookRecipes(niceName, region, skip);
   }
 
-  // @Put('test')
-  // private async addEbook(
-  //   @Param('nicename') niceName: string,
-  //   @Headers('region') region: string,
-  //   @Body() body: UpdateEbookDTO,
-  // ): Promise<EbookDocument> {
-  //   return await this.ebookService.upsertEbookRecipe(region, niceName, body);
-  // }
+  @Post('ebooks')
+  private async bulkInsert(
+    @Headers('region') region: string,
+    @Body() body: CreateManyEbookDto,
+  ): Promise<EbookDocument[]> {
+    return await this.ebookService.createMany(body, region);
+  }
 }

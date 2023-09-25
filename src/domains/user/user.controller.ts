@@ -19,12 +19,13 @@ import type { Response } from 'express';
 import { Role } from '../auth/roles/permission.roles';
 import { UserDocument } from './schema/user.schema';
 import { UserService } from './user.service';
-// @AUTH(Role.admin)
-@Controller('user')
+
+@AUTH(Role.admin, Role.superadmin)
+@Controller()
 export class UserController {
   public constructor(private userService: UserService) {}
 
-  @Post('create')
+  @Post('user')
   private async create(
     @Body() body: UserCreateDto,
     @Headers('region') region: string,
@@ -85,19 +86,19 @@ export class UserController {
   //   );
   // }
 
-  @Get('me')
+  @Get('user')
   private getMe(@GET_USER() user: UserDocument): UserDocument {
     return user;
   }
 
-  @Get()
+  @Get('users')
   private async getAllUsers(
     @Headers('region') region: string,
   ): Promise<UserDocument[]> {
     return await this.userService.findAll(region);
   }
 
-  @Get(':nicename')
+  @Get('user/:nicename')
   private async getUser(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -156,7 +157,7 @@ export class UserController {
     return new StreamableFile(file.data);
   }
 
-  @Delete(':nicename')
+  @Delete('user/:nicename')
   private async deleteUser(
     @GET_USER() user: UserDocument,
     @Param('nicename') niceName: string,
@@ -180,7 +181,7 @@ export class UserController {
   //   );
   // }
 
-  @Put('updatePassword')
+  @Put('user/updatePassword/:nicename')
   private async updatePassword(
     @GET_USER() user: UserDocument,
     @Body() body: UpdatePasswordDto,
@@ -188,7 +189,7 @@ export class UserController {
     await this.userService.updatePassword(user, body);
   }
 
-  @Put(':nicename')
+  @Put('user/:nicename')
   private async updateUser(
     @GET_USER() user: UserDocument,
     @Body() body: UserUpdateDto,

@@ -1,8 +1,11 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-@Schema({ _id: false })
+import { Schema as mongooseSchema } from 'mongoose';
+@Schema()
 export class Categories {
   @Prop()
-  public name: string;
+  public id?: mongooseSchema.Types.ObjectId;
   @Prop()
-  public niceName: string;
+  public name?: string;
+  @Prop()
+  public niceName?: string;
 }

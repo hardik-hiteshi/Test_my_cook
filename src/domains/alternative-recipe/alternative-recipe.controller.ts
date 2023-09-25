@@ -14,27 +14,29 @@ import { AlternativeRecipeService } from './alternative-recipe.service';
 import { CreateAlternativeRecipeDTO } from './dto/create alternative-recipe/createalternative-recipe.dto';
 import { UpdateAlternativeRecipeDTO } from './dto/update alternative-recipe/updatealternative-recipe.dto';
 
-@Controller('AlternativeRecipe')
+@Controller()
 export class AlternativeRecipeController {
   public constructor(
     public alternativeRecipeServices: AlternativeRecipeService,
   ) {}
 
-  @Get(':niceName')
+  @Get('AlternativeRecipe/:niceName')
   public async fetchRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.fetchRecipe(region, niceName);
   }
-  @Post()
+
+  @Post('AlternativeRecipe')
   public async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateAlternativeRecipeDTO,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.createRecipe(region, body);
   }
-  @Put(':niceName')
+
+  @Put('AlternativeRecipe/:niceName')
   public async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -47,14 +49,15 @@ export class AlternativeRecipeController {
     );
   }
 
-  @Delete(':niceName')
+  @Delete('AlternativeRecipe/:niceName')
   public async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<AlternativeRecipeDocument> {
     return await this.alternativeRecipeServices.deleteRecipe(region, niceName);
   }
-  @Get()
+
+  @Get('AlternativeRecipes')
   public async fetchAllRecipes(
     @Headers('region') region: string,
     @Query('search') search?: string,

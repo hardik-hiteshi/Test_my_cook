@@ -34,7 +34,7 @@ export class FeaturedController {
     return await this.featuredServices.fetchFeatured(region, type, search);
   }
   @Put()
-  public async updateFeatured(
+  public async upsertFeatured(
     @Headers('region') region: string,
     @Body() body: UpdateFeatureDTO,
   ): Promise<FeaturedDocument> {
