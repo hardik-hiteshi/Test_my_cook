@@ -36,7 +36,7 @@ export class RecipeRepository {
 
   public async fetchRecipes(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<Array<RecipeDocument>> {
     const query: QueryInterface = {};
     const parsed = Number(search);
@@ -110,11 +110,13 @@ export class RecipeRepository {
         //{ nutritionalForRation: { $regex: search, $options: "i" } },
       ];
     }
-    const data = await this.recipeModel.find({
-      $and: [query, { isActive: true }, { region }],
-    });
+    const data = await this.recipeModel
+      .find({
+        $and: [query, { isActive: true }, { region }],
+      })
+      .lean();
     if (data.length > 0) {
-      return data;
+      return data as RecipeDocument[];
     }
 
     return [];
