@@ -13,11 +13,11 @@ import { NutritionalDisclaimerDocument } from './schema/nutritionalDisclaimer.sc
 import { NutritionalDisclaimerService } from './nutritional-disclaimer.service';
 import { UpdateNutritionalDisclaimerDTO } from './dto/updateNutritionalDisclaimer/updateNutritionalDisclaimer.dto';
 
-@Controller('nutritional-disclaimer')
+@Controller()
 export class NutritionalDisclaimerController {
   public constructor(public ndservice: NutritionalDisclaimerService) {}
 
-  @Post()
+  @Post('NutritionalDisclaimer')
   public async createNutritionalDisclaimer(
     @Headers('region') region: string,
     @Body() body: CreateNutritionalDisclaimerDTO,
@@ -25,7 +25,7 @@ export class NutritionalDisclaimerController {
     return await this.ndservice.createNutritionalDisclaimer(region, body);
   }
 
-  @Get(':niceName')
+  @Get('NutritionalDisclaimer/:niceName')
   public async fetchNutritionalDisclaimer(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -33,14 +33,14 @@ export class NutritionalDisclaimerController {
     return await this.ndservice.fetchNutritionalDisclaimer(region, niceName);
   }
 
-  @Get()
+  @Get('NutritionalDisclaimers')
   public async fetchAllNutritionalDisclaimer(
     @Headers('region') region: string,
   ): Promise<NutritionalDisclaimerDocument[]> {
     return await this.ndservice.fetchAllNutritionalDisclaimer(region);
   }
 
-  @Put(':niceName')
+  @Put('NutritionalDisclaimer/:niceName')
   public async updateNutritionalDisclaimer(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -53,7 +53,7 @@ export class NutritionalDisclaimerController {
     );
   }
 
-  @Delete(':niceName')
+  @Delete('NutritionalDisclaimer/:niceName')
   public async deleteNutritionalDisclaimer(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,

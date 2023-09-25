@@ -22,8 +22,8 @@ export class Ebook {
   @Prop({ required: true })
   public description: string;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Recipe' })
-  public recipes: Types.ObjectId[];
+  @Prop({ type: [mongoSchema.Types.ObjectId], ref: 'Recipe' })
+  public recipes: mongoSchema.Types.ObjectId[];
 
   @Prop({ required: true, enum: regions })
   public region: string;

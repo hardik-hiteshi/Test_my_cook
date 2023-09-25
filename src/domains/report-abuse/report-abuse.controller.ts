@@ -16,10 +16,11 @@ import { ReportAbuseService } from './report-abuse.service';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('reportAbuses')
+@Controller()
 export class ReportAbuseController {
   public constructor(private reportService: ReportAbuseService) {}
-  @Post('create')
+
+  @Post('reportAbuse')
   private async createReport(
     @Headers('region') region: string,
     @Body() body: CreateReportDto,
@@ -27,7 +28,7 @@ export class ReportAbuseController {
     return await this.reportService.createOne(body, region);
   }
 
-  @Get(':reportedUserNiceName')
+  @Get('reportAbuse/:reportedUserNiceName')
   private async getOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,
@@ -35,14 +36,14 @@ export class ReportAbuseController {
     return await this.reportService.findOne(region, reportedUserNiceName);
   }
 
-  @Get()
+  @Get('reportAbuses')
   private async getAll(
     @Headers('region') region: string,
   ): Promise<ReportAbuseDocument[]> {
     return await this.reportService.findAll(region);
   }
 
-  @Put(':reportedUserNiceName')
+  @Put('reportAbuse/:reportedUserNiceName')
   private async updateOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,
@@ -54,8 +55,9 @@ export class ReportAbuseController {
       body,
     );
   }
+
   // using hard delete for now
-  @Delete(':reportedUserNiceName')
+  @Delete('reportAbuse/:reportedUserNiceName')
   private async deleteOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,
@@ -63,7 +65,7 @@ export class ReportAbuseController {
     await this.reportService.deleteOne(region, reportedUserNiceName);
   }
 
-  @Post()
+  @Post('reportAbuses')
   private async createManyReports(
     @Headers('region') region: string,
     @Body() body: CreateManyReportsDto,

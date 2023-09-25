@@ -33,6 +33,7 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.fetchCategory(region, niceName);
   }
+
   @Put('category/:niceName')
   public async updateCategory(
     @Headers('region') region: string,
@@ -41,6 +42,7 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.updateCategory(region, niceName, body);
   }
+
   @Delete('category/:niceName')
   public async deleteCategory(
     @Headers('region') region: string,
@@ -48,6 +50,7 @@ export class CategoryController {
   ): Promise<CategoryDocument> {
     return await this.categoryServices.deleteCategory(region, niceName);
   }
+
   @Get('categories')
   public async fetchCategories(
     @Headers('region') region: string,
