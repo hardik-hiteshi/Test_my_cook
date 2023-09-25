@@ -34,7 +34,7 @@ export class MachineLogRepository {
   }
 
   public async findAll(region: string): Promise<MachineLogDocument[]> {
-    return await this.machineLogModel.find({ region, isActive: true });
+    return await this.machineLogModel.find({ region, isActive: true }).lean();
   }
 
   public async deleteOne(

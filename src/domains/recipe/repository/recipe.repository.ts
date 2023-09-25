@@ -177,4 +177,13 @@ export class RecipeRepository {
       return data;
     }
   }
+  public async draftRecipesCount(
+    region: string,
+    niceName: string,
+  ): Promise<number> {
+    return await this.recipeModel.count({
+      'grants.view': 'draft/' + niceName,
+      region,
+    });
+  }
 }
