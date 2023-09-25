@@ -59,6 +59,7 @@ export class DietsController {
   ): Promise<DietDocument[]> {
     return await this.dietService.findAll(region);
   }
+
   // using hard delete might use soft delete in future
   @Delete('diet/:nicename')
   private async deleteDiet(
@@ -75,6 +76,7 @@ export class DietsController {
   ): Promise<DietDocument['tags']> {
     return this.dietService.findTags(niceName, region);
   }
+
   @Get('diet/:nicename/tags/:index')
   private async getTagsByNiceNameIndex(
     @Param('nicename') niceName: string,
@@ -107,6 +109,7 @@ export class DietsController {
   ): Promise<DietDocument[]> {
     return this.dietService.createManyDiet(body);
   }
+
   @Delete('diet/:nicename/image')
   private async deleteImage(
     @Param('nicename') niceName: string,

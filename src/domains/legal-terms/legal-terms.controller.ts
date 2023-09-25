@@ -12,11 +12,11 @@ import { LegalTermsDocument } from './schema/legal-terms.schema';
 import { LegalTermsService } from './legal-terms.service';
 import { UpdateLegalTermsDTO } from './dto/updateLegal-terms/legal-terms.update.dto';
 
-@Controller('legalterms')
+@Controller()
 export class LegalTermsController {
   public constructor(public legaltermsServices: LegalTermsService) {}
 
-  @Post()
+  @Post('legalterms')
   public async createLegalTerm(
     @Headers('region') region: string,
     @Body() body: CreateLegalTermsDTO,
@@ -24,14 +24,14 @@ export class LegalTermsController {
     return await this.legaltermsServices.createLegalTerm(region, body);
   }
 
-  @Get()
+  @Get('legalterms')
   public async fetchLegalTerm(
     @Headers('region') region: string,
   ): Promise<LegalTermsDocument> {
     return await this.legaltermsServices.fetchLegalTerm(region);
   }
 
-  @Put()
+  @Put('legalterms')
   public async updateLegalTerm(
     @Headers('region') region: string,
     @Body() body: UpdateLegalTermsDTO,
@@ -39,14 +39,14 @@ export class LegalTermsController {
     return await this.legaltermsServices.updateLegalTerm(region, body);
   }
 
-  @Delete()
+  @Delete('legalterms')
   public async deleteLegalTerm(
     @Headers('region') region: string,
   ): Promise<LegalTermsDocument> {
     return await this.legaltermsServices.deleteLegalTerm(region);
   }
 
-  @Get('fetchall')
+  @Get('legaltermss')
   public async fetchLegalTerms(
     @Headers('region') region: string,
   ): Promise<LegalTermsDocument[]> {

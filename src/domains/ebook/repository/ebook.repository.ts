@@ -80,7 +80,7 @@ export class EbookRepository {
     return await this.ebookModel.findOneAndUpdate(query, data, { new: true });
   }
 
-  // public async createMany(data: CreateEbookDTO[]): Promise<EbookDocument[]> {
-  //   return await this.ebookModel.insertMany(data);
-  // }
+  public async createMany(data: CreateEbookDTO[]): Promise<EbookDocument[]> {
+    return (await this.ebookModel.insertMany(data)) as EbookDocument[];
+  }
 }

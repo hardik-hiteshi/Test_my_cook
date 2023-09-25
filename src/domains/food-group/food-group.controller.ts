@@ -31,13 +31,6 @@ export class FoodGroupController {
     return await this.foodGroupService.createOne(body, region);
   }
 
-  @Post('foodgroups')
-  private async createManyFoodGroup(
-    @Body() body: CreateManyFoodGroupDto,
-  ): Promise<FoodGroupDocument[]> {
-    return await this.foodGroupService.createMany(body);
-  }
-
   @Put('foodgroup/:nicename')
   private async updateFoodService(
     @Body() body: UpdateFoodGroupDto,
@@ -46,6 +39,7 @@ export class FoodGroupController {
   ): Promise<FoodGroupDocument> {
     return await this.foodGroupService.updateOne(body, region, niceName);
   }
+
   @Get('foodgroup/enum')
   private async getDistinctNiceName(
     @Headers('region') region: string,
@@ -59,13 +53,6 @@ export class FoodGroupController {
     @Headers('region') region: string,
   ): Promise<FoodGroupDocument> {
     return await this.foodGroupService.findOne(niceName, region);
-  }
-
-  @Get('foodgroups')
-  private async getAllFoodGroup(
-    @Headers('region') region: string,
-  ): Promise<FoodGroupDocument[]> {
-    return await this.foodGroupService.findAll(region);
   }
 
   @Delete('foodgroup/:nicename')
@@ -82,5 +69,19 @@ export class FoodGroupController {
     @Headers('region') region: string,
   ): Promise<void> {
     return await this.foodGroupService.deleteImage(region, niceName);
+  }
+
+  @Get('foodgroups')
+  private async getAllFoodGroup(
+    @Headers('region') region: string,
+  ): Promise<FoodGroupDocument[]> {
+    return await this.foodGroupService.findAll(region);
+  }
+
+  @Post('foodgroups')
+  private async createManyFoodGroup(
+    @Body() body: CreateManyFoodGroupDto,
+  ): Promise<FoodGroupDocument[]> {
+    return await this.foodGroupService.createMany(body);
   }
 }

@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateEbookDTO } from './dtos/createEbook/createEbook.dto';
+import { CreateManyEbookDto } from './dtos/createManyEbook/createManyEbook.dto';
 import { EbookDocument } from './schema/ebook.schema';
 import { EbookService } from './ebook.service';
 import { RecipeDocument } from '../recipe/schema/recipe.schema';
@@ -40,7 +41,7 @@ export class EbookController {
     return await this.ebookService.upsertEbookRecipe(region, niceName, body);
   }
 
-  @Post('ebook/:nicename')
+  @Put('ebook/:nicename')
   private async updateEbook(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -81,11 +82,11 @@ export class EbookController {
     return await this.ebookService.findEbookRecipes(niceName, region, skip);
   }
 
-  // @Post('ebooks')
-  // private async bulkInsert(
-  //   @Headers('region') region: string,
-  //   @Body() body: CreateEbookDTO[],
-  // ): Promise<EbookDocument[]> {
-  //   return await this.ebookService.createMany(body, region);
-  // }
+  @Post('ebooks')
+  private async bulkInsert(
+    @Headers('region') region: string,
+    @Body() body: CreateManyEbookDto,
+  ): Promise<EbookDocument[]> {
+    return await this.ebookService.createMany(body, region);
+  }
 }

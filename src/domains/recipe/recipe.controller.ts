@@ -17,11 +17,11 @@ import { Role } from '../auth/roles/permission.roles';
 import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 
 @AUTH(Role.admin, Role.superadmin)
-@Controller('recipe')
+@Controller()
 export class RecipeController {
   public constructor(private recipeService: RecipeService) {}
 
-  @Post()
+  @Post('recipe')
   private async createRecipe(
     @Headers('region') region: string,
     @Body() body: CreateRecipeDto,
@@ -29,15 +29,7 @@ export class RecipeController {
     return await this.recipeService.createRecipe(region, body);
   }
 
-  @Get()
-  private async fetchAllRecipes(
-    @Headers('region') region: string,
-    @Query('search') search?: string,
-  ): Promise<Array<RecipeDocument>> {
-    return await this.recipeService.fetchAllRecipes(region, search);
-  }
-
-  @Get(':niceName')
+  @Get('recipe/:niceName')
   private async fetchRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName,
@@ -45,7 +37,7 @@ export class RecipeController {
     return await this.recipeService.fetchRecipe(region, niceName);
   }
 
-  @Put(':niceName')
+  @Put('recipe/:niceName')
   private async updateRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
@@ -54,20 +46,29 @@ export class RecipeController {
     return await this.recipeService.updateRecipe(region, body, niceName);
   }
 
-  @Delete(':niceName')
+  @Delete('recipe/:niceName')
   private async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
   ): Promise<RecipeDocument> {
     return await this.recipeService.deleteRecipe(region, niceName);
   }
-  @Post('/toNewTouch/:identifier')
+
+  @Post('recipe/toNewTouch/:identifier')
   private async cloneToNewTouch(
     @Headers('region') region: string,
     @Param('identifier') identifier: string,
     @Body() body: RecipeDocument,
   ): Promise<Partial<RecipeDocument>> {
     return await this.recipeService.cloneToNewTouch(region, identifier, body);
+  }
+
+  @Get('recipes')
+  private async fetchAllRecipes(
+    @Headers('region') region: string,
+    @Query('search') search?: string,
+  ): Promise<Array<RecipeDocument>> {
+    return await this.recipeService.fetchAllRecipes(region, search);
   }
   // @Post('/:niceName/comment/:parent')
   // private async addComment(

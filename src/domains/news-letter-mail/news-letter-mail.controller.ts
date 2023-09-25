@@ -9,6 +9,7 @@ import { Role } from '../auth/roles/permission.roles';
 @Controller()
 export class NewsLetterMailController {
   public constructor(private newsLetterService: NewsLetterMailService) {}
+
   @Post('newslettermail')
   private async createNewLetter(
     @Headers('region') region: string,
@@ -16,6 +17,7 @@ export class NewsLetterMailController {
   ): Promise<NewsLetterMailDocument> {
     return await this.newsLetterService.createOne(body, region);
   }
+
   @Post('newslettermails')
   private async createManyNewsLetter(
     @Body() body: CreateManyNewsLetterDto,
