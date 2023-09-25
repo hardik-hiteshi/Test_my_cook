@@ -1,6 +1,8 @@
 import * as fs from 'fs-extra';
 import * as glob from 'glob';
+import * as JSZip from 'jszip';
 import * as path from 'path';
+import * as xlsx from 'xlsx';
 import {
   BadRequestException,
   Injectable,
@@ -8,17 +10,22 @@ import {
 } from '@nestjs/common';
 import { CategoriesDTO } from './dto/createRecipe/subDto';
 import { CreateRecipeDto } from './dto/createRecipe/createRecipe.dto';
+import { json2csv } from 'json-2-csv';
 import { promisify } from 'util';
 import { RecipeDocument } from './schema/subSchema';
 import { RecipeRepository } from './repository/recipe.repository';
 import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
-import { UserDocument } from '../user/schema/user.schema';
+// import { UserDocument } from '../user/schema/user.schema';
+import { UserRepository } from '../user/repository/user.repository';
 
 // import { UpdateRecipeDto } from './dto/updateRecipe/updateRecipe.dto';
 
 @Injectable()
 export class RecipeService {
-  public constructor(private recipeRepo: RecipeRepository) {}
+  public constructor(
+    private recipeRepo: RecipeRepository,
+    private userRepo: UserRepository,
+  ) {}
 
   public async createRecipe(
     region: string,
@@ -58,7 +65,7 @@ export class RecipeService {
 
   public async fetchAllRecipes(
     region: string,
-    search: string,
+    search?: string,
   ): Promise<Array<RecipeDocument>> {
     const recipeList = await this.recipeRepo.fetchRecipes(region, search);
     if (recipeList.length <= 0) throw new NotFoundException('No recipe found');
@@ -378,39 +385,86 @@ export class RecipeService {
     }
   }
 
-  // public async addComment(
-  //   region: string,
-  //   niceName: string,
-  //   parent: string,
-  //   body: RecipeDocument,
-  //   user: UserDocument,
-  // ): Promise<Partial<RecipeDocument>> {
-  //   // return await this.recipeRepo.addComment(region, niceName, parent, body);
-  //   let commentId;
-  //   const recipeNiceName = niceName;
-  //   const comment = body;
+  public async exportFile(
+    region: string,
+    type: string,
+  ): Promise<{ data: Buffer; type: string }> {
+    type = type.toLocaleLowerCase();
+    const recipes = await this.recipeRepo.fetchRecipes(region);
 
-  //   if (!comment['text']) {
-  //     return new BadRequestException(
-  //       "The comment body should contain a 'text' variable",
-  //     );
-  //   }
-  //   const where = {};
+    if (recipes.length <= 0) throw new NotFoundException('Recipes not found');
+    if (type == 'csv') {
+      const csv = await json2csv(recipes);
 
-  //   where['region'] = region;
+      const data = Buffer.from(csv);
 
-  //   where['niceName'] = recipeNiceName;
+      return { data, type };
+    } else if (type === 'xlsx') {
+      const ws = xlsx.utils.json_to_sheet(recipes);
+      const wb = xlsx.utils.book_new();
+      xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+      const xlsxData = xlsx.write(wb, {
+        bookType: 'xlsx',
+        type: 'buffer',
+      }) as Buffer;
 
-  //   // eslint-disable-next-line @typescript-eslint/naming-convention
-  //   // await Recipe.findOne(where, { _id: 0, __v: 0 });
-  //   // .lean()
-  //   // .exec()
-  //   // .then(update, error)
-  //   // .then(addLog, error);
-  //   // have to add log for this
+      return { data: xlsxData, type };
+    } else if (type === 'jsonzip') {
+      const jsonFiles: Buffer[] = [];
+      const zip = new JSZip();
+      const zipFolder = zip.folder('json_data');
+      for (const entry of recipes) {
+        const jsonData = JSON.stringify(entry, null, 2);
+        jsonFiles.push(Buffer.from(jsonData));
+      }
 
-  //   const userNiceName = user.niceName;
+      for (let i = 0; i < jsonFiles.length; i++) {
+        zipFolder.file(`data_${i}.json`, jsonFiles[i]);
+      }
 
-  //   return userNiceName;
+      const data = await zip.generateAsync({ type: 'nodebuffer' });
+
+      return { data, type: 'zip' };
+    } else if (type === 'json') {
+      const data = Buffer.from(JSON.stringify(recipes));
+
+      return { data, type };
+    }
+    throw new BadRequestException('invalid data type');
+  }
+
+  //   public async addComment(
+  //     region: string,
+  //     niceName: string,
+  //     parent: string,
+  //     body: RecipeDocument,
+  //     user: UserDocument,
+  //   ): Promise<Partial<RecipeDocument>> {
+  //     // return await this.recipeRepo.addComment(region, niceName, parent, body);
+  //     let commentId;
+  //     const recipeNiceName = niceName;
+  //     const comment = body;
+
+  //     if (!comment['text']) {
+  //       throw new BadRequestException(
+  //         "The comment body should contain a 'text' variable",
+  //       );
+  //     }
+  //     const where = {};
+
+  //     where['region'] = region;
+
+  //     where['niceName'] = recipeNiceName;
+
+  //     // eslint-disable-next-line @typescript-eslint/naming-convention
+  //     await this.recipeRepo.findOneforCompat(where, { _id: 0, __v: 0 });
+  //     // .lean()
+  //     // .exec()
+  //     // .then(update, error)
+  //     // .then(addLog, error);
+  //     // have to add log for this
+
+  //     const userNiceName = user.niceName;
+
   // }
 }

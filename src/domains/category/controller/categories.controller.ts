@@ -11,10 +11,7 @@ export class CategoriesController {
     @Headers('region') region: string,
     @Res({ passthrough: true }) res: Response,
   ): Promise<StreamableFile> {
-    const expData = await this.categoryServices.exportToJson(
-      // region
-      'EN-TEST',
-    );
+    const expData = await this.categoryServices.exportToJson(region);
     res.set({
       // eslint-disable-next-line @typescript-eslint/naming-convention
       'Content-Type': 'application/json',
