@@ -177,7 +177,15 @@ export class RecipeRepository {
       return data;
     }
   }
-
+  public async draftRecipesCount(
+    region: string,
+    niceName: string,
+  ): Promise<number> {
+    return await this.recipeModel.count({
+      'grants.view': 'draft/' + niceName,
+      region,
+    });
+  }
   public async findOneforCompat(
     options: object,
     filterOptions?: object,
@@ -213,12 +221,12 @@ export class RecipeRepository {
 
     return data;
   }
-  public async addComment(
-    region: string,
-    niceName: string,
-    parent: string,
-    body: RecipeDocument,
-  ): Promise<void> {
-    // return await this.recipeModel.region, niceName, parent, body);
-  }
+  // public async addComment(
+  //   region: string,
+  //   niceName: string,
+  //   parent: string,
+  //   body: RecipeDocument,
+  // ): Promise<void> {
+  //   // return await this.recipeModel.region, niceName, parent, body);
+  // }
 }
