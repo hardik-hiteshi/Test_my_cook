@@ -27,6 +27,7 @@ import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
 import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
 import { PictosModule } from './domains/pictos/pictos.module';
+import { PostTagModule } from './domains/post-tag/postTag.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
@@ -78,6 +79,7 @@ import { UserModule } from './domains/user/user.module';
     MachineLogModule,
     RegionModule,
     IngredientModule,
+    PostTagModule,
   ],
 })
 export class AppModule {}

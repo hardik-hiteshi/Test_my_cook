@@ -46,13 +46,13 @@ export class LegalTermsService {
     return updatedLegalTerm;
   }
 
-  public async deleteLegalTerm(region: string): Promise<LegalTermsDocument> {
+  public async deleteLegalTerm(region: string): Promise<object> {
     const deletedLegalTerm = await this.legalRepo.deleteLegalTerm(region);
     if (!deletedLegalTerm) {
       throw new NotFoundException('No Deleted document found.');
     }
 
-    return deletedLegalTerm;
+    return { message: 'Delete Success' };
   }
   public async fetchLegalTerms(region: string): Promise<LegalTermsDocument[]> {
     return await this.legalRepo.fetchLegalTerms(region);

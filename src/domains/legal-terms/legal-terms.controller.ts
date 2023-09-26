@@ -42,7 +42,7 @@ export class LegalTermsController {
   @Delete('legalterms')
   public async deleteLegalTerm(
     @Headers('region') region: string,
-  ): Promise<LegalTermsDocument> {
+  ): Promise<object> {
     return await this.legaltermsServices.deleteLegalTerm(region);
   }
 
