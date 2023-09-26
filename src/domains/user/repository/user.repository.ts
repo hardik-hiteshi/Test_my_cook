@@ -20,8 +20,10 @@ export class UserRepository {
     return await this.userModel.create({ ...body, region });
   }
 
-  public async findAll(query: RecursivePartial<User>): Promise<UserDocument[]> {
-    return await this.userModel.find(query);
+  public async findAll(
+    query: RecursivePartial<User> | object,
+  ): Promise<UserDocument[]> {
+    return await this.userModel.find(query).lean();
   }
 
   public async findOneAndUpdate(

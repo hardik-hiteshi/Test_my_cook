@@ -65,8 +65,10 @@ export class User {
   public grants: string[];
   @Prop(ShopItem)
   public shopItem: ShopItem;
-  @Prop()
+  @Prop({ default: [] })
   public following: string[];
+  @Prop({ default: [] })
+  public follower: string[];
   @Prop([Recipe])
   public recipeList: Recipe[];
   @Prop(MemberConditions)
@@ -89,5 +91,9 @@ export class User {
   public translations: Translations;
   @Prop({ default: true, type: Boolean, required: true })
   public isActive: boolean;
+  @Prop([String])
+  public blocked: string[];
+  @Prop([String])
+  public blockedBy: string[];
 }
 export const userSchema = SchemaFactory.createForClass(User);
