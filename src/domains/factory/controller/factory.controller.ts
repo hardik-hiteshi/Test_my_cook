@@ -8,11 +8,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { AUTH } from '../../auth/decorator/auth.decorator';
 import { CreateFactoryDTO } from '../dto/createfactory.dto';
 import { FactoryDocument } from '../schema/factory.schema';
 import { FactoryService } from '../factory.service';
+import { Role } from '../../auth/roles/permission.roles';
 import { UpdateFactoryDTO } from '../dto/updatefactory.dto';
-
+@AUTH(Role.admin)
 @Controller('factory')
 export class FactoryController {
   public constructor(private factoryServices: FactoryService) {}
@@ -46,7 +48,7 @@ export class FactoryController {
   private async deleteFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
-  ): Promise<FactoryDocument> {
+  ): Promise<object> {
     return await this.factoryServices.deleteFactory(region, uniqueId);
   }
 

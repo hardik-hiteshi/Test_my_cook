@@ -65,8 +65,8 @@ export class DietsController {
   private async deleteDiet(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.dietService.deleteOne(niceName, region);
+  ): Promise<object> {
+    return await this.dietService.deleteOne(niceName, region);
   }
 
   @Get('diet/:nicename/tags')

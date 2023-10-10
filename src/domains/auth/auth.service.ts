@@ -56,6 +56,7 @@ export class AuthService {
 
     const token = await this.signJwt(user._id);
     const data = {
+      token,
       niceName: user.niceName,
       displayName: user.name.displayName,
       email: user.contact.mail,
@@ -64,7 +65,6 @@ export class AuthService {
       // eslint-disable-next-line object-shorthand
       ip: ip,
       allowedRegions: user.allowedRegions,
-      token,
     };
 
     return data;

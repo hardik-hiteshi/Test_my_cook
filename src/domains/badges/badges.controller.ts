@@ -9,11 +9,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { BadgesDocument } from './schema/badges.schema';
 import { BadgesService } from './badges.service';
 import { CreateBadgesDTO } from './dto/createdto/createbadge.dto';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdateBadgesDTO } from './dto/updatedto/updatebadge.dto';
 
+@AUTH(Role.admin)
 @Controller()
 export class BadgesController {
   public constructor(public badgesServies: BadgesService) {}
@@ -47,7 +50,7 @@ export class BadgesController {
   public async deleteBadge(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<BadgesDocument> {
+  ): Promise<object> {
     return await this.badgesServies.deleteBadge(region, niceName);
   }
 

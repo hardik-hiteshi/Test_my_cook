@@ -146,7 +146,9 @@ export class UserLogService {
     if (userLogList.length > 0) {
       return userLogList;
     }
-    throw new NotFoundException(this.notfound);
+
+    return [];
+    // throw new NotFoundException(this.notfound);
   }
   // //not clear if user logs are updated or not.
   //   public async updateUserLog(
@@ -159,13 +161,13 @@ export class UserLogService {
   public async deleteUserLog(
     region: string,
     niceName: string,
-  ): Promise<UserLogDocument> {
+  ): Promise<object> {
     const deletedUserLog = await this.ulRepo.deleteUserLog(region, niceName);
     if (!deletedUserLog) {
       throw new NotFoundException(this.notfound);
     }
 
-    return deletedUserLog;
+    return { message: 'Deleted Success' };
   }
 
   public async incrementDoneCount(incomingLogObj:Partial<UserLogDocument>): Promise<void>{

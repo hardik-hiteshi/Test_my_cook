@@ -28,10 +28,10 @@ export class Advertisement {
   @Prop()
   public urlTitle: string;
 
-  @Prop({ type: Number, class: 'col-md-6', readonly: true })
+  @Prop({ type: Number, default: 0 })
   public views: number;
 
-  @Prop({ type: Number, class: 'col-md-6', readonly: true })
+  @Prop({ type: Number, default: 0 })
   public clicks: number;
 
   @Prop({ required: true, enum: advertisementRegions })
@@ -39,6 +39,7 @@ export class Advertisement {
 
   @Prop({ type: String, format: 'mycook-image' })
   public image: string;
+
   @Prop({ default: true })
   public isActive: boolean;
 }

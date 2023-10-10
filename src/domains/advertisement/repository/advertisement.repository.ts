@@ -29,11 +29,11 @@ export class AdvertisementRepository {
 
   public async findOne(
     region: string,
-    body: CreateAdvertisementDTO,
+    body: string,
   ): Promise<AdvertisementDocument> {
     const existingAdvertisement = await this.advertisementModel.findOne({
       region,
-      ...body,
+      niceName: body,
       isActive: true,
     });
 

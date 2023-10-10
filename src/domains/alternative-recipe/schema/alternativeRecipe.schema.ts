@@ -23,21 +23,27 @@ export class AlternativeRecipe {
   @Prop([Categories])
   public categories: Categories[];
 
-  @Prop()
+  @Prop({ type: mongooseSchema.Types.ObjectId })
   public catId: mongooseSchema.Types.ObjectId;
 
   @Prop([{ type: String, enum: alternativeRecipeCourses }])
   public course: string[];
+
   @Prop(Info)
   public info: Info;
+
   @Prop()
   public totalTime: number;
+
   @Prop()
   public cookTime: number;
+
   @Prop()
   public difficulty: number;
+
   @Prop()
   public price: number;
+
   @Prop({ type: Object })
   public size: {
     // Use an index signature to allow dynamic keys
@@ -46,14 +52,19 @@ export class AlternativeRecipe {
   };
   @Prop([String])
   public images: string[];
+
   @Prop()
   public groups: Group[];
+
   @Prop({ type: Object })
   public nutritional: object;
+
   @Prop([Object])
   public rations: object[];
+
   @Prop()
   public region: string;
+
   @Prop({ default: true })
   public isActive: boolean;
 }

@@ -27,9 +27,8 @@ export class NutritionalDisclaimerService {
 
   public async fetchNutritionalDisclaimer(
     region: string,
-    niceName: string,
   ): Promise<NutritionalDisclaimerDocument> {
-    const ndDoc = await this.ndRepo.fetchND(region, niceName);
+    const ndDoc = await this.ndRepo.fetchND(region);
     if (ndDoc) {
       return ndDoc;
     }
@@ -43,17 +42,18 @@ export class NutritionalDisclaimerService {
     if (ndDocList.length > 0) {
       return ndDocList;
     }
-    throw new NotFoundException(
-      'No Document found in Nutritional Disclaimer List.',
-    );
+    // throw new NotFoundException(
+    //   'No Document found in Nutritional Disclaimer List.',
+    // );
+
+    return [];
   }
 
-  public async updateNutritionalDisclaimer(
+  public async upsertNutritionalDisclaimer(
     region: string,
-    niceName: string,
     body: UpdateNutritionalDisclaimerDTO,
   ): Promise<NutritionalDisclaimerDocument> {
-    const updatedNDdoc = await this.ndRepo.updateND(region, niceName, body);
+    const updatedNDdoc = await this.ndRepo.upsertND(region, body);
     if (!updatedNDdoc) {
       throw new NotFoundException(
         'Nutritional Disclaimer to update not found.',
@@ -63,17 +63,14 @@ export class NutritionalDisclaimerService {
     return updatedNDdoc;
   }
 
-  public async deleteNutritionalDisclaimer(
-    region: string,
-    niceName: string,
-  ): Promise<NutritionalDisclaimerDocument> {
-    const deletedNDdoc = await this.ndRepo.deleteND(region, niceName);
+  public async deleteNutritionalDisclaimer(region: string): Promise<object> {
+    const deletedNDdoc = await this.ndRepo.deleteND(region);
     if (!deletedNDdoc) {
       throw new NotFoundException(
         'Nutritional Disclaimer to update not found.',
       );
     }
 
-    return deletedNDdoc;
+    return { message: 'Deleted Success' };
   }
 }

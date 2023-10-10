@@ -41,10 +41,12 @@ export class NewsLetterMailService {
 
   public async findAll(region: string): Promise<NewsLetterMailDocument[]> {
     const newsLetter = await this.newsLetterRepo.findAll(region);
-    if (newsLetter.length <= 0)
-      throw new NotFoundException('news-letter not found');
+    if (newsLetter.length > 0) {
+      return newsLetter;
+    }
+    // throw new NotFoundException('news-letter not found');
 
-    return newsLetter;
+    return [];
   }
 
   public async createMany(

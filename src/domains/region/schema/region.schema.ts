@@ -14,7 +14,7 @@ export class Region {
   @Prop({ required: true })
   public language: string;
 
-  @Prop({ required: true, ref: 'User' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
   public adminUser: mongoose.Schema.Types.ObjectId;
 
   @Prop([ContextFields])

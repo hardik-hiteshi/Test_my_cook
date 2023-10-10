@@ -58,19 +58,12 @@ export class PictosController {
     return await this.pictosService.findOne(niceName, region);
   }
 
-  @Get('picto')
-  private async getAll(
-    @Headers('region') region: string,
-  ): Promise<PictosDocument[]> {
-    return await this.pictosService.findAll(region);
-  }
-
   @Delete('picto/:nicename')
   private async deleteOne(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.pictosService.deleteOne(region, niceName);
+  ): Promise<object> {
+    return await this.pictosService.deleteOne(region, niceName);
   }
 
   @Delete('picto/:nicename/image')
@@ -79,5 +72,12 @@ export class PictosController {
     @Headers('region') region: string,
   ): Promise<void> {
     return await this.pictosService.deleteImage(region, niceName);
+  }
+
+  @Get('pictos')
+  private async getAll(
+    @Headers('region') region: string,
+  ): Promise<PictosDocument[]> {
+    return await this.pictosService.findAll(region);
   }
 }

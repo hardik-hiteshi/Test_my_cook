@@ -34,9 +34,12 @@ export class EbookService {
 
   public async findAll(region: string): Promise<EbookDocument[]> {
     const ebooks = await this.ebookRepo.findAll(region);
-    if (ebooks.length <= 0) throw new NotFoundException(this.ebookNotFound);
+    if (ebooks.length > 0) {
+      return ebooks;
+    }
+    throw new NotFoundException(this.ebookNotFound);
 
-    return ebooks;
+    return [];
   }
 
   public async createOne(
@@ -61,9 +64,11 @@ export class EbookService {
     return ebook;
   }
 
-  public async deleteOne(niceName: string, region: string): Promise<void> {
+  public async deleteOne(niceName: string, region: string): Promise<object> {
     const ebook = await this.ebookRepo.deleteOne(niceName, region);
     if (!ebook) throw new NotFoundException(this.ebookNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async findEbookRecipes(
@@ -124,7 +129,7 @@ export class EbookService {
     let existingItemSerial: string[][];
     let itemsToInsert: CreateEbookMultiDTO[];
     const data = body.data.map((i) => i.niceName);
-    const existingItems = await this.ebookRepo.findAll(region);
+    const existingItems = await this.ebookRepo.findDuplicate(region, data);
 
     if (existingItems.length > 0) {
       existingItemSerial = existingItems.map((item) => [

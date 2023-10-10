@@ -17,7 +17,7 @@ import { Role } from 'src/domains/auth/roles/permission.roles';
 import { UpdateMachineLogDto } from '../dtos/update-machine-log.dto';
 
 @AUTH(Role.admin)
-@Controller('machine-log')
+@Controller('machinelog')
 export class MachineLogController {
   public constructor(private machineLogService: MachineLogService) {}
 
@@ -48,8 +48,8 @@ export class MachineLogController {
   private async deleteMachineLog(
     @Param('uniqueId') uniqueId: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.machineLogService.deleteOne(region, uniqueId);
+  ): Promise<object> {
+    return await this.machineLogService.deleteOne(region, uniqueId);
   }
 
   @Put(':uniqueId')

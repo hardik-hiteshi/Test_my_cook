@@ -25,9 +25,12 @@ export class RegionService {
 
   public async findAll(): Promise<RegionDocument[]> {
     const regions = await this.regionRepo.findAll();
-    if (regions.length <= 0) throw new NotFoundException(this.regionNotFound);
+    if (regions.length > 0) {
+      return regions;
+    }
+    // throw new NotFoundException(this.regionNotFound);
 
-    return regions;
+    return [];
   }
 
   public async createOne(body: CreateRegionDTO): Promise<RegionDocument> {
@@ -48,19 +51,25 @@ export class RegionService {
     return regionData;
   }
 
-  public async deleteOne(niceName: string): Promise<void> {
+  public async deleteOne(niceName: string): Promise<object> {
     const regionData = await this.regionRepo.deleteOne(niceName);
     if (!regionData) throw new NotFoundException(this.regionNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
-  public async findOneAdminUser(niceName: string): Promise<RegionDocument> {
+  public async findOneAdminUser(
+    niceName: string,
+  ): Promise<Partial<RegionDocument>> {
     const regionData = await this.regionRepo.findOneAdminUser(niceName);
     if (!regionData) throw new NotFoundException(this.regionNotFound);
 
     return regionData;
   }
 
-  public async findOneContextFields(niceName: string): Promise<RegionDocument> {
+  public async findOneContextFields(
+    niceName: string,
+  ): Promise<Partial<RegionDocument>> {
     const regionData = await this.regionRepo.findOneContextFields(niceName);
     if (!regionData) throw new NotFoundException(this.regionNotFound);
 

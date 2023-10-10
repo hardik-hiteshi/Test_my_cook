@@ -38,7 +38,7 @@ export class MachineRepository {
   }
 
   public async findOneAndUpdate(
-    query: RecursivePartial<Machine>,
+    query: RecursivePartial<Machine> | object,
     body: UpdateMachineDto,
   ): Promise<MachineDocument> {
     if (Object.keys(body).length === 0)

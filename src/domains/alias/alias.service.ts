@@ -22,9 +22,12 @@ export class AliasService {
 
   public async findAll(): Promise<AliasDocument[]> {
     const alias = await this.aliasRepo.findAll();
-    if (alias.length <= 0) throw new NotFoundException(this.aliasNotFound);
+    if (alias.length > 0) {
+      return alias;
+    }
+    //throw new NotFoundException(this.aliasNotFound);
 
-    return alias;
+    return [];
   }
   public async createOne(body: CreateAliasDto): Promise<AliasDocument> {
     const alias = await this.aliasRepo.findOne(body.niceName);
@@ -43,8 +46,10 @@ export class AliasService {
     return alias;
   }
 
-  public async deleteOne(niceName: string): Promise<void> {
+  public async deleteOne(niceName: string): Promise<object> {
     const alias = await this.aliasRepo.deleteOne(niceName);
     if (!alias) throw new NotFoundException(this.aliasNotFound);
+
+    return { message: 'Deleted Success' };
   }
 }

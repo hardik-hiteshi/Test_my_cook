@@ -1,5 +1,9 @@
 import * as path from 'path';
 import { AdvertisementModule } from './domains/advertisement/advertisement.module';
+import { AffiliateConfigModule } from './domains/affiliateConfig/affiliateConfig.module';
+import { AffiliateContactModule } from './domains/affiliateContact/affiliateContact.module';
+import { AffiliateModule } from './domains/affiliate/affiliate.module';
+import { AffiliateProductModule } from './domains/affiliateProducts/affiliateProducts.module';
 import { AliasModule } from './domains/alias/alias.module';
 import { AlternativeRecipeModule } from './domains/alternative-recipe/alternative-recipe.module';
 import { AuthorModule } from './domains/author/author.module';
@@ -8,7 +12,9 @@ import { CategoryModule } from './domains/category/category.module';
 import { CommonModule } from './common/common.module';
 import { ConfigModule } from '@nestjs/config';
 import { ContactModule } from './domains/contact/contact.module';
+import { ConversionModule } from './domains/conversion/conversion.module';
 import { DietsModule } from './domains/diets/diets.module';
+import { DiscountModule } from './domains/discount/discount.module';
 import { EbookModule } from './domains/ebook/ebook.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
@@ -27,16 +33,20 @@ import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
 import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
 import { PictosModule } from './domains/pictos/pictos.module';
+import { PostCategoryModule } from './domains/post-category/post-category.module';
+import { PostPageModule } from './domains/post-page/post-page.module';
 import { PostTagModule } from './domains/post-tag/postTag.module';
 import { ProductModule } from './domains/product/product.module';
 import { RankModule } from './domains/rank/rank.module';
 import { RecipeModule } from './domains/recipe/recipe.module';
 import { RegionModule } from './domains/region/region.module';
 import { ReportAbuseModule } from './domains/report-abuse/report-abuse.module';
+import { ReturnedProductsModule } from './domains/returned-products/returned-products.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TipModule } from './domains/tip/tip.module';
 import { UserLogModule } from './domains/user-log/user-log.module';
 import { UserModule } from './domains/user/user.module';
+
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -80,6 +90,15 @@ import { UserModule } from './domains/user/user.module';
     RegionModule,
     IngredientModule,
     PostTagModule,
+    AffiliateModule,
+    PostCategoryModule,
+    AffiliateConfigModule,
+    AffiliateContactModule,
+    AffiliateProductModule,
+    ConversionModule,
+    PostPageModule,
+    DiscountModule,
+    ReturnedProductsModule,
   ],
 })
 export class AppModule {}

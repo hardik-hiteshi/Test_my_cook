@@ -50,16 +50,13 @@ export class RankService {
     return updatedRank;
   }
 
-  public async deleteRank(
-    region: string,
-    niceName: string,
-  ): Promise<RankDocument> {
+  public async deleteRank(region: string, niceName: string): Promise<object> {
     const deletedRank = await this.rankRepo.deleteRank(region, niceName);
     if (!deletedRank) {
       throw new NotFoundException('Rank Not found.');
     }
 
-    return deletedRank;
+    return { message: 'Deleted Success' };
   }
 
   public async fetchRanks(
@@ -70,6 +67,8 @@ export class RankService {
     if (ranksList.length > 0) {
       return ranksList;
     }
-    throw new NotFoundException('Ranks not found.');
+    // throw new NotFoundException('Ranks not found.');
+
+    return [];
   }
 }

@@ -68,10 +68,12 @@ export class RecipeService {
     search?: string,
   ): Promise<Array<RecipeDocument>> {
     const recipeList = await this.recipeRepo.fetchRecipes(region, search);
-    if (recipeList.length <= 0) throw new NotFoundException('No recipe found');
-    else {
+    if (recipeList.length > 0) {
       return recipeList;
     }
+    // throw new NotFoundException('No recipe found');
+
+    return [];
   }
 
   public async fetchRecipe(
@@ -125,16 +127,13 @@ export class RecipeService {
     return recipe;
   }
 
-  public async deleteRecipe(
-    region: string,
-    niceName: string,
-  ): Promise<RecipeDocument> {
+  public async deleteRecipe(region: string, niceName: string): Promise<object> {
     const recipe = await this.recipeRepo.deleteRecipe(region, niceName);
     if (recipe == null) {
       throw new NotFoundException('Recipe Does not exist.');
     }
 
-    return recipe;
+    return { message: 'Deleted Success' };
   }
   //this api is not working as expexted at the moment.
   public async cloneToNewTouch(

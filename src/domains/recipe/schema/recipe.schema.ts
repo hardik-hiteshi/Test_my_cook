@@ -38,7 +38,7 @@ export class Recipe {
   @Prop()
   public categoryNiceName: string;
 
-  @Prop()
+  @Prop({ type: mongooseSchema.Types.ObjectId })
   public catId: mongooseSchema.Types.ObjectId;
 
   @Prop()

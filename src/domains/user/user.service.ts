@@ -29,7 +29,9 @@ export class UserService {
       $or: [{ niceName: body.niceName }, { 'contact.mail': body.contact.mail }],
       region,
     });
-    if (user) throw new BadRequestException('user already exist');
+    if (user) {
+      throw new BadRequestException('user email or nicename already exist');
+    }
     body.password = await bcrypt.hash(body.password, 10);
 
     return await this.userRepo.create(body, region);
@@ -51,9 +53,12 @@ export class UserService {
 
   public async findAll(region: string): Promise<UserDocument[]> {
     const users = await this.userRepo.findAll({ isActive: true, region });
-    if (users.length <= 0) throw new NotFoundException('user not found');
+    if (users.length > 0) {
+      return users;
+    }
+    // throw new NotFoundException('user not found');
 
-    return users;
+    return [];
   }
 
   public async findOneAndUpdate(
@@ -61,20 +66,21 @@ export class UserService {
     niceName: string,
     body: UserUpdateDto,
     region: string,
-  ): Promise<UserDocument> {
+  ): Promise<Partial<UserDocument>> {
+    body.password = await bcrypt.hash(body.password, 10);
     const updateUser = await this.userRepo.findOneAndUpdate(
       { niceName, isActive: true, region },
       body,
     );
 
-    return await updateUser.save();
+    return updateUser;
   }
 
   public async deleteOne(
     user: UserDocument,
     niceName: string,
     region: string,
-  ): Promise<void> {
+  ): Promise<object> {
     //check user role hierarchy
     const deleteUser = await this.userRepo.deleteOne({
       niceName,
@@ -83,6 +89,8 @@ export class UserService {
       region,
     });
     if (!deleteUser) throw new NotFoundException('user not found');
+
+    return { message: 'Deleted Success' };
   }
 
   public async updatePassword(

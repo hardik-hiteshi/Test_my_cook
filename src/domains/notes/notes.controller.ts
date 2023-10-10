@@ -51,7 +51,7 @@ export class NotesController {
   public async deleteNote(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
-  ): Promise<NotesDocument> {
+  ): Promise<object> {
     return this.noteServices.deleteNote(region, uniqueId);
   }
 

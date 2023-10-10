@@ -2,7 +2,6 @@ import {
   IsArray,
   IsDateString,
   IsEnum,
-  IsNotEmpty,
   IsNotEmptyObject,
   IsObject,
   IsOptional,

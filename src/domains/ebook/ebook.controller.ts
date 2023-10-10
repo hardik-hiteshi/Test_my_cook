@@ -54,8 +54,8 @@ export class EbookController {
   private async deleteEbook(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.ebookService.deleteOne(niceName, region);
+  ): Promise<object> {
+    return await this.ebookService.deleteOne(niceName, region);
   }
 
   @Get('ebook/:nicename')

@@ -53,15 +53,19 @@ export class IngredientService {
   public async findAll(region: string): Promise<IngredientDocument[]> {
     const ingredient = await this.ingredientRepo.findAll(region);
 
-    if (ingredient.length <= 0)
-      throw new NotFoundException(this.ingredientNotFound);
+    if (ingredient.length > 0) {
+      return ingredient;
+    }
+    // throw new NotFoundException(this.ingredientNotFound);
 
-    return ingredient;
+    return [];
   }
 
-  public async deleteOne(region: string, niceName: string): Promise<void> {
+  public async deleteOne(region: string, niceName: string): Promise<object> {
     const ingredient = await this.ingredientRepo.deleteOne(niceName, region);
 
     if (!ingredient) throw new NotFoundException(this.ingredientNotFound);
+
+    return { message: 'Deleted Success' };
   }
 }

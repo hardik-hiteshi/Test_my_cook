@@ -29,6 +29,17 @@ export class EbookRepository {
     });
   }
 
+  public async findDuplicate(
+    region: string,
+    data: string[],
+  ): Promise<EbookDocument[]> {
+    return await this.ebookModel.find({
+      region,
+      niceName: { $in: data },
+      isActive: true,
+    });
+  }
+
   public async createOne(
     region: string,
     body: CreateEbookDTO,

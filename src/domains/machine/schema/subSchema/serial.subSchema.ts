@@ -9,7 +9,7 @@ export class MachineSerial {
   public batch: string;
 
   @Prop({ required: true })
-  public compatibility: string;
+  public compatibilityCode: string;
 
   @Prop({ required: true, unique: true })
   public counter: string;

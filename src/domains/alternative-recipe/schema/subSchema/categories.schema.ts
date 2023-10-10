@@ -3,10 +3,12 @@ import { Schema as mongooseSchema } from 'mongoose';
 
 @Schema({ _id: false })
 export class Categories {
-  @Prop()
+  @Prop({ type: mongooseSchema.Types.ObjectId })
   public id: mongooseSchema.Types.ObjectId;
+
   @Prop()
   public name: string;
+
   @Prop()
   public niceName: string;
 }

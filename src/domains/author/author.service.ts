@@ -43,13 +43,13 @@ export class AuthorService {
     return updatedAuthor;
   }
 
-  public async deleteAuthor(uniqueId: string): Promise<AuthorDocument> {
+  public async deleteAuthor(uniqueId: string): Promise<object> {
     const deletedAuthor = await this.authorRepo.deleteAuthor(uniqueId);
     if (!deletedAuthor) {
       throw new NotFoundException('No Author found to delete.');
     }
 
-    return deletedAuthor;
+    return { message: 'Deleted Success' };
   }
 
   public async fetchAllAuthors(): Promise<AuthorDocument[]> {
@@ -57,6 +57,9 @@ export class AuthorService {
     if (authorsList.length > 0) {
       return authorsList;
     }
-    throw new NotFoundException('No Authors found in list.');
+
+    return [];
+
+    // throw new NotFoundException('No Authors found in list.');
   }
 }

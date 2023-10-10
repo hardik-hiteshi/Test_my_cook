@@ -31,15 +31,20 @@ export class ProductService {
 
   public async findAll(): Promise<ProductDocument[]> {
     const products = await this.productRepo.findAll();
-    if (products.length <= 0) throw new NotFoundException(this.productNotFound);
+    if (products.length > 0) {
+      return products;
+    }
+    throw new NotFoundException(this.productNotFound);
 
-    return products;
+    return [];
   }
 
-  public async deleteOne(niceName: string): Promise<void> {
+  public async deleteOne(niceName: string): Promise<object> {
     const product = await this.productRepo.deleteOne(niceName);
 
     if (!product) throw new NotFoundException(this.productNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async updateOne(

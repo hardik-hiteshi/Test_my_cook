@@ -11,9 +11,12 @@ import {
 } from '@nestjs/common';
 import { AlternativeRecipeDocument } from './schema/alternativeRecipe.schema';
 import { AlternativeRecipeService } from './alternative-recipe.service';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateAlternativeRecipeDTO } from './dto/create alternative-recipe/createalternative-recipe.dto';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdateAlternativeRecipeDTO } from './dto/update alternative-recipe/updatealternative-recipe.dto';
 
+@AUTH(Role.admin)
 @Controller()
 export class AlternativeRecipeController {
   public constructor(
@@ -53,7 +56,7 @@ export class AlternativeRecipeController {
   public async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<AlternativeRecipeDocument> {
+  ): Promise<object> {
     return await this.alternativeRecipeServices.deleteRecipe(region, niceName);
   }
 

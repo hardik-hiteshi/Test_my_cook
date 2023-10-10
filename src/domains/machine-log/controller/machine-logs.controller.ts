@@ -18,12 +18,14 @@ import { Role } from 'src/domains/auth/roles/permission.roles';
 @Controller('machinelogs')
 export class MachineLogsController {
   public constructor(public machineLogService: MachineLogService) {}
+
   @Post()
   public async createManyMachineLogs(
     @Body() body: CreateManyMachineLogDTO,
   ): Promise<MachineLogDocument[]> {
     return await this.machineLogService.createManyMachineLogs(body);
   }
+
   @Get('export-to-csv')
   private async exportToCSV(
     @Headers('region') region: string,

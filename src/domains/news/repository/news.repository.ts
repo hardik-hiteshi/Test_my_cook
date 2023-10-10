@@ -13,8 +13,15 @@ export class NewsRepository {
     body: CreateNewsDto,
     region: string,
   ): Promise<NewsDocument> {
-    return await this.newsModel.create({ ...body, region });
+    const niceNameTime = new Date().getTime();
+
+    return await this.newsModel.create({
+      ...body,
+      region,
+      niceName: niceNameTime,
+    });
   }
+
   public async updateOne(
     body: UpdateNewsDto,
     region: string,
@@ -29,9 +36,8 @@ export class NewsRepository {
     niceName: string,
     region: string,
   ): Promise<NewsDocument> {
-    return await this.newsModel
-      .findOne({ niceName, region })
-      .populate('recipes');
+    return await this.newsModel.findOne({ niceName, region });
+    //.populate('recipes');
   }
 
   public async findAll(region: string): Promise<NewsDocument[]> {
@@ -44,6 +50,7 @@ export class NewsRepository {
   ): Promise<NewsDocument> {
     return await this.newsModel.findOneAndDelete({ niceName, region });
   }
+
   public async findNewsByDateRange(
     region: string,
     date: Date,

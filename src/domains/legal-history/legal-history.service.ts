@@ -7,13 +7,16 @@ export class LegalHistoryService {
   public notfound = 'Legal History not found';
   public constructor(public lhRepo: LegalHistoryRepository) {}
 
-  public async fetchAllLH(region: string): Promise<LegalHistoryDocument[]> {
+  public async fetchAllLH(
+    region: string,
+  ): Promise<Partial<LegalHistoryDocument>[]> {
     const legalHistoryList = await this.lhRepo.fetchAllLH(region);
-    if (legalHistoryList.length <= 0) {
-      throw new NotFoundException(this.notfound);
+    if (legalHistoryList.length > 0) {
+      // throw new NotFoundException(this.notfound);
+      return legalHistoryList;
     }
 
-    return legalHistoryList;
+    return [];
   }
 
   public async fetchLH(

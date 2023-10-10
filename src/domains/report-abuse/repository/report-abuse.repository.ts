@@ -16,8 +16,8 @@ export class ReportAbuseRepository {
   public async findOne(
     region: string,
     reportedUserNiceName: string,
-  ): Promise<ReportAbuseDocument[]> {
-    return await this.reportModel.find({ region, reportedUserNiceName });
+  ): Promise<ReportAbuseDocument> {
+    return await this.reportModel.findOne({ region, reportedUserNiceName });
   }
 
   public async findAll(region: string): Promise<ReportAbuseDocument[]> {

@@ -20,7 +20,7 @@ export class Notes {
   })
   public user: mongooseSchema.Types.ObjectId;
 
-  @Prop({ required: true, ref: 'Recipe' })
+  @Prop({ type: mongooseSchema.Types.ObjectId, required: true, ref: 'Recipe' })
   public recipe: mongooseSchema.Types.ObjectId;
 
   @Prop({ required: true })

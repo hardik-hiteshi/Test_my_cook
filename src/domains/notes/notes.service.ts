@@ -55,16 +55,13 @@ export class NotesService {
     return updatedNote;
   }
 
-  public async deleteNote(
-    region: string,
-    uniqueId: string,
-  ): Promise<NotesDocument> {
+  public async deleteNote(region: string, uniqueId: string): Promise<object> {
     const deletedNote = await this.notesRepo.deleteNote(region, uniqueId);
     if (!deletedNote) {
       throw new NotFoundException('Note not  deleted. object not found.');
     }
 
-    return deletedNote;
+    return { message: 'Deleted Success' };
   }
 
   public async fetchNotes(region: string): Promise<NotesDocument[]> {
@@ -72,7 +69,9 @@ export class NotesService {
     if (notesList.length > 0) {
       return notesList;
     }
-    throw new NotFoundException('Notes not found.');
+    // throw new NotFoundException('Notes not found.');
+
+    return [];
   }
 
   public async fetchNoteRecipe(

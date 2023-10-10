@@ -47,12 +47,15 @@ export class PictosService {
   public async findAll(region: string): Promise<PictosDocument[]> {
     const pictos = await this.pictosRepo.findAllByRegion(region);
 
-    if (pictos.length <= 0) throw new NotFoundException(this.pictosNotFound);
+    if (pictos.length > 0) {
+      return pictos;
+    }
+    // throw new NotFoundException(this.pictosNotFound);
 
-    return pictos;
+    return [];
   }
 
-  public async deleteOne(region: string, niceName: string): Promise<void> {
+  public async deleteOne(region: string, niceName: string): Promise<object> {
     const pictos = await this.pictosRepo.findOne({
       region,
       isDeleted: false,
@@ -63,6 +66,8 @@ export class PictosService {
 
     pictos.isDeleted = true;
     await pictos.save();
+
+    return { message: 'Deleted Success' };
   }
 
   public async updateOne(

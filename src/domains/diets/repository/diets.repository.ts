@@ -1,7 +1,7 @@
 import { CreateDietDto, UpdateDietDto } from '../dtos';
 import { Diet, DietDocument } from '../schema/diets.schema';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DietTo } from '../schema/subSchema/dietTo.subSchema';
-import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RecursivePartial } from 'src/common/interface';
@@ -45,18 +45,28 @@ export class DietsRepository {
   }
   public async findTags(
     niceName: string,
-    region,
+    region: string,
   ): Promise<DietDocument['tags']> {
-    return (await this.dietModel.findOne({ niceName, region }).select('tags'))
-      .tags;
+    const data = (
+      await this.dietModel.findOne({ niceName, region }).select('tags')
+    )?.tags;
+
+    if (!data) throw new NotFoundException('diet not found');
+
+    return data;
   }
   public async findOneTag(
     niceName: string,
     index: number,
     region: string,
   ): Promise<string> {
-    return (await this.dietModel.findOne({ niceName, region }).select('tags'))
-      .tags[index];
+    const data = (
+      await this.dietModel.findOne({ niceName, region }).select('tags')
+    )?.tags[index];
+
+    if (!data) throw new NotFoundException('diet not found');
+
+    return data;
   }
   public async findOneTranslation(
     niceName: string,

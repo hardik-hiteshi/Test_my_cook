@@ -23,10 +23,12 @@ export class MachineModelService {
       isActive: true,
     });
 
-    if (machineModel.length <= 0)
-      throw new NotFoundException('machine not found');
+    if (machineModel.length > 0) {
+      return machineModel;
+    }
+    // throw new NotFoundException('machine not found');
 
-    return machineModel;
+    return [];
   }
 
   public async findOne(uniqueId: string): Promise<MachineModelDocument> {
@@ -60,10 +62,13 @@ export class MachineModelService {
     return newmachineModel;
   }
 
-  public async deleteOne(uniqueId: string): Promise<void> {
+  public async deleteOne(uniqueId: string): Promise<object> {
     const machineModel = await this.machineModelRepo.deleteOne(uniqueId);
     if (!machineModel) throw new NotFoundException('machine_model not found');
+
+    return { message: 'Deleted Success' };
   }
+
   public async createMany(body: CreateManyMachineModelDto): Promise<void> {
     const data = body.array.map((i) => i.code);
     const existingItems = await this.machineModelRepo.findAll({
@@ -87,6 +92,7 @@ export class MachineModelService {
 
     await this.machineModelRepo.createMany(itemsToInsert);
   }
+
   public async findOneAndUpdate(
     uniqueId: string,
     body: UpdateMachineModelDto,

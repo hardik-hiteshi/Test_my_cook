@@ -38,27 +38,3 @@ export class Contact {
 }
 
 export const contactSchema = SchemaFactory.createForClass(Contact);
-
-// {
-//     title: { type: String, required: true },
-//     niceName: {
-//       type: String,
-//       required: true,
-//     },
-//     image: { type: Schema.Types.Mixed },
-//     contact_1: {
-//       type: String,
-//       required: true,
-//     },
-//     contact_2: {
-//       type: String,
-//     },
-//     description: {
-//       type: String,
-//     },
-//     region: {
-//       type: String,
-//       required: true,
-//       enum: regions,
-//     },
-//   },

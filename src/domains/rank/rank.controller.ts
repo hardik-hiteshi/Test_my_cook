@@ -9,11 +9,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateRankDTO } from './dto/createDto/createrank.dto';
 import { RankDocument } from './schema/rank.schema';
 import { RankService } from './rank.service';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdateRankDTO } from './dto/updateDto/updaterank.dto';
-
+@AUTH(Role.admin)
 @Controller()
 export class RankController {
   public constructor(public rankServices: RankService) {}
@@ -47,7 +49,7 @@ export class RankController {
   public async deleteRank(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<RankDocument> {
+  ): Promise<object> {
     return await this.rankServices.deleteRank(region, niceName);
   }
 

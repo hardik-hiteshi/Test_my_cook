@@ -9,9 +9,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateIngredientDto, UpdateIngredientDto } from './dtos';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { IngredientDocument } from './schema/ingredient.schema';
 import { IngredientService } from './ingredient.service';
-
+import { Role } from '../auth/roles/permission.roles';
+@AUTH(Role.admin)
 @Controller()
 export class IngredientController {
   public constructor(private ingredientService: IngredientService) {}
@@ -45,8 +47,8 @@ export class IngredientController {
   private async deleteIngredient(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.ingredientService.deleteOne(region, niceName);
+  ): Promise<object> {
+    return await this.ingredientService.deleteOne(region, niceName);
   }
 
   @Get('ingredients')

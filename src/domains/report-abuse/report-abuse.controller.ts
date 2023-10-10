@@ -32,7 +32,7 @@ export class ReportAbuseController {
   private async getOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,
-  ): Promise<ReportAbuseDocument[]> {
+  ): Promise<ReportAbuseDocument> {
     return await this.reportService.findOne(region, reportedUserNiceName);
   }
 
@@ -61,8 +61,8 @@ export class ReportAbuseController {
   private async deleteOne(
     @Headers('region') region: string,
     @Param('reportedUserNiceName') reportedUserNiceName: string,
-  ): Promise<void> {
-    await this.reportService.deleteOne(region, reportedUserNiceName);
+  ): Promise<object> {
+    return await this.reportService.deleteOne(region, reportedUserNiceName);
   }
 
   @Post('reportAbuses')

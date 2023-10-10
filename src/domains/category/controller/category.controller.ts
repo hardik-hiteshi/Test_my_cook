@@ -9,11 +9,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { AUTH } from '../../auth/decorator/auth.decorator';
 import { CategoryDocument } from '../schema/category.schema';
 import { CategoryService } from '../category.service';
 import { CreateCategoryDTO } from '../dto/createcategory/createcategory.dto';
+import { Role } from '../../auth/roles/permission.roles';
 import { UpdateCategoryDTO } from '../dto/updatecategory/updatecategory.dto';
-
+@AUTH(Role.admin)
 @Controller()
 export class CategoryController {
   public constructor(public categoryServices: CategoryService) {}
@@ -47,7 +49,7 @@ export class CategoryController {
   public async deleteCategory(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<CategoryDocument> {
+  ): Promise<object> {
     return await this.categoryServices.deleteCategory(region, niceName);
   }
 

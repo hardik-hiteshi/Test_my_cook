@@ -29,7 +29,7 @@ export class UserRepository {
   public async findOneAndUpdate(
     query: RecursivePartial<User>,
     body: UserUpdateDto,
-  ): Promise<UserDocument> {
+  ): Promise<Partial<UserDocument>> {
     if (Object.keys(body).length === 0)
       throw new BadRequestException('request body can not be empty');
 

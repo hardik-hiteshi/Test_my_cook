@@ -27,6 +27,7 @@ export class Rank {
 
   @Prop(RankTranslations)
   public translations: RankTranslations;
+
   @Prop({ default: true })
   public isActive: boolean;
 }

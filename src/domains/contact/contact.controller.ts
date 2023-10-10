@@ -15,11 +15,11 @@ import { ContactService } from './contact.service';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('contact')
+@Controller()
 export class ContactController {
   public constructor(private contactService: ContactService) {}
 
-  @Post()
+  @Post('contact')
   private async createContact(
     @Headers('region') region: string,
     @Body() body: CreateContactDto,
@@ -27,7 +27,7 @@ export class ContactController {
     return await this.contactService.createOne(region, body);
   }
 
-  @Put(':nicename')
+  @Put('contact/:nicename')
   private async updateContact(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
@@ -35,22 +35,23 @@ export class ContactController {
   ): Promise<ContactDocument> {
     return await this.contactService.updateOne(region, niceName, body);
   }
-  @Delete(':nicename')
+
+  @Delete('contact/:nicename')
   private async deleteContact(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.contactService.deleteOne(niceName, region);
+  ): Promise<object> {
+    return await this.contactService.deleteOne(niceName, region);
   }
 
-  @Get(':nicename')
+  @Get('contact/:nicename')
   private async getContact(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
   ): Promise<ContactDocument> {
     return await this.contactService.findOne(niceName, region);
   }
-  @Get()
+  @Get('contacts')
   private async getAllContact(
     @Headers('region') region: string,
   ): Promise<ContactDocument[]> {

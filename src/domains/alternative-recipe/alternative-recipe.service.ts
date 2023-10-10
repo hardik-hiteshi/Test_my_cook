@@ -65,11 +65,12 @@ export class AlternativeRecipeService {
       region,
       search,
     );
-    if (alternativeRecipeList.length <= 0) {
-      throw new NotFoundException('No Alternative recipe found');
+    if (alternativeRecipeList.length > 0) {
+      //throw new NotFoundException('No Alternative recipe found');
+      return alternativeRecipeList;
     }
 
-    return alternativeRecipeList;
+    return [];
   }
 
   public async fetchRecipe(
@@ -130,10 +131,7 @@ export class AlternativeRecipeService {
     return updatedaltRecipe;
   }
 
-  public async deleteRecipe(
-    region: string,
-    niceName: string,
-  ): Promise<AlternativeRecipeDocument> {
+  public async deleteRecipe(region: string, niceName: string): Promise<object> {
     const deletedaltRecipe = await this.alternativeRecipeRepo.deleteRecipe(
       region,
       niceName,
@@ -142,6 +140,6 @@ export class AlternativeRecipeService {
       throw new NotFoundException('Alternative Recipe Does not exist.');
     }
 
-    return deletedaltRecipe;
+    return { message: 'Deleted Success' };
   }
 }

@@ -36,16 +36,20 @@ export class MachineLogService {
   public async findAll(region: string): Promise<MachineLogDocument[]> {
     const machineLog = await this.machineLogRepo.findAll(region);
 
-    if (machineLog.length <= 0)
-      throw new NotFoundException(this.machinelogNotfound);
+    if (machineLog.length > 0) {
+      return machineLog;
+    }
+    // throw new NotFoundException(this.machinelogNotfound);
 
-    return machineLog;
+    return [];
   }
 
-  public async deleteOne(region: string, uniqueId: string): Promise<void> {
+  public async deleteOne(region: string, uniqueId: string): Promise<object> {
     const machineLog = await this.machineLogRepo.deleteOne(region, uniqueId);
 
     if (!machineLog) throw new NotFoundException(this.machinelogNotfound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async updateOne(

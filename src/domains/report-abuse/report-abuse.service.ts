@@ -33,27 +33,36 @@ export class ReportAbuseService {
 
   public async findAll(region: string): Promise<ReportAbuseDocument[]> {
     const reports = await this.reportRepo.findAll(region);
-    if (reports.length <= 0) throw new NotFoundException(this.reportNotFound);
+    if (reports.length > 0) {
+      return reports;
+    }
+    // throw new NotFoundException(this.reportNotFound);
 
-    return reports;
+    return [];
   }
 
-  public async deleteOne(region: string, reportedUserNiceName): Promise<void> {
+  public async deleteOne(
+    region: string,
+    reportedUserNiceName,
+  ): Promise<object> {
     const report = await this.reportRepo.deleteOne(
       region,
       reportedUserNiceName,
     );
     if (!report) throw new NotFoundException(this.reportNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async findOne(
     region: string,
     reportedUserNiceName: string,
-  ): Promise<ReportAbuseDocument[]> {
+  ): Promise<ReportAbuseDocument> {
     const reports = await this.reportRepo.findOne(region, reportedUserNiceName);
-    if (reports.length <= 0) throw new NotFoundException(this.reportNotFound);
-
-    return reports;
+    if (reports) {
+      return reports;
+    }
+    throw new NotFoundException(this.reportNotFound);
   }
 
   public async createManyReports(

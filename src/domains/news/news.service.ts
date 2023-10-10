@@ -25,6 +25,7 @@ export class NewsService {
     niceName: string,
   ): Promise<NewsDocument> {
     const news = await this.newsRepo.updateOne(body, region, niceName);
+
     if (!news) throw new NotFoundException('news not found');
 
     return news;
@@ -39,14 +40,19 @@ export class NewsService {
 
   public async findAll(region: string): Promise<NewsDocument[]> {
     const news = await this.newsRepo.findAll(region);
-    if (news.length <= 0) throw new NotFoundException('news not found');
+    if (news.length > 0) {
+      return news;
+    }
+    //  throw new NotFoundException('news not found');
 
-    return news;
+    return [];
   }
 
-  public async deleteOne(region: string, niceName: string): Promise<void> {
+  public async deleteOne(region: string, niceName: string): Promise<object> {
     const news = await this.newsRepo.deleteOne(region, niceName);
     if (!news) throw new NotFoundException('news not found');
+
+    return { message: 'Deleted Success' };
   }
 
   public async deleteImage(region: string, niceName: string): Promise<void> {

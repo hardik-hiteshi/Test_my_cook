@@ -42,6 +42,10 @@ export class CreateReportDto {
   @IsString()
   public managerComment?: string;
 
+  // @IsOptional()
+  @IsString()
+  public managerDone?: string;
+
   @IsOptional()
   @IsMongoId()
   public elementId?: Schema.Types.ObjectId;

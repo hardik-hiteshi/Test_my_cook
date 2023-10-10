@@ -32,14 +32,11 @@ export class FeaturedService {
     throw new NotFoundException('Updated data not found');
   }
 
-  public async deleteFeatured(
-    region: string,
-    type: string,
-  ): Promise<FeaturedDocument> {
+  public async deleteFeatured(region: string, type: string): Promise<object> {
     const deletedData = await this.featuredRepo.deleteFeatured(type, region);
 
     if (deletedData) {
-      return deletedData;
+      return { message: 'Deleted Success' };
     }
     throw new NotFoundException('Feature Not found.');
   }

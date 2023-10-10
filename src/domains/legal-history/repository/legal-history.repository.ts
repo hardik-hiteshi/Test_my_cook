@@ -12,8 +12,12 @@ export class LegalHistoryRepository {
     @InjectModel(LegalHistory.name) public lhModel: Model<LegalHistory>,
   ) {}
 
-  public async fetchAllLH(region: string): Promise<LegalHistoryDocument[]> {
-    return await this.lhModel.find({ region });
+  public async fetchAllLH(
+    region: string,
+  ): Promise<Partial<LegalHistoryDocument>[]> {
+    return await this.lhModel
+      .find({ region })
+      .select('region version uniqueId');
   }
 
   public async fetchLH(

@@ -29,6 +29,7 @@ import { Role } from '../auth/roles/permission.roles';
 @Controller()
 export class MachineModelController {
   public constructor(public machineModelService: MachineModelService) {}
+
   @Post('machinemodel')
   private async createMachineModel(
     @Body() body: CreateMachineModelDto,
@@ -59,9 +60,9 @@ export class MachineModelController {
   @Delete('machinemodel/:unique_id')
   private async deleteMachineModel(
     @Param('unique_id') uniqueId: string,
-  ): Promise<void> {
+  ): Promise<object> {
     // using hard delete might use soft delete in future
-    await this.machineModelService.deleteOne(uniqueId);
+    return await this.machineModelService.deleteOne(uniqueId);
   }
 
   @HttpCode(HttpStatus.OK)

@@ -9,6 +9,9 @@ export type TipDocument = HydratedDocument<Tip>;
   },
 })
 export class Tip {
+  @Prop()
+  public uniqueId: string;
+
   @Prop({ type: String, required: true })
   public text: string;
 

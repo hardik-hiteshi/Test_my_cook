@@ -1,4 +1,4 @@
-import { HydratedDocument, Schema as mongoSchema, Types } from 'mongoose';
+import { HydratedDocument, Schema as mongoSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import regions from 'src/common/enum/region.enum';
 

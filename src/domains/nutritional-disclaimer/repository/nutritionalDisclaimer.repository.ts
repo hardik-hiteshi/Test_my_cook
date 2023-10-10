@@ -40,11 +40,8 @@ export class NutritionalDisclaimerRepository {
     return createdndDoc;
   }
 
-  public async fetchND(
-    region: string,
-    niceName: string,
-  ): Promise<NutritionalDisclaimerDocument> {
-    const ndDoc = await this.ndModel.findOne({ region, niceName });
+  public async fetchND(region: string): Promise<NutritionalDisclaimerDocument> {
+    const ndDoc = await this.ndModel.findOne({ region });
 
     return ndDoc;
   }
@@ -57,15 +54,18 @@ export class NutritionalDisclaimerRepository {
     return ndDocList;
   }
 
-  public async updateND(
+  public async upsertND(
     region: string,
-    niceName: string,
     body: UpdateNutritionalDisclaimerDTO,
   ): Promise<NutritionalDisclaimerDocument> {
+    const options = {
+      new: true,
+      upsert: true,
+    };
     const updatedNDdoc = await this.ndModel.findOneAndUpdate(
-      { region, niceName, isActive: true },
+      { region, isActive: true },
       body,
-      { new: true },
+      options,
     );
 
     return updatedNDdoc;
@@ -73,10 +73,9 @@ export class NutritionalDisclaimerRepository {
 
   public async deleteND(
     region: string,
-    niceName: string,
   ): Promise<NutritionalDisclaimerDocument> {
     const deletedNDdoc = await this.ndModel.findOneAndUpdate(
-      { region, niceName, isActive: true },
+      { region, isActive: true },
       { isActive: false },
       { new: true },
     );

@@ -32,6 +32,7 @@ export class UserController {
   ): Promise<UserDocument> {
     return await this.userService.create(body, region);
   }
+
   // @Post(':nicename/block/:blockUserNiceName')
   // private async blockUser(
   //   @Param('nicename') niceName: string,
@@ -162,8 +163,8 @@ export class UserController {
     @GET_USER() user: UserDocument,
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
-    await this.userService.deleteOne(user, niceName, region);
+  ): Promise<object> {
+    return await this.userService.deleteOne(user, niceName, region);
   }
 
   // @Delete(':nicename/following/:followingNiceName')
@@ -195,7 +196,7 @@ export class UserController {
     @Body() body: UserUpdateDto,
     @Headers('region') region: string,
     @Param('nicename') niceName: string,
-  ): Promise<UserDocument> {
+  ): Promise<Partial<UserDocument>> {
     return await this.userService.findOneAndUpdate(
       user,
       niceName,

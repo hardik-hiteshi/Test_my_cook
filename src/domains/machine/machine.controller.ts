@@ -24,11 +24,11 @@ import { MachineService } from './machine.service';
 import { Role } from '../auth/roles/permission.roles';
 
 @AUTH(Role.admin)
-@Controller('machine')
+@Controller()
 export class MachineController {
   public constructor(private machineService: MachineService) {}
 
-  @Post()
+  @Post('machine')
   private async createMachine(
     @Body() body: CreateMachineDto,
     @Headers('region') region: string,
@@ -36,7 +36,7 @@ export class MachineController {
     return await this.machineService.createOne(body, region);
   }
 
-  @Get(':uniqueId')
+  @Get('machine/:uniqueId')
   private async getMachine(
     @Param('uniqueId') uniqueId: string,
     @Headers('region') region: string,
@@ -44,13 +44,14 @@ export class MachineController {
     return await this.machineService.findOne(uniqueId, region);
   }
 
-  @Get()
+  @Get('machines')
   private async getAllMachine(
     @Headers('region') region: string,
   ): Promise<MachineDocument[]> {
     return await this.machineService.findAll(region);
   }
-  @Put(':unique_id')
+
+  @Put('machine/:unique_id')
   private async updateMachine(
     @Param('unique_id') uniqueId: string,
     @Body() body: UpdateMachineDto,
@@ -58,16 +59,16 @@ export class MachineController {
     return this.machineService.findOneAndUpdate(uniqueId, body);
   }
 
-  @Delete(':unique_id')
+  @Delete('machine/:unique_id')
   private async deleteMachineByUniqueId(
     @Param('unique_id') uniqueId: string,
-  ): Promise<void> {
+  ): Promise<object> {
     // using hard delete might use soft delete in future
-    await this.machineService.deleteOne(uniqueId);
+    return await this.machineService.deleteOne(uniqueId);
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('import')
+  @Post('machine/import')
   @UseInterceptors(FileInterceptor('file'), new CsvToJsonInterceptor())
   private async createManyMachine(
     @Body() body: CreateManyMachineDto,

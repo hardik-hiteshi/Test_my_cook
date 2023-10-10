@@ -11,9 +11,7 @@ import {
 } from '@nestjs/common';
 import { CreateTipDto, UpdateTipDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
-import { MongoIdValidationPipe } from 'src/common/pipe';
 import { Role } from '../auth/roles/permission.roles';
-import { Schema } from 'mongoose';
 import { TipDocument } from './schema/tip.schema';
 import { TipService } from './tip.service';
 
@@ -29,11 +27,11 @@ export class TipController {
     return await this.tipService.findRandomTip(region);
   }
 
-  @Get('tip/:id')
+  @Get('tip/:uniqueId')
   public async getTip(
-    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
+    @Param('uniqueId') uniqueId: string,
   ): Promise<TipDocument> {
-    return await this.tipService.findOne(id);
+    return await this.tipService.findOne(uniqueId);
   }
 
   @Post('tip')
@@ -44,20 +42,18 @@ export class TipController {
     return await this.tipService.createOne(body, region);
   }
 
-  @Put('tip/:id')
+  @Put('tip/:uniqueId')
   public async updateTip(
-    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
+    @Param('uniqueId') uniqueId: string,
     @Body() body: UpdateTipDto,
   ): Promise<TipDocument> {
-    return this.tipService.updateOne(id, body);
+    return this.tipService.updateOne(uniqueId, body);
   }
 
-  @Delete('tip/:id')
-  public async deleteTip(
-    @Param('id', MongoIdValidationPipe) id: Schema.Types.ObjectId,
-  ): Promise<void> {
+  @Delete('tip/:uniqueId')
+  public async deleteTip(@Param('uniqueId') uniqueId: string): Promise<object> {
     // using hard delete might use soft delete in future
-    return await this.tipService.deleteOne(id);
+    return await this.tipService.deleteOne(uniqueId);
   }
 
   @Get('tips')

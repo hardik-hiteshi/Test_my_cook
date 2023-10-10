@@ -50,15 +50,12 @@ export class BadgesService {
     return updatedBadge;
   }
 
-  public async deleteBadge(
-    region: string,
-    niceName: string,
-  ): Promise<BadgesDocument> {
+  public async deleteBadge(region: string, niceName: string): Promise<object> {
     const badge = await this.badgesRepo.deleteBadge(region, niceName);
 
     if (!badge) throw new NotFoundException('Badge not found.');
 
-    return badge;
+    return { message: 'Deleted Success' };
   }
 
   public async fetchBadges(
@@ -69,6 +66,9 @@ export class BadgesService {
     if (badges.length > 0) {
       return badges;
     }
-    throw new NotFoundException('Badges not found.');
+
+    return [];
+
+    // throw new NotFoundException('Badges not found.');
   }
 }

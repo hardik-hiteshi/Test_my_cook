@@ -35,11 +35,12 @@ export class RegionController {
   ): Promise<RegionDocument> {
     return await this.regionService.updateOne(niceName, body);
   }
+
   @Delete('region/:niceName')
   private async deleteRegion(
     @Param('niceName') niceName: string,
-  ): Promise<void> {
-    await this.regionService.deleteOne(niceName);
+  ): Promise<object> {
+    return await this.regionService.deleteOne(niceName);
   }
 
   @Get('region/:niceName')
@@ -49,7 +50,7 @@ export class RegionController {
     return await this.regionService.findOne(niceName);
   }
 
-  @Get()
+  @Get('regions')
   private async getAllRegion(): Promise<RegionDocument[]> {
     return await this.regionService.findAll();
   }
@@ -57,14 +58,14 @@ export class RegionController {
   @Get('region/:niceName/adminUser')
   private async getRegionAdminUser(
     @Param('niceName') niceName: string,
-  ): Promise<RegionDocument> {
+  ): Promise<Partial<RegionDocument>> {
     return await this.regionService.findOneAdminUser(niceName);
   }
 
   @Get('region/:niceName/contextFields')
   private async getRegionContext(
     @Param('niceName') niceName: string,
-  ): Promise<RegionDocument> {
+  ): Promise<Partial<RegionDocument>> {
     return await this.regionService.findOneContextFields(niceName);
   }
 

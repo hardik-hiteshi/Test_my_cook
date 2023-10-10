@@ -32,8 +32,16 @@ export class DietsService {
     niceName: string,
     body: UpdateDietDto,
   ): Promise<DietDocument> {
-    const diet = await this.dietRepo.updateOne(body, region, niceName);
-
+    let diet: DietDocument;
+    try {
+      diet = await this.dietRepo.updateOne(body, region, niceName);
+    } catch (e) {
+      if (e.code === 11000 || e.code === 11001) {
+        throw new BadRequestException(e.message);
+      } else {
+        throw e;
+      }
+    }
     if (!diet) throw new NotFoundException(this.dietNotFound);
 
     return diet;
@@ -53,21 +61,27 @@ export class DietsService {
   public async findAll(region: string): Promise<DietDocument[]> {
     const diet = await this.dietRepo.findAll({ region });
 
-    if (diet.length <= 0) throw new NotFoundException(this.dietNotFound);
+    if (diet.length > 0) {
+      return diet;
+    }
+    //  throw new NotFoundException(this.dietNotFound);
 
-    return diet;
+    return [];
   }
 
-  public async deleteOne(niceName: string, region: string): Promise<void> {
+  public async deleteOne(niceName: string, region: string): Promise<object> {
     const diet = await this.dietRepo.deleteOne(niceName, region);
     if (!diet) throw new NotFoundException(this.dietNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async findTags(
     niceName: string,
-    region,
+    region: string,
   ): Promise<DietDocument['tags']> {
     const tags = await this.dietRepo.findTags(niceName, region);
+
     if (tags.length <= 0) throw new NotFoundException(this.tagsNotFound);
 
     return tags;

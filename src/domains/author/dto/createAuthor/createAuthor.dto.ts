@@ -12,14 +12,17 @@ export class CreateAuthorDTO {
   @IsString()
   @IsNotEmpty()
   public username: string;
+
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateAuthorSocialDTO)
   public social: CreateAuthorSocialDTO;
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
   public image: string[];
+
   @IsOptional()
   @IsString()
   public bio: string;

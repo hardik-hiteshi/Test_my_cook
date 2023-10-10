@@ -55,7 +55,7 @@ export class RecipeController {
   private async deleteRecipe(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<RecipeDocument> {
+  ): Promise<object> {
     return await this.recipeService.deleteRecipe(region, niceName);
   }
 
@@ -75,6 +75,7 @@ export class RecipeController {
   ): Promise<Array<RecipeDocument>> {
     return await this.recipeService.fetchAllRecipes(region, search);
   }
+
   @Get('recipes/export/:type')
   private async exportRecipes(
     @Headers('region') region: string,
@@ -92,6 +93,7 @@ export class RecipeController {
 
     return new StreamableFile(file.data);
   }
+
   // @Post('/:niceName/comment/:parent')
   // private async addComment(
   //   @Headers('region') region: string,

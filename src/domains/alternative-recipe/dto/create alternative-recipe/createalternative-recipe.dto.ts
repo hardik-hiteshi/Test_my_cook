@@ -47,32 +47,41 @@ export class CreateAlternativeRecipeDTO {
   @ValidateNested()
   @Type(() => InfoDTO)
   public info: InfoDTO;
+
   @IsOptional()
   @IsNumber()
   public totalTime: number;
+
   @IsOptional()
   @IsNumber()
   public cookTime: number;
+
   @IsOptional()
   @IsNumber()
   public difficulty: number;
+
   @IsOptional()
   @IsNumber()
   public price?: number;
+
   @IsOptional()
   @IsObject()
   public size: object;
+
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
   public images: string[];
+
   @IsOptional()
   @ValidateNested()
   @Type(() => GroupsDTO)
   public groups: GroupsDTO[];
+
   @IsOptional()
   @IsObject()
   public nutritional: object;
+
   @IsOptional()
   @IsArray()
   @IsObject({ each: true })

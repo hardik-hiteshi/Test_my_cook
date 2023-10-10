@@ -44,8 +44,8 @@ export class ProductController {
   @Delete('product/:nicename')
   private async deleteProduct(
     @Param('nicename') niceName: string,
-  ): Promise<void> {
-    await this.productService.deleteOne(niceName);
+  ): Promise<object> {
+    return await this.productService.deleteOne(niceName);
   }
 
   @Get('products')

@@ -8,8 +8,9 @@ export type NewsDocument = HydratedDocument<News>;
   shardKey: { region: 1 },
 })
 export class News {
-  @Prop({ required: true, default: new Date().getTime() })
+  @Prop({ required: true })
   public niceName: string;
+
   @Prop({ default: new Date().toISOString() })
   public date: Date;
 

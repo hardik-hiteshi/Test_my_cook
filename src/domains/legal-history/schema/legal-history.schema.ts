@@ -12,34 +12,49 @@ export type LegalHistoryDocument = HydratedDocument<LegalHistory>;
 export class LegalHistory {
   @Prop()
   public uniqueId: string;
-  @Prop({ required: true, enum: regions, readonly: true })
+
+  @Prop({ required: true, enum: regions })
   public region: string;
-  @Prop({ min: 0, default: 0, readonly: true })
+
+  @Prop({ min: 0, default: 0 })
   public version: number;
-  @Prop({ readonly: true })
+
+  @Prop()
   public startDate: Date;
-  @Prop({ readonly: true })
+
+  @Prop()
   public finishDate: Date;
-  @Prop({ readonly: true })
+
+  @Prop()
   public type: string;
+
   @Prop(LHLayer)
   public memberConditions: LHLayer;
+
   @Prop(LHcommunityConditions)
   public communityConditions: LHcommunityConditions;
+
   @Prop(LHinternationalConditions)
   public internationalConditions: LHcommunityConditions;
+
   @Prop(LHLayer)
   public newsletterConditions: LHLayer;
+
   @Prop(LHLayer)
   public ebookConditions: LHLayer;
+
   @Prop(LHLayer)
   public contactConditions: LHLayer;
+
   @Prop(LHLayer)
   public ecommerceGuestConditions: LHLayer;
+
   @Prop(LHcommunityConditions)
   public termsOfSale: LHcommunityConditions;
+
   @Prop(LHLayer)
   public affiliateContactConditions: LHLayer;
+
   @Prop(LHInfo)
   public info: LHInfo;
 }

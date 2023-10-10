@@ -8,12 +8,18 @@ import {
   Post,
   Put,
   Query,
+  Res,
+  StreamableFile,
 } from '@nestjs/common';
+import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreatePostTagDTO } from './dto/createDto/createPostTag.dto';
 import { PostTagDocument } from './schema/postTag.schema';
 import { PostTagService } from './postTag.service';
+import { Response } from 'express';
+import { Role } from '../auth/roles/permission.roles';
 import { UpdatePostTagDTO } from './dto/updateDto/updatePostTag.dto';
 
+@AUTH(Role.admin)
 @Controller()
 export class PostTagController {
   public constructor(public postTagServices: PostTagService) {}
@@ -47,7 +53,7 @@ export class PostTagController {
   public async deletepostTag(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
-  ): Promise<PostTagDocument> {
+  ): Promise<object> {
     return await this.postTagServices.deletePostTag(region, uniqueId);
   }
 
@@ -57,5 +63,23 @@ export class PostTagController {
     @Query('search') search?: string,
   ): Promise<PostTagDocument[]> {
     return await this.postTagServices.fetchPostTags(region, search);
+  }
+
+  @Get('postTags/export/:type')
+  private async exportPostTags(
+    @Headers('region') region: string,
+    @Param('type') type: string,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<StreamableFile> {
+    const file = await this.postTagServices.exportFile(region, type);
+
+    res.set({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'Content-Type': `application/${file.type}`,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'Content-Disposition': `attachment; filename=PostTags.${file.type}`,
+    });
+
+    return new StreamableFile(file.data);
   }
 }

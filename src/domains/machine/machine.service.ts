@@ -27,7 +27,9 @@ export class MachineService {
       'serial.counter': body.serial.counter,
     });
 
-    if (machine) throw new BadRequestException('machine already exist');
+    if (machine) {
+      throw new BadRequestException('machine serial counter already exist');
+    }
     body.uniqueId = uuid();
 
     return await this.machineRepo.createOne(body, region);
@@ -47,23 +49,37 @@ export class MachineService {
   }
   public async findAll(region: string): Promise<MachineDocument[]> {
     const machine = await this.machineRepo.findAll({ region });
-    if (machine.length <= 0) throw new NotFoundException('machine not found');
+    if (machine.length > 0) {
+      return machine;
+    }
+    // throw new NotFoundException('machine not found');
 
-    return machine;
+    return [];
   }
 
-  public async deleteOne(uniqueId: string): Promise<void> {
+  public async deleteOne(uniqueId: string): Promise<object> {
     const machine = await this.machineRepo.deleteOne({
       uniqueId,
     });
     if (!machine) throw new NotFoundException('machine not found');
+
+    return { message: 'Deleted Success' };
   }
 
   public async findOneAndUpdate(
     uniqueId: string,
     body: UpdateMachineDto,
   ): Promise<MachineDocument> {
+    // if (body.serial?.counter) {
+    //   const machine = await this.machineRepo.findOne({
+    //     // eslint-disable-next-line @typescript-eslint/naming-convention
+    //     'serial.counter': body.serial.counter,
+    //   });
+    //   if (machine)
+    //     throw new BadRequestException('serial.counter is already exist');
+    // }
     const machine = await this.machineRepo.findOneAndUpdate({ uniqueId }, body);
+
     if (!machine) throw new NotFoundException('machine not found');
 
     return machine;

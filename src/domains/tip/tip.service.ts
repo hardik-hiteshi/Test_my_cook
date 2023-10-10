@@ -1,6 +1,5 @@
 import { CreateTipDto, UpdateTipDto } from './dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Schema } from 'mongoose';
 import { TipDocument } from './schema/tip.schema';
 import { TipRepository } from './repository/tip.repository';
 
@@ -8,8 +7,8 @@ import { TipRepository } from './repository/tip.repository';
 export class TipService {
   public constructor(private tipRepo: TipRepository) {}
 
-  public async findOne(id: Schema.Types.ObjectId): Promise<TipDocument> {
-    const tip = await this.tipRepo.findOne(id);
+  public async findOne(uniqueId: string): Promise<TipDocument> {
+    const tip = await this.tipRepo.findOne(uniqueId);
     if (!tip) throw new NotFoundException('tip not found');
 
     return tip;
@@ -18,9 +17,12 @@ export class TipService {
   public async findAll(region, search?): Promise<TipDocument[]> {
     const tip = await this.tipRepo.findAll(region, search);
 
-    if (tip.length <= 0) throw new NotFoundException('tip not found');
+    if (tip.length > 0) {
+      return tip;
+    }
+    // throw new NotFoundException('tip not found');
 
-    return tip;
+    return [];
   }
 
   public async createOne(
@@ -30,16 +32,18 @@ export class TipService {
     return await this.tipRepo.createOne(body, region);
   }
 
-  public async deleteOne(id: Schema.Types.ObjectId): Promise<void> {
-    const tip = await this.tipRepo.deleteOne(id);
+  public async deleteOne(uniqueId: string): Promise<object> {
+    const tip = await this.tipRepo.deleteOne(uniqueId);
     if (!tip) throw new NotFoundException('tip not found');
+
+    return { message: 'Deleted Success' };
   }
 
   public async updateOne(
-    id: Schema.Types.ObjectId,
+    uniqueId: string,
     body: UpdateTipDto,
   ): Promise<TipDocument> {
-    const tip = await this.tipRepo.updateOne(id, body);
+    const tip = await this.tipRepo.updateOne(uniqueId, body);
     if (!tip) throw new NotFoundException('tip not found');
 
     return tip;

@@ -21,7 +21,12 @@ export class AdvertisementService {
     region: string,
     body: CreateAdvertisementDTO,
   ): Promise<AdvertisementDocument> {
-    const existingAdvertisement = await this.adRepo.findOne(region, body);
+    body.niceName = Date.now().toString();
+    body.date = new Date();
+    const existingAdvertisement = await this.adRepo.findOne(
+      region,
+      body.niceName,
+    );
     if (!existingAdvertisement) {
       const advertisement = await this.adRepo.createAdvertisement(region, body);
 
@@ -64,7 +69,7 @@ export class AdvertisementService {
   public async deleteAdvertisement(
     region: string,
     niceName: string,
-  ): Promise<AdvertisementDocument> {
+  ): Promise<object> {
     const deletedAdvertisement = await this.adRepo.deleteAdvertisement(
       region,
       niceName,
@@ -73,7 +78,7 @@ export class AdvertisementService {
       throw new NotFoundException('No Advertisement found.');
     }
 
-    return deletedAdvertisement;
+    return { message: 'Deleted Success' };
   }
 
   public async fetchAdvertisements(
@@ -87,7 +92,10 @@ export class AdvertisementService {
     if (advertisementList.length > 0) {
       return advertisementList;
     }
-    throw new NotFoundException('No Advertisements found.');
+
+    return [];
+
+    // throw new NotFoundException('No Advertisements found.');
   }
 
   public async fetchrandomAdvertisement(

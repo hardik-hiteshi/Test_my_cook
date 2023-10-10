@@ -56,16 +56,20 @@ export class FoodGroupService {
   public async findAll(region): Promise<FoodGroupDocument[]> {
     const foodGroup = await this.foodGroupRepo.findAllByRegion(region);
 
-    if (foodGroup.length <= 0)
-      throw new NotFoundException(this.foodGroupNotFound);
+    if (foodGroup.length > 0) {
+      return foodGroup;
+    }
+    // throw new NotFoundException(this.foodGroupNotFound);
 
-    return foodGroup;
+    return [];
   }
 
-  public async deleteOne(niceName: string, region: string): Promise<void> {
+  public async deleteOne(niceName: string, region: string): Promise<object> {
     const foodGroup = await this.foodGroupRepo.deleteOne(region, niceName);
 
     if (!foodGroup) throw new NotFoundException(this.foodGroupNotFound);
+
+    return { message: 'Deleted Success' };
   }
 
   public async findDistinctNiceName(region: string): Promise<string[]> {

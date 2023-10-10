@@ -43,6 +43,8 @@ export class LegalRegistryService {
       return legalRegDocList;
     }
 
-    throw new NotFoundException('LegalRegistry Document not found.');
+    return [];
+
+    // throw new NotFoundException('LegalRegistry Document not found.');
   }
 }

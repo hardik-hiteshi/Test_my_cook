@@ -13,9 +13,10 @@ export class CreateCategoryDTO {
   @IsString()
   public name: string;
 
-  @IsNotEmpty()
+  //@IsNotEmpty()
   @IsString()
-  public niceName: string;
+  @IsOptional()
+  public niceName?: string;
 
   @IsOptional()
   @IsString()

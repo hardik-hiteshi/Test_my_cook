@@ -65,10 +65,13 @@ export class MachineLog {
 
   @Prop()
   public tabletBoot: string;
+
   @Prop()
   public tabletTime: string;
+
   @Prop()
   public loginIP: string;
+
   @Prop()
   public loginRegion: string;
 

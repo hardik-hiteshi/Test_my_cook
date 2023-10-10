@@ -22,12 +22,17 @@ export class ContactService {
 
     return contact;
   }
+
   public async findAll(region: string): Promise<ContactDocument[]> {
     const contacts = await this.contactRepo.findAll(region);
-    if (contacts.length <= 0) throw new NotFoundException(this.contactNotFound);
+    if (contacts.length > 0) {
+      return contacts;
+    }
+    // throw new NotFoundException(this.contactNotFound);
 
-    return contacts;
+    return [];
   }
+
   public async createOne(
     region: string,
     body: CreateContactDto,
@@ -38,6 +43,7 @@ export class ContactService {
 
     return await this.contactRepo.createOne(region, body);
   }
+
   public async updateOne(
     region: string,
     niceName: string,
@@ -49,8 +55,10 @@ export class ContactService {
     return contact;
   }
 
-  public async deleteOne(niceName: string, region: string): Promise<void> {
+  public async deleteOne(niceName: string, region: string): Promise<object> {
     const contact = await this.contactRepo.deleteOne(niceName, region);
     if (!contact) throw new NotFoundException(this.contactNotFound);
+
+    return { message: 'Deleted Success' };
   }
 }

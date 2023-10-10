@@ -7,7 +7,7 @@ export class MachineSerialDto {
 
   @IsString()
   @IsOptional()
-  public compatibility?: string;
+  public compatibilityCode?: string;
 
   @IsString()
   @IsOptional()

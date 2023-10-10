@@ -45,16 +45,20 @@ export class RegionRepository {
     return await this.regionModel.findOneAndDelete({ niceName });
   }
 
-  public async findOneAdminUser(niceName: string): Promise<RegionDocument> {
+  public async findOneAdminUser(
+    niceName: string,
+  ): Promise<Partial<RegionDocument>> {
     return await this.regionModel
       .findOne({
         niceName,
       })
       .populate('adminUser', 'niceName -_id')
-      .select('admimnUser -_id');
+      .select('adminUser -_id');
   }
 
-  public async findOneContextFields(niceName: string): Promise<RegionDocument> {
+  public async findOneContextFields(
+    niceName: string,
+  ): Promise<Partial<RegionDocument>> {
     return await this.regionModel
       .findOne({
         niceName,

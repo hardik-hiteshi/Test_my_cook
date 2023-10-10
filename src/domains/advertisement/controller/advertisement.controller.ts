@@ -11,9 +11,12 @@ import {
 } from '@nestjs/common';
 import { AdvertisementDocument } from '../schemas/advertisement.schema';
 import { AdvertisementService } from '../advertisement.service';
+import { AUTH } from '../../auth/decorator/auth.decorator';
 import { CreateAdvertisementDTO } from '../dto/createadvertisement.dto';
+import { Role } from 'src/domains/auth/roles/permission.roles';
 import { UpdateAdvertisementDTO } from '../dto/updateadvertisement.dto';
 
+@AUTH(Role.admin)
 @Controller()
 export class AdvertisementController {
   public constructor(public adverstimentServices: AdvertisementService) {}
@@ -51,7 +54,7 @@ export class AdvertisementController {
   public async deleteAdvertisement(
     @Headers('region') region: string,
     @Param('niceName') niceName: string,
-  ): Promise<AdvertisementDocument> {
+  ): Promise<object> {
     return await this.adverstimentServices.deleteAdvertisement(
       region,
       niceName,

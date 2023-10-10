@@ -72,7 +72,7 @@ export class NewsController {
   private async deleteNews(
     @Param('nicename') niceName: string,
     @Headers('region') region: string,
-  ): Promise<void> {
+  ): Promise<object> {
     return await this.newsService.deleteOne(region, niceName);
   }
 
