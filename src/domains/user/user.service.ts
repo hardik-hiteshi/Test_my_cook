@@ -51,8 +51,16 @@ export class UserService {
     return user;
   }
 
-  public async findAll(region: string): Promise<UserDocument[]> {
-    const users = await this.userRepo.findAll({ isActive: true, region });
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<UserDocument[]> {
+    const users = await this.userRepo.findAll(
+      { isActive: true, region },
+      pageNumber,
+      pageSize,
+    );
     if (users.length > 0) {
       return users;
     }

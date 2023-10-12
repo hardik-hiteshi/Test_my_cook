@@ -9,8 +9,14 @@ export class LegalHistoryService {
 
   public async fetchAllLH(
     region: string,
+    pageNumber: number,
+    pageSize: number,
   ): Promise<Partial<LegalHistoryDocument>[]> {
-    const legalHistoryList = await this.lhRepo.fetchAllLH(region);
+    const legalHistoryList = await this.lhRepo.fetchAllLH(
+      region,
+      pageNumber,
+      pageSize,
+    );
     if (legalHistoryList.length > 0) {
       // throw new NotFoundException(this.notfound);
       return legalHistoryList;

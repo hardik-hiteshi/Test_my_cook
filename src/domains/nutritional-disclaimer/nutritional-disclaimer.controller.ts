@@ -6,6 +6,7 @@ import {
   Headers,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateNutritionalDisclaimerDTO } from './dto/createNutritionalDisclaimer/createNutritionalDisclaimer.dto';
@@ -37,8 +38,14 @@ export class NutritionalDisclaimerController {
   @Get('NutritionalDisclaimers')
   public async fetchAllNutritionalDisclaimer(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<NutritionalDisclaimerDocument[]> {
-    return await this.ndservice.fetchAllNutritionalDisclaimer(region);
+    return await this.ndservice.fetchAllNutritionalDisclaimer(
+      region,
+      pageNumber,
+      pageSize,
+    );
   }
 
   @Put('NutritionalDisclaimer')

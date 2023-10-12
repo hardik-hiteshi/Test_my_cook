@@ -40,9 +40,17 @@ export class IngredientRepository {
     //.populate('foodGroup');
   }
 
-  public async findAll(region: string): Promise<IngredientDocument[]> {
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<IngredientDocument[]> {
+    const skipAmount = (pageNumber - 1) * pageSize;
+
     return await this.ingredientModel
       .find({ region, isActive: true })
+      .skip(skipAmount)
+      .limit(pageSize)
       .populate('foodGroup');
   }
 

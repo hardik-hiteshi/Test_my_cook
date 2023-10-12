@@ -65,11 +65,14 @@ export class AffiliateContactRepository {
   }
 
   public async fetchAffiliateContacts(
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<AffiliateContactDocument[]> {
     const query: AffiliateContactQueryInterface = {
       isActive: true,
     };
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { email: { $regex: search.toString(), $options: 'i' } },
@@ -93,9 +96,12 @@ export class AffiliateContactRepository {
       ];
     }
 
-    const affiliateContacts = await this.affiliateContactModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const affiliateContacts = await this.affiliateContactModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return affiliateContacts;
   }

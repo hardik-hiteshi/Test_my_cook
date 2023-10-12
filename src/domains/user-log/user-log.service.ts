@@ -141,8 +141,10 @@ export class UserLogService {
     return userLog;
   }
 
-  public async fetchAllUserLog(region: string): Promise<UserLogDocument[]> {
-    const userLogList = await this.ulRepo.fetchAll(region);
+  public async fetchAllUserLog(region: string,
+    pageNumber: number,
+    pageSize: number,): Promise<UserLogDocument[]> {
+    const userLogList = await this.ulRepo.fetchAll(region,pageNumber,pageSize);
     if (userLogList.length > 0) {
       return userLogList;
     }

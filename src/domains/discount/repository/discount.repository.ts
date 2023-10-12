@@ -57,8 +57,13 @@ export class DiscountRepository {
     return deletedDiscount;
   }
 
-  public async fetchDiscounts(search?: string): Promise<DiscountDocument[]> {
+  public async fetchDiscounts(
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<DiscountDocument[]> {
     const query: DiscountQueryInterface = {};
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { type: { $regex: search.toString(), $options: 'i' } },
@@ -70,9 +75,12 @@ export class DiscountRepository {
       ];
     }
 
-    const discounts = await this.discountModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const discounts = await this.discountModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return discounts;
   }

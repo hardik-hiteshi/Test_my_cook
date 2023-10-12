@@ -44,8 +44,16 @@ export class PictosService {
     return pictos;
   }
 
-  public async findAll(region: string): Promise<PictosDocument[]> {
-    const pictos = await this.pictosRepo.findAllByRegion(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<PictosDocument[]> {
+    const pictos = await this.pictosRepo.findAllByRegion(
+      region,
+      pageNumber,
+      pageSize,
+    );
 
     if (pictos.length > 0) {
       return pictos;

@@ -84,10 +84,14 @@ export class PostPageService {
 
   public async fetchPostPages(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<PostPageDocument[]> {
     const postPagesList = await this.postPageRepo.fetchPostPages(
       region,
+      pageNumber,
+      pageSize,
       search,
     );
     if (postPagesList.length > 0) {

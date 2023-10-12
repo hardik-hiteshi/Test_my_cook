@@ -37,8 +37,14 @@ export class LegalRegistryService {
 
   public async fetchAllLegalRegistry(
     region: string,
+    pageNumber: number,
+    pageSize: number,
   ): Promise<LegalRegistryDocument[]> {
-    const legalRegDocList = await this.legalRegRepo.fetchAll(region);
+    const legalRegDocList = await this.legalRegRepo.fetchAll(
+      region,
+      pageNumber,
+      pageSize,
+    );
     if (legalRegDocList.length > 0) {
       return legalRegDocList;
     }

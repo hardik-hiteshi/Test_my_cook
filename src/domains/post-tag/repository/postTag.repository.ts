@@ -85,11 +85,14 @@ export class PostTagRepository {
 
   public async fetchPostTags(
     region: string,
+    pageNumber?: number,
+    pageSize?: number,
     search?: string,
   ): Promise<PostTagDocument[]> {
     const query: PostTagQueryInterface = {
       region,
     };
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { text: { $regex: search.toString(), $options: 'i' } },
@@ -100,9 +103,12 @@ export class PostTagRepository {
       ];
     }
 
-    const postTags = await this.postTagModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const postTags = await this.postTagModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return postTags;
   }

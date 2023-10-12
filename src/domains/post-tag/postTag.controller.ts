@@ -60,9 +60,16 @@ export class PostTagController {
   @Get('postTags')
   public async fetchpostTags(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<PostTagDocument[]> {
-    return await this.postTagServices.fetchPostTags(region, search);
+    return await this.postTagServices.fetchPostTags(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 
   @Get('postTags/export/:type')

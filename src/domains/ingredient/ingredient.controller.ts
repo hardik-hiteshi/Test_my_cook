@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateIngredientDto, UpdateIngredientDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -54,7 +55,9 @@ export class IngredientController {
   @Get('ingredients')
   private async getAllIngredient(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<IngredientDocument[]> {
-    return await this.ingredientService.findAll(region);
+    return await this.ingredientService.findAll(region, pageNumber, pageSize);
   }
 }

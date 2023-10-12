@@ -75,11 +75,14 @@ export class BadgesRespository {
 
   public async fetchBadges(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<BadgesDocument[]> {
     const query: BadgeQueryInterface = {};
     const parsedIndex = Number(search);
     const indexFilter = !isNaN(parsedIndex) ? { index: parsedIndex } : {};
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -106,9 +109,12 @@ export class BadgesRespository {
       ];
     }
 
-    const badges = await this.badgesModel.find({
-      $and: [query, { isActive: true }, { region }],
-    });
+    const badges = await this.badgesModel
+      .find({
+        $and: [query, { isActive: true }, { region }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     // if (badges.length > 0) {
     return badges;

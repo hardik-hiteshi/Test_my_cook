@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateNotesDTO } from './dto/notes.create.dto';
@@ -58,8 +59,10 @@ export class NotesController {
   @Get('notes')
   public async fetchNotes(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<NotesDocument[]> {
-    return this.noteServices.fetchNotes(region);
+    return this.noteServices.fetchNotes(region, pageNumber, pageSize);
   }
 
   @Get('note/:recipe/recipe')

@@ -22,8 +22,16 @@ export class UserRepository {
 
   public async findAll(
     query: RecursivePartial<User> | object,
+    pageNumber?: number,
+    pageSize?: number,
   ): Promise<UserDocument[]> {
-    return await this.userModel.find(query).lean();
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    return await this.userModel
+      .find(query)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .lean();
   }
 
   public async findOneAndUpdate(

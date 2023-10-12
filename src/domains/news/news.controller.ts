@@ -87,7 +87,9 @@ export class NewsController {
   @Get('newss')
   private async getAllNews(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<NewsDocument[]> {
-    return await this.newsService.findAll(region);
+    return await this.newsService.findAll(region, pageNumber, pageSize);
   }
 }
