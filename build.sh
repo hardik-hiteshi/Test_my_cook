@@ -97,7 +97,8 @@ fi
 git pull
 npm install --production
 git rev-parse HEAD > release.txt
-docker build -t staging.do:5000/$IMAGE:$DATE $TAGCMD -t staging.do:5000/$IMAGE . -f Dockerfile
+# docker build -t staging.do:5000/$IMAGE:$DATE $TAGCMD -t staging.do:5000/$IMAGE . -f Dockerfile
+docker buildx build --platform linux/amd64 -t staging.do:5000/$IMAGE:$DATE $TAGCMD -t staging.do:5000/$IMAGE . -f Dockerfile
 if [[ $? -eq 0 && $PUSH -eq 1 ]]; then
     docker push staging.do:5000/$IMAGE:latest
     docker push staging.do:5000/$IMAGE:$DATE

@@ -29,10 +29,7 @@ export class AuthService {
     legalType?: string,
     type?: string,
   ): Promise<object> {
-    const user = await this.userRepo.findOne({
-      /* eslint-disable @typescript-eslint/naming-convention */
-      'contact.mail': body.mail,
-    });
+    const user = await this.userRepo.findOne({ login: body.login });
 
     // await this.ulServices.createIncomingUserLog(
     //   user,

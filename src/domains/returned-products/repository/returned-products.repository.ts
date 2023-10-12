@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   ReturnedProducts,
   ReturnedProductsDocument,
@@ -73,12 +74,17 @@ export class ReturnedProductsRepository {
     const query: ReturnedProductsQueryInterface = {};
     if (search) {
       query.$or = [
-        { type: { $regex: search.toString(), $options: 'i' } },
-        { codes: { $regex: search.toString(), $options: 'i' } },
-        { message: { $regex: search.toString(), $options: 'i' } },
-        { detail: { $regex: search.toString(), $options: 'i' } },
-        { desc: { $regex: search.toString(), $options: 'i' } },
-        { creator: { $regex: search.toString(), $options: 'i' } },
+        { id: { $regex: search.toString(), $options: 'i' } },
+        { state: { $regex: search.toString(), $options: 'i' } },
+        { 'customerValue.email': { $regex: search.toString(), $options: 'i' } },
+        { 'customerValue.name': { $regex: search.toString(), $options: 'i' } },
+        {
+          'customerValue.lastName': {
+            $regex: search.toString(),
+            $options: 'i',
+          },
+        },
+        { date: { $regex: search.toString(), $options: 'i' } },
       ];
     }
 
