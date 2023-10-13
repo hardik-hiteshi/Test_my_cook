@@ -61,8 +61,15 @@ export class PostCategoryController {
   @Get('postCategories')
   public async fetchPostCategorys(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<PostCategoryDocument[]> {
-    return await this.postCategoryServices.fetchPostCategories(region, search);
+    return await this.postCategoryServices.fetchPostCategories(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 }

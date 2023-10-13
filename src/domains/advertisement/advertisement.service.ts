@@ -83,10 +83,14 @@ export class AdvertisementService {
 
   public async fetchAdvertisements(
     region: string,
-    search: string,
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
   ): Promise<AdvertisementDocument[]> {
     const advertisementList = await this.adRepo.fetchAdvertisements(
       region,
+      pageNumber,
+      pageSize,
       search,
     );
     if (advertisementList.length > 0) {

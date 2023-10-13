@@ -53,8 +53,16 @@ export class FoodGroupService {
     return foodGroup;
   }
 
-  public async findAll(region): Promise<FoodGroupDocument[]> {
-    const foodGroup = await this.foodGroupRepo.findAllByRegion(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<FoodGroupDocument[]> {
+    const foodGroup = await this.foodGroupRepo.findAllByRegion(
+      region,
+      pageNumber,
+      pageSize,
+    );
 
     if (foodGroup.length > 0) {
       return foodGroup;

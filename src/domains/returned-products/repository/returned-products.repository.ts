@@ -69,9 +69,12 @@ export class ReturnedProductsRepository {
   }
 
   public async fetchReturnedProducts(
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<ReturnedProductsDocument[]> {
     const query: ReturnedProductsQueryInterface = {};
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { id: { $regex: search.toString(), $options: 'i' } },
@@ -88,9 +91,12 @@ export class ReturnedProductsRepository {
       ];
     }
 
-    const returnedProducts = await this.returnedProductsModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const returnedProducts = await this.returnedProductsModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return returnedProducts;
   }

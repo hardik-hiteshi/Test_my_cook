@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateContactDto, UpdateContactDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -54,7 +55,9 @@ export class ContactController {
   @Get('contacts')
   private async getAllContact(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<ContactDocument[]> {
-    return await this.contactService.findAll(region);
+    return await this.contactService.findAll(region, pageNumber, pageSize);
   }
 }

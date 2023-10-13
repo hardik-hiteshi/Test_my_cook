@@ -74,10 +74,13 @@ export class CategoryRepository {
 
   public async fetchCategories(
     region: string,
+    pageNumber?: number,
+    pageSize?: number,
     search?: string,
   ): Promise<Array<CategoryDocument>> {
     {
       const query: CategoryQueryInterface = {};
+      const skipAmount = (pageNumber - 1) * pageSize;
       if (search) {
         query.$or = [
           { name: { $regex: search, $options: 'i' } },
@@ -110,6 +113,8 @@ export class CategoryRepository {
         .find({
           $and: [query, { isActive: true }, { region }],
         })
+        .skip(skipAmount)
+        .limit(pageSize)
         .lean()) as CategoryDocument[];
       if (categoriesList.length > 0) {
         return categoriesList;

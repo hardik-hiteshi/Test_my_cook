@@ -59,9 +59,15 @@ export class ReturnedProductsController {
 
   @Get('ReturnedProducts')
   public async fetchReturnedProducts(
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<ReturnedProductsDocument[]> {
-    return await this.returnedProductsServices.fetchReturnedProducts(search);
+    return await this.returnedProductsServices.fetchReturnedProducts(
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 
   @Get('ReturnedProducts/export/:type')
