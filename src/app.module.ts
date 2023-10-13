@@ -32,6 +32,7 @@ import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mai
 import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
 import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
+import { OrderModule } from './domains/order/order.module';
 import { PictosModule } from './domains/pictos/pictos.module';
 import { PostCategoryModule } from './domains/post-category/post-category.module';
 import { PostPageModule } from './domains/post-page/post-page.module';
@@ -99,6 +100,7 @@ import { UserModule } from './domains/user/user.module';
     PostPageModule,
     DiscountModule,
     ReturnedProductsModule,
+    OrderModule,
   ],
 })
 export class AppModule {}
