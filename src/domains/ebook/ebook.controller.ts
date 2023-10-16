@@ -69,8 +69,10 @@ export class EbookController {
   @Get('ebooks')
   private async getAllEbook(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<EbookDocument[]> {
-    return await this.ebookService.findAll(region);
+    return await this.ebookService.findAll(region, pageNumber, pageSize);
   }
 
   @Get('ebook/recipeByEbook/:skip')

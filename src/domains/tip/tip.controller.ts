@@ -59,8 +59,10 @@ export class TipController {
   @Get('tips')
   public async getAllTip(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<TipDocument[]> {
-    return await this.tipService.findAll(region, search);
+    return await this.tipService.findAll(region, pageNumber, pageSize, search);
   }
 }

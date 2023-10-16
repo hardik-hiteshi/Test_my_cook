@@ -59,10 +59,14 @@ export class AlternativeRecipeService {
 
   public async fetchAllRecipes(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search: string,
   ): Promise<Array<AlternativeRecipeDocument>> {
     const alternativeRecipeList = await this.alternativeRecipeRepo.findAll(
       region,
+      pageNumber,
+      pageSize,
       search,
     );
     if (alternativeRecipeList.length > 0) {

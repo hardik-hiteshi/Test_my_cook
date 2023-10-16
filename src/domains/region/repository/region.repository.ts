@@ -20,8 +20,13 @@ export class RegionRepository {
       .populate('adminUser', 'niceName -_id');
   }
 
-  public async findAll(): Promise<RegionDocument[]> {
-    return await this.regionModel.find({});
+  public async findAll(
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<RegionDocument[]> {
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    return await this.regionModel.find({}).skip(skipAmount).limit(pageSize);
   }
 
   public async createOne(body: CreateRegionDTO): Promise<RegionDocument> {

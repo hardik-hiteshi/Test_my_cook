@@ -20,8 +20,17 @@ export class ReportAbuseRepository {
     return await this.reportModel.findOne({ region, reportedUserNiceName });
   }
 
-  public async findAll(region: string): Promise<ReportAbuseDocument[]> {
-    return await this.reportModel.find({ region });
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<ReportAbuseDocument[]> {
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    return await this.reportModel
+      .find({ region })
+      .skip(skipAmount)
+      .limit(pageSize);
   }
 
   public async createOne(

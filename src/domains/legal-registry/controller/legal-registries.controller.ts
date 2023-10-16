@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Query } from '@nestjs/common';
 import { AUTH } from '../../auth/decorator/auth.decorator';
 import { CreateLegalRegistryDTO } from '../dto/createLegalRegistry.dto';
 import { LegalRegistryDocument } from '../schema/legal-registry.schema';
@@ -12,13 +12,20 @@ export class LegalRegistriesController {
   @Get('legalregistries')
   public async fetchAllLegalRegistry(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<LegalRegistryDocument[]> {
-    return await this.legalRegServices.fetchAllLegalRegistry(region);
+    return await this.legalRegServices.fetchAllLegalRegistry(
+      region,
+      pageNumber,
+      pageSize,
+    );
   }
 
   @Post('legalregistry')
   public async createLegalRegistry(
     @Headers('region') region: string,
+
     @Body() body: CreateLegalRegistryDTO,
   ): Promise<LegalRegistryDocument> {
     return await this.legalRegServices.createLegalRegistry(region, body);

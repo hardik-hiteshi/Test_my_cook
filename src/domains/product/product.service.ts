@@ -29,8 +29,11 @@ export class ProductService {
     return product;
   }
 
-  public async findAll(): Promise<ProductDocument[]> {
-    const products = await this.productRepo.findAll();
+  public async findAll(
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<ProductDocument[]> {
+    const products = await this.productRepo.findAll(pageNumber, pageSize);
     if (products.length > 0) {
       return products;
     }

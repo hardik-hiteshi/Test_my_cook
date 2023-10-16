@@ -26,8 +26,16 @@ export class FactoryService {
     throw new BadRequestException('Factory already exists.');
   }
 
-  public async find(region: string): Promise<FactoryDocument[]> {
-    const factorylist = await this.factoryRepo.fetchFactories(region);
+  public async find(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<FactoryDocument[]> {
+    const factorylist = await this.factoryRepo.fetchFactories(
+      region,
+      pageNumber,
+      pageSize,
+    );
     if (factorylist.length > 0) {
       return factorylist;
     }

@@ -71,9 +71,16 @@ export class RecipeController {
   @Get('recipes')
   private async fetchAllRecipes(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<Array<RecipeDocument>> {
-    return await this.recipeService.fetchAllRecipes(region, search);
+    return await this.recipeService.fetchAllRecipes(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 
   @Get('recipes/export/:type')

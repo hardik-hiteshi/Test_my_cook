@@ -57,8 +57,15 @@ export class BadgesController {
   @Get('badges')
   public async fetchBadges(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<BadgesDocument[]> {
-    return await this.badgesServies.fetchBadges(region, search);
+    return await this.badgesServies.fetchBadges(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 }

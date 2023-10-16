@@ -61,10 +61,16 @@ export class ReturnedProductsService {
   }
 
   public async fetchReturnedProducts(
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<ReturnedProductsDocument[]> {
     const returnedProductsList =
-      await this.returnedProductRepo.fetchReturnedProducts(search);
+      await this.returnedProductRepo.fetchReturnedProducts(
+        pageNumber,
+        pageSize,
+        search,
+      );
     if (returnedProductsList.length > 0) {
       return returnedProductsList;
     }

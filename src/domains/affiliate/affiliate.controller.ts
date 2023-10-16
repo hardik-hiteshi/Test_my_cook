@@ -50,8 +50,14 @@ export class AffiliateController {
 
   @Get('affiliates')
   public async fetchAffiliates(
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<AffiliateDocument[]> {
-    return await this.affiliateServices.fetchAffiliates(search);
+    return await this.affiliateServices.fetchAffiliates(
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 }

@@ -6,6 +6,7 @@ import {
   Headers,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateUserLogDTO } from './dtos/createUserlog.dto';
@@ -37,8 +38,10 @@ export class UserLogController {
   @Get('userlogs')
   public async fetchAllUserLog(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<UserLogDocument[]> {
-    return await this.ulservice.fetchAllUserLog(region);
+    return await this.ulservice.fetchAllUserLog(region, pageNumber, pageSize);
   }
   // //not clear if user logs are updated or not.
   //   @Put('userlog/:niceName')

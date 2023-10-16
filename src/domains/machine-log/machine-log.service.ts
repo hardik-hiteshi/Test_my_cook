@@ -33,8 +33,16 @@ export class MachineLogService {
     return machineLog;
   }
 
-  public async findAll(region: string): Promise<MachineLogDocument[]> {
-    const machineLog = await this.machineLogRepo.findAll(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<MachineLogDocument[]> {
+    const machineLog = await this.machineLogRepo.findAll(
+      region,
+      pageNumber,
+      pageSize,
+    );
 
     if (machineLog.length > 0) {
       return machineLog;

@@ -50,9 +50,11 @@ export class OrderController {
 
   @Get('orders')
   public async fetchOrders(
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<OrderDocument[]> {
-    return await this.orderServices.fetchOrders(search);
+    return await this.orderServices.fetchOrders(pageNumber, pageSize, search);
   }
 
   @Get('order/export/:type')
@@ -66,7 +68,7 @@ export class OrderController {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       'Content-Type': `application/${file.type}`,
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      'Content-Disposition': `attachment; filename=PostTags.${file.type}`,
+      'Content-Disposition': `attachment; filename=orders.${file.type}`,
     });
 
     return new StreamableFile(file.data);

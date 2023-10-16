@@ -65,9 +65,16 @@ export class RecipeService {
 
   public async fetchAllRecipes(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<Array<RecipeDocument>> {
-    const recipeList = await this.recipeRepo.fetchRecipes(region, search);
+    const recipeList = await this.recipeRepo.fetchRecipes(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (recipeList.length > 0) {
       return recipeList;
     }

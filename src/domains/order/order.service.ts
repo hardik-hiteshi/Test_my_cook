@@ -55,8 +55,16 @@ export class OrderService {
     return { message: 'Delete Sucess' };
   }
 
-  public async fetchOrders(search?: string): Promise<OrderDocument[]> {
-    const ordersList = await this.orderRepo.fetchOrders(search);
+  public async fetchOrders(
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<OrderDocument[]> {
+    const ordersList = await this.orderRepo.fetchOrders(
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (ordersList.length > 0) {
       return ordersList;
     }

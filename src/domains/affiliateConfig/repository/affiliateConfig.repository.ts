@@ -72,6 +72,8 @@ export class AffiliateConfigRepository {
   }
 
   public async fetchAffiliateConfigs(
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<AffiliateConfigDocument[]> {
     const query: AffiliateConfigQueryInterface = {
@@ -82,10 +84,14 @@ export class AffiliateConfigRepository {
         { cookieName: { $regex: search.toString(), $options: 'i' } },
       ];
     }
+    const skipAmount = (pageNumber - 1) * pageSize;
 
-    const affiliateConfigs = await this.affiliateConfigModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const affiliateConfigs = await this.affiliateConfigModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return affiliateConfigs;
   }

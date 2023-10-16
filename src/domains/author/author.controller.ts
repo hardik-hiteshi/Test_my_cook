@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { AuthorDocument } from './schema/author.schema';
@@ -48,7 +49,10 @@ export class AuthorController {
   }
 
   @Get('authors')
-  public async fetchAllAuthors(): Promise<AuthorDocument[]> {
-    return await this.authorServices.fetchAllAuthors();
+  public async fetchAllAuthors(
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
+  ): Promise<AuthorDocument[]> {
+    return await this.authorServices.fetchAllAuthors(pageNumber, pageSize);
   }
 }

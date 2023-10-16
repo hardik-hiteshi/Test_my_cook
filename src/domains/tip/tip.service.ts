@@ -14,8 +14,18 @@ export class TipService {
     return tip;
   }
 
-  public async findAll(region, search?): Promise<TipDocument[]> {
-    const tip = await this.tipRepo.findAll(region, search);
+  public async findAll(
+    region,
+    pageNumber: number,
+    pageSize: number,
+    search?,
+  ): Promise<TipDocument[]> {
+    const tip = await this.tipRepo.findAll(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
 
     if (tip.length > 0) {
       return tip;

@@ -73,8 +73,16 @@ export class AffiliateService {
     return { message: 'Deleted Success' };
   }
 
-  public async fetchAffiliates(search?: string): Promise<AffiliateDocument[]> {
-    const affiliatesList = await this.affiliateRepo.fetchAffiliates(search);
+  public async fetchAffiliates(
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<AffiliateDocument[]> {
+    const affiliatesList = await this.affiliateRepo.fetchAffiliates(
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (affiliatesList.length > 0) {
       return affiliatesList;
     }

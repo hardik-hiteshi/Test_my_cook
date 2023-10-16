@@ -23,8 +23,16 @@ export class ContactService {
     return contact;
   }
 
-  public async findAll(region: string): Promise<ContactDocument[]> {
-    const contacts = await this.contactRepo.findAll(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<ContactDocument[]> {
+    const contacts = await this.contactRepo.findAll(
+      region,
+      pageNumber,
+      pageSize,
+    );
     if (contacts.length > 0) {
       return contacts;
     }

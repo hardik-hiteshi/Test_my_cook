@@ -55,8 +55,14 @@ export class OrderRepository {
     return deletedOrder;
   }
 
-  public async fetchOrders(search?: string): Promise<OrderDocument[]> {
+  public async fetchOrders(
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<OrderDocument[]> {
     const query: OrderQueryInterface = {};
+    const skipAmount = (pageNumber - 1) * pageSize;
+
     if (search) {
       query.$or = [
         { id: { $regex: search.toString(), $options: 'i' } },
@@ -73,9 +79,12 @@ export class OrderRepository {
       ];
     }
 
-    const order = await this.orderModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const order = await this.orderModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return order;
   }
