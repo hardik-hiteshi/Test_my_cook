@@ -16,7 +16,7 @@ export class BadgesService {
     region: string,
     body: CreateBadgesDTO,
   ): Promise<BadgesDocument> {
-    const badge = await this.badgesRepo.findOne(region, body);
+    const badge = await this.badgesRepo.findOne(region, body.niceName);
     if (!badge) {
       const badge = await this.badgesRepo.createBadge(region, body);
 

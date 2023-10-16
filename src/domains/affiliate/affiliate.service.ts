@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import {
   BadRequestException,
   Injectable,
@@ -7,6 +7,7 @@ import {
 import { AffiliateDocument } from './schema/affiliate.schema';
 import { AffiliateRepository } from './repository/affiliate.repository';
 import { CreateAffiliateDTO } from './dto/createDto/createAffiliate.dto';
+import hasher from 'wordpress-hash-node';
 import { UpdateAffiliateDTO } from './dto/updateDto/updateAffiliate.dto';
 
 @Injectable()
@@ -19,7 +20,8 @@ export class AffiliateService {
     const affiliate = await this.affiliateRepo.findOne(body);
 
     if (!affiliate) {
-      body.password = await bcrypt.hash(body.password, 10);
+      body.password = await hasher.HashPassword(body.password);
+      //body.password = await bcrypt.hash(body.password, 10);
       const affiliate = await this.affiliateRepo.createAffiliate(body);
 
       return affiliate;

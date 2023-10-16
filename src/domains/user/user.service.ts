@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import {
   BadRequestException,
   Injectable,
@@ -9,9 +9,11 @@ import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
 import { json2csv } from 'json-2-csv';
 import { RecipeRepository } from '../recipe/repository/recipe.repository';
 // import { Role } from '../auth/roles/permission.roles';
+import hasher from 'wordpress-hash-node';
 import { TransactionService } from 'src/common/services/transaction.service';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
+
 @Injectable()
 export class UserService {
   public constructor(
@@ -32,7 +34,8 @@ export class UserService {
     if (user) {
       throw new BadRequestException('user email or nicename already exist');
     }
-    body.password = await bcrypt.hash(body.password, 10);
+    // body.password = await bcrypt.hash(body.password, 10);
+    body.password = await hasher.HashPassword(body.password);
 
     return await this.userRepo.create(body, region);
   }
@@ -67,7 +70,8 @@ export class UserService {
     body: UserUpdateDto,
     region: string,
   ): Promise<Partial<UserDocument>> {
-    body.password = await bcrypt.hash(body.password, 10);
+    body.password = await hasher.HashPassword(body.password);
+    // body.password = await bcrypt.hash(body.password, 10);
     const updateUser = await this.userRepo.findOneAndUpdate(
       { niceName, isActive: true, region },
       body,
@@ -106,13 +110,20 @@ export class UserService {
       isActive: true,
     });
     if (!currentUser) throw new NotFoundException('user not found');
-    const pwMatched = await bcrypt.compare(
+
+    const pwMatched = await hasher.CheckPassword(
       body.currentPassword,
       currentUser.password,
     );
+
+    // const pwMatched = await bcrypt.compare(
+    //   body.currentPassword,
+    //   currentUser.password,
+    // );
     if (!pwMatched) throw new BadRequestException('invalid password');
 
-    currentUser.password = await bcrypt.hash(body.newPassword, 10);
+    currentUser.password = await hasher.HashPassword(body.newPassword);
+    //currentUser.password = await bcrypt.hash(body.newPassword, 10);
 
     await currentUser.save();
   }

@@ -12,13 +12,10 @@ export class BadgesRespository {
     @InjectModel(Badges.name) public badgesModel: Model<BadgesDocument>,
   ) {}
 
-  public async findOne(
-    region: string,
-    body: CreateBadgesDTO,
-  ): Promise<unknown> {
+  public async findOne(region: string, niceName: string): Promise<unknown> {
     const badge = await this.badgesModel.findOne({
       region,
-      ...body,
+      niceName,
       isActive: true,
     });
 

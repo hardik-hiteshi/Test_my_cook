@@ -1,10 +1,13 @@
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
+import badgesNiceNames from '../../schema/subSchema/enums/BadgesNicenames.enum';
+
 import { TranslationsDTO } from './subdto/badge.translations.dto';
 import { Type } from 'class-transformer';
 
@@ -15,6 +18,7 @@ export class CreateBadgesDTO {
 
   @IsOptional()
   @IsString()
+  @IsEnum(badgesNiceNames, { message: 'Invalid niceName' })
   public niceName: string;
 
   @IsOptional()

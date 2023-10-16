@@ -27,11 +27,13 @@ import { MachineLogModule } from './domains/machine-log/machine-log.module';
 import { MachineModelModule } from './domains/machineModel/machineModel.module';
 import { MachineModule } from './domains/machine/machine.module';
 import { Module } from '@nestjs/common';
+import { mongoConnectionString } from './config/db';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mail.module';
 import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
 import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
+import { OrderModule } from './domains/order/order.module';
 import { PictosModule } from './domains/pictos/pictos.module';
 import { PostCategoryModule } from './domains/post-category/post-category.module';
 import { PostPageModule } from './domains/post-page/post-page.module';
@@ -46,7 +48,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TipModule } from './domains/tip/tip.module';
 import { UserLogModule } from './domains/user-log/user-log.module';
 import { UserModule } from './domains/user/user.module';
-
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -54,7 +55,7 @@ import { UserModule } from './domains/user/user.module';
       serveRoot: '/image', // Specify the route prefix for serving static files
     }),
     ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRoot(mongoConnectionString),
     AdvertisementModule,
     AlternativeRecipeModule,
     BadgesModule,
@@ -99,6 +100,7 @@ import { UserModule } from './domains/user/user.module';
     PostPageModule,
     DiscountModule,
     ReturnedProductsModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

@@ -1,6 +1,7 @@
-import * as bcrypt from 'bcrypt';
+// import * as bcrypt from 'bcrypt';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import hasher from 'wordpress-hash-node';
 import { JwtService } from '@nestjs/jwt';
 import mongoose from 'mongoose';
 import { SignInUserDto } from './dtos';
@@ -48,7 +49,9 @@ export class AuthService {
 
     if (!user) throw new BadRequestException('invalid user or password');
 
-    const pwMatched = await bcrypt.compare(body.password, user.password);
+    // const pwMatched = await bcrypt.compare(body.password, user.password);
+    const pwMatched = await hasher.CheckPassword(body.password, user.password);
+
     if (!pwMatched) throw new BadRequestException('invalid user or password');
 
     const token = await this.signJwt(user._id);
