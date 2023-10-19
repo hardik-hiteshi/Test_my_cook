@@ -51,18 +51,10 @@ export class LegalRegistryRepository {
     return legalRegDoc;
   }
 
-  public async fetchAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<LegalRegistryDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-    const legalRegDoc = await this.legalRegistryModel
-      .find({
-        region,
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchAll(region: string): Promise<LegalRegistryDocument[]> {
+    const legalRegDoc = await this.legalRegistryModel.find({
+      region,
+    });
 
     return legalRegDoc;
   }

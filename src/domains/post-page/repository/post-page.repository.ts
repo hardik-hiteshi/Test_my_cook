@@ -75,14 +75,11 @@ export class PostPageRepository {
 
   public async fetchPostPages(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<PostPageDocument[]> {
     const query: PostPageQueryInterface = {
       region,
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { title: { $regex: search.toString(), $options: 'i' } },
@@ -90,12 +87,9 @@ export class PostPageRepository {
       ];
     }
 
-    const postPages = await this.postPageModel
-      .find({
-        $and: [query, { isActive: true }],
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const postPages = await this.postPageModel.find({
+      $and: [query, { isActive: true }],
+    });
 
     return postPages;
   }

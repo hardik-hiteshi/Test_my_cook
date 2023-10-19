@@ -8,7 +8,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Res,
   StreamableFile,
   UseInterceptors,
@@ -46,11 +45,8 @@ export class MachineModelController {
   }
 
   @Get('machinemodels')
-  private async getAllMachineModel(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-  ): Promise<MachineModelDocument[]> {
-    return await this.machineModelService.findAll(pageNumber, pageSize);
+  private async getAllMachineModel(): Promise<MachineModelDocument[]> {
+    return await this.machineModelService.findAll();
   }
 
   @Put('machinemodel/:unique_id')

@@ -2,7 +2,7 @@ import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class SignInUserDto {
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(1)
   @IsString()
   public password: string;
 

@@ -26,16 +26,8 @@ export class FactoryService {
     throw new BadRequestException('Factory already exists.');
   }
 
-  public async find(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<FactoryDocument[]> {
-    const factorylist = await this.factoryRepo.fetchFactories(
-      region,
-      pageNumber,
-      pageSize,
-    );
+  public async find(region: string): Promise<FactoryDocument[]> {
+    const factorylist = await this.factoryRepo.fetchFactories(region);
     if (factorylist.length > 0) {
       return factorylist;
     }
@@ -89,34 +81,33 @@ export class FactoryService {
   //   region: string,
   //   body: CreateManyFactoriesDTO,
   // ): Promise<FactoryDocument[]> {
-  //   // return await this.factoryRepo.createManyFactories(region, body);
+  // return await this.factoryRepo.createManyFactories(region, body);
   //   const filterData = [];
   //   const data = body.data;
-  //   console.log(data);
-  //   // const data = body.data.map((i) => if(!i.uniqueId){filterData.push(i.uniqeId));
-  //   // const existingItems = await this.factoryRepo.findAll({
-  //   //   uniqeId: { $in: data },
-  //   // });
+  // const data = body.data.map((i) => if(!i.uniqueId){filterData.push(i.uniqeId));
+  // const existingItems = await this.factoryRepo.findAll({
+  //   uniqeId: { $in: data },
+  // });
 
-  //   // const existingItemSerial = existingItems.map((item) => [
-  //   //   item.niceName,
-  //   //   item.region,
-  //   // ]);
+  // const existingItemSerial = existingItems.map((item) => [
+  //   item.niceName,
+  //   item.region,
+  // ]);
 
-  //   // const itemsToInsert = body.data.filter(
-  //   //   (item) =>
-  //   //     !existingItemSerial.some(
-  //   //       (i) => i[0] == item.niceName && i[1] == item.region,
-  //   //     ),
-  //   // );
+  // const itemsToInsert = body.data.filter(
+  //   (item) =>    !existingItemSerial.some(
+  //       (i) => i[0] == item.niceName && i[1] == item.region,
+  //     ),
+  // );
 
-  //   // if (itemsToInsert.length === 0) {
-  //   //   throw new BadRequestException('All items already exist');
-  //   // }
+  // if (itemsToInsert.length === 0) {
+  //   throw new BadRequestException('All items already exist');
+  // }
 
-  //   // return await this.dietRepo.createManyDiet(itemsToInsert);
+  // return await this.dietRepo.createManyDiet(itemsToInsert);
   //   return [];
   // }
+
   public async fetchFactoryMachineType(
     region: string,
     uniqueId: string,

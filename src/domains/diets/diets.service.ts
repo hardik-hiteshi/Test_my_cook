@@ -58,12 +58,8 @@ export class DietsService {
     return diet;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<DietDocument[]> {
-    const diet = await this.dietRepo.findAll({ region }, pageNumber, pageSize);
+  public async findAll(region: string): Promise<DietDocument[]> {
+    const diet = await this.dietRepo.findAll({ region });
 
     if (diet.length > 0) {
       return diet;

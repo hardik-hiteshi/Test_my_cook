@@ -36,11 +36,8 @@ export class RecipeRepository {
 
   public async fetchRecipes(
     region: string,
-    pageNumber?: number,
-    pageSize?: number,
     search?: string,
   ): Promise<Array<RecipeDocument>> {
-    const skipAmount = (pageNumber - 1) * pageSize;
     const query: QueryInterface = {};
     const parsed = Number(search);
     const rateFilter = !isNaN(parsed) ? { rate: parsed } : {};
@@ -117,8 +114,6 @@ export class RecipeRepository {
       .find({
         $and: [query, { isActive: true }, { region }],
       })
-      .skip(skipAmount)
-      .limit(pageSize)
       .lean();
     if (data.length > 0) {
       return data as RecipeDocument[];

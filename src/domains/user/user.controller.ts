@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Res,
   StreamableFile,
 } from '@nestjs/common';
@@ -96,10 +95,8 @@ export class UserController {
   @Get('users')
   private async getAllUsers(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<UserDocument[]> {
-    return await this.userService.findAll(region, pageNumber, pageSize);
+    return await this.userService.findAll(region);
   }
 
   @Get('user/:nicename')

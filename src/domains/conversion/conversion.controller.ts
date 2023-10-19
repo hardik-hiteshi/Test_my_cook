@@ -51,14 +51,8 @@ export class ConversionController {
 
   @Get('conversions')
   public async fetchConversions(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<ConversionDocument[]> {
-    return await this.conversionServices.fetchConversions(
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.conversionServices.fetchConversions(search);
   }
 }

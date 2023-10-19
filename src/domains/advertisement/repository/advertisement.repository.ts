@@ -79,9 +79,7 @@ export class AdvertisementRepository {
   }
   public async fetchAdvertisements(
     region: string,
-    pageNumber: number,
-    pageSize: number,
-    search?: string,
+    search: string,
   ): Promise<AdvertisementDocument[]> {
     const query: AdQueryInterface = {};
     const parsed = Number(search);
@@ -104,13 +102,11 @@ export class AdvertisementRepository {
         { region: { $regex: search.toString(), $options: 'i' } },
       ];
     }
-    const skipAmount = (pageNumber - 1) * pageSize;
+
     const advertisementList = await this.advertisementModel
       .find({
         $and: [query, { isActive: true }, { region }],
       })
-      .skip(skipAmount)
-      .limit(pageSize)
       .populate('category', 'niceName');
 
     return advertisementList;

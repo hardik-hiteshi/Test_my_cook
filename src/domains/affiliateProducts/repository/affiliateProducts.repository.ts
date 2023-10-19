@@ -68,14 +68,11 @@ export class AffiliateProductRepository {
   }
 
   public async fetchAffiliateProducts(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<AffiliateProductDocument[]> {
     const query: AffiliateProductQueryInterface = {
       isActive: true,
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [{ uniqueId: { $regex: search.toString(), $options: 'i' } }];
     }
@@ -84,8 +81,6 @@ export class AffiliateProductRepository {
       .find({
         $and: [query, { isActive: true }],
       })
-      .skip(skipAmount)
-      .limit(pageSize)
       .populate('affiliateProduct', 'niceName');
 
     return affiliateProducts;

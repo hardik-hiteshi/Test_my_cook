@@ -60,16 +60,9 @@ export class BadgesService {
 
   public async fetchBadges(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<BadgesDocument[]> {
-    const badges = await this.badgesRepo.fetchBadges(
-      region,
-      pageNumber,
-      pageSize,
-      search,
-    );
+    const badges = await this.badgesRepo.fetchBadges(region, search);
     if (badges.length > 0) {
       return badges;
     }

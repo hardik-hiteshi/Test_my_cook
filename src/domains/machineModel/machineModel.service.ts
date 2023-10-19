@@ -18,17 +18,10 @@ import { v4 as uuid } from 'uuid';
 export class MachineModelService {
   public constructor(private machineModelRepo: MachineModelRepository) {}
 
-  public async findAll(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<MachineModelDocument[]> {
-    const machineModel = await this.machineModelRepo.findAll(
-      {
-        isActive: true,
-      },
-      pageNumber,
-      pageSize,
-    );
+  public async findAll(): Promise<MachineModelDocument[]> {
+    const machineModel = await this.machineModelRepo.findAll({
+      isActive: true,
+    });
 
     if (machineModel.length > 0) {
       return machineModel;

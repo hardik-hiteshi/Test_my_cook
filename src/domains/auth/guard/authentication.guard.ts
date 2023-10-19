@@ -28,8 +28,11 @@ export class AuthenticationGuard implements CanActivate {
     }
 
     try {
+      console.log('JWT_secret', this.configService.get<string>('JWT_SECRET'));
+
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get<string>('JWT_SECRET'),
+        //secret: this.configService.get<string>('JWT_SECRET'),
+        secret: 'prod_secret',
       });
       const user = await this.userModel
         .findOne({

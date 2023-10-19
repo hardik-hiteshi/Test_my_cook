@@ -15,8 +15,6 @@ export class TipRepository {
 
   public async findAll(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<TipDocument[]> {
     const query = {
@@ -25,9 +23,8 @@ export class TipRepository {
         ? { $or: [{ text: { $regex: search.toString(), $options: 'i' } }] }
         : {}),
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
 
-    return await this.tipModel.find(query).skip(skipAmount).limit(pageSize);
+    return await this.tipModel.find(query);
   }
 
   public async deleteOne(uniqueId: string): Promise<TipDocument> {

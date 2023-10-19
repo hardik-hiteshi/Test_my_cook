@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { CreateReportDto, UpdateReportDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -40,10 +39,8 @@ export class ReportAbuseController {
   @Get('reportAbuses')
   private async getAll(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<ReportAbuseDocument[]> {
-    return await this.reportService.findAll(region, pageNumber, pageSize);
+    return await this.reportService.findAll(region);
   }
 
   @Put('reportAbuse/:reportedUserNiceName')

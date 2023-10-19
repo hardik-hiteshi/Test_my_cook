@@ -37,14 +37,8 @@ export class NutritionalDisclaimerService {
 
   public async fetchAllNutritionalDisclaimer(
     region: string,
-    pageNumber: number,
-    pageSize: number,
   ): Promise<NutritionalDisclaimerDocument[]> {
-    const ndDocList = await this.ndRepo.fetchAllND(
-      region,
-      pageNumber,
-      pageSize,
-    );
+    const ndDocList = await this.ndRepo.fetchAllND(region);
     if (ndDocList.length > 0) {
       return ndDocList;
     }

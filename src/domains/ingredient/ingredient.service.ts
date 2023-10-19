@@ -50,16 +50,8 @@ export class IngredientService {
     return ingredient;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<IngredientDocument[]> {
-    const ingredient = await this.ingredientRepo.findAll(
-      region,
-      pageNumber,
-      pageSize,
-    );
+  public async findAll(region: string): Promise<IngredientDocument[]> {
+    const ingredient = await this.ingredientRepo.findAll(region);
 
     if (ingredient.length > 0) {
       return ingredient;

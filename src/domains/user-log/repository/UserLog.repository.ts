@@ -66,17 +66,8 @@ export class UserLogRepository {
 
     return userLog;
   }
-  public async fetchAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<UserLogDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    const userLogList = await this.ulModel
-      .find({ region })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchAll(region: string): Promise<UserLogDocument[]> {
+    const userLogList = await this.ulModel.find({ region });
 
     return userLogList;
   }

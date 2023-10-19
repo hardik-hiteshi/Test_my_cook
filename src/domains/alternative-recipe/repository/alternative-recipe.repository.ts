@@ -41,12 +41,9 @@ export class AlternativeRecipeRepository {
   }
   public async findAll(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search: string,
   ): Promise<Array<AlternativeRecipeDocument>> {
     const query: QueryInterface = {};
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -100,12 +97,9 @@ export class AlternativeRecipeRepository {
         //{ nutritionalForRation: { $regex: search, $options: "i" } },
       ];
     }
-    const alternativeRecipesList = await this.alternativeRecipeModel
-      .find({
-        $and: [query, { isActive: true }, { region }],
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const alternativeRecipesList = await this.alternativeRecipeModel.find({
+      $and: [query, { isActive: true }, { region }],
+    });
     if (alternativeRecipesList.length > 0) {
       return alternativeRecipesList;
     }

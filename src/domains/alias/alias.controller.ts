@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { CreateAliasDto, UpdateAliasDto } from './dtos';
 import { AliasDocument } from './schema/alias.schema';
@@ -50,10 +49,7 @@ export class AliasController {
   }
 
   @Get('aliass')
-  private async getAllAlias(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-  ): Promise<AliasDocument[]> {
-    return await this.aliasService.findAll(pageNumber, pageSize);
+  private async getAllAlias(): Promise<AliasDocument[]> {
+    return await this.aliasService.findAll();
   }
 }

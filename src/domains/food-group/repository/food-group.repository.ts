@@ -29,17 +29,8 @@ export class FoodGroupRepository {
     });
   }
 
-  public async findAllByRegion(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<FoodGroupDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.foodGroupModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAllByRegion(region: string): Promise<FoodGroupDocument[]> {
+    return await this.foodGroupModel.find({ region, isActive: true });
   }
   public async findAll(
     query: RecursivePartial<FoodGroup> | object,

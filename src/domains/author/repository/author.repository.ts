@@ -62,15 +62,8 @@ export class AuthorRepository {
     return deletedAuthor;
   }
 
-  public async fetchAllAuthors(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<AuthorDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-    const authorsList = await this.authorModel
-      .find({ isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchAllAuthors(): Promise<AuthorDocument[]> {
+    const authorsList = await this.authorModel.find({ isActive: true });
 
     return authorsList;
   }

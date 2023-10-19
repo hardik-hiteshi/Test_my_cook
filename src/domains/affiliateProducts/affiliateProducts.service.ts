@@ -70,16 +70,10 @@ export class AffiliateProductService {
   }
 
   public async fetchAffiliateProducts(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<AffiliateProductDocument[]> {
     const affiliateProductssList =
-      await this.affiliateProductsRepo.fetchAffiliateProducts(
-        pageNumber,
-        pageSize,
-        search,
-      );
+      await this.affiliateProductsRepo.fetchAffiliateProducts(search);
     if (affiliateProductssList.length > 0) {
       return affiliateProductssList;
     }

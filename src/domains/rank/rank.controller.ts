@@ -56,16 +56,8 @@ export class RankController {
   @Get('ranks')
   public async fetchRanks(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-
     @Query('search') search?: string,
   ): Promise<RankDocument[]> {
-    return await this.rankServices.fetchRanks(
-      region,
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.rankServices.fetchRanks(region, search);
   }
 }

@@ -22,7 +22,7 @@ export class LegalTermsService {
 
       return legalterm;
     }
-    throw new BadRequestException('LegalTerm alredy exists.');
+    throw new BadRequestException('Region alredy exists.');
   }
 
   public async fetchLegalTerm(region: string): Promise<LegalTermsDocument> {
@@ -54,11 +54,7 @@ export class LegalTermsService {
 
     return { message: 'Delete Success' };
   }
-  public async fetchLegalTerms(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<LegalTermsDocument[]> {
-    return await this.legalRepo.fetchLegalTerms(region, pageNumber, pageSize);
+  public async fetchLegalTerms(region: string): Promise<LegalTermsDocument[]> {
+    return await this.legalRepo.fetchLegalTerms(region);
   }
 }

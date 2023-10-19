@@ -66,16 +66,10 @@ export class AffiliateContactService {
   }
 
   public async fetchAffiliateContacts(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<AffiliateContactDocument[]> {
     const affiliateContactsList =
-      await this.affiliateContactRepo.fetchAffiliateContacts(
-        pageNumber,
-        pageSize,
-        search,
-      );
+      await this.affiliateContactRepo.fetchAffiliateContacts(search);
     if (affiliateContactsList.length > 0) {
       return affiliateContactsList;
     }

@@ -63,15 +63,8 @@ export class AlternativeRecipeController {
   @Get('AlternativeRecipes')
   public async fetchAllRecipes(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<Array<AlternativeRecipeDocument>> {
-    return await this.alternativeRecipeServices.fetchAllRecipes(
-      region,
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.alternativeRecipeServices.fetchAllRecipes(region, search);
   }
 }

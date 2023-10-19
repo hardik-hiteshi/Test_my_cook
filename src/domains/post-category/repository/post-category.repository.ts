@@ -83,14 +83,11 @@ export class PostCategoryRepository {
 
   public async fetchPostCategories(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<PostCategoryDocument[]> {
     const query: PostCategoryQueryInterface = {
       region,
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { name: { $regex: search.toString(), $options: 'i' } },
@@ -113,12 +110,9 @@ export class PostCategoryRepository {
       ];
     }
 
-    const postCategorys = await this.postCategoryModel
-      .find({
-        $and: [query, { isActive: true }],
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const postCategorys = await this.postCategoryModel.find({
+      $and: [query, { isActive: true }],
+    });
 
     return postCategorys;
   }

@@ -13,13 +13,8 @@ export class AliasRepository {
   public async findOne(niceName: string): Promise<AliasDocument> {
     return await this.aliasModel.findOne({ niceName });
   }
-  public async findAll(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<AliasDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.aliasModel.find().skip(skipAmount).limit(pageSize);
+  public async findAll(): Promise<AliasDocument[]> {
+    return await this.aliasModel.find();
   }
   public async deleteOne(niceName): Promise<AliasDocument> {
     return this.aliasModel.findOneAndDelete({ niceName });

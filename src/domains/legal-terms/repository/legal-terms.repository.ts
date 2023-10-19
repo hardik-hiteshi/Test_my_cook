@@ -59,16 +59,7 @@ export class LegalTermsRepository {
     return deletedLegalTerm;
   }
 
-  public async fetchLegalTerms(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<LegalTermsDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.legalTermsModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchLegalTerms(region: string): Promise<LegalTermsDocument[]> {
+    return await this.legalTermsModel.find({ region, isActive: true });
   }
 }

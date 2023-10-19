@@ -19,6 +19,7 @@ import { EbookModule } from './domains/ebook/ebook.module';
 import { FactoryModule } from './domains/factory/factory.module';
 import { FeaturedModule } from './domains/featured/featured.module';
 import { FoodGroupModule } from './domains/food-group/food-group.module';
+import { GeoLocationModule } from './domains/geoLocation/geoLocation.module';
 import { IngredientModule } from './domains/ingredient/ingredient.module';
 import { LegalHistoryModule } from './domains/legal-history/legal-history.module';
 import { LegalRegistryModule } from './domains/legal-registry/legal-registry.module';
@@ -33,7 +34,6 @@ import { NewsLetterMailModule } from './domains/news-letter-mail/news-letter-mai
 import { NewsModule } from './domains/news/news.module';
 import { NotesModule } from './domains/notes/notes.module';
 import { NutritionalDisclaimerModule } from './domains/nutritional-disclaimer/nutritional-disclaimer.module';
-import { OrderModule } from './domains/order/order.module';
 import { PictosModule } from './domains/pictos/pictos.module';
 import { PostCategoryModule } from './domains/post-category/post-category.module';
 import { PostPageModule } from './domains/post-page/post-page.module';
@@ -100,7 +100,7 @@ import { UserModule } from './domains/user/user.module';
     PostPageModule,
     DiscountModule,
     ReturnedProductsModule,
-    OrderModule,
+    GeoLocationModule,
   ],
 })
 export class AppModule {}

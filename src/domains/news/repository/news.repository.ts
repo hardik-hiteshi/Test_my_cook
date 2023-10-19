@@ -40,18 +40,8 @@ export class NewsRepository {
     //.populate('recipes');
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<NewsDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.newsModel
-      .find({ region })
-      .skip(skipAmount)
-      .limit(pageSize)
-      .populate('recipes');
+  public async findAll(region: string): Promise<NewsDocument[]> {
+    return await this.newsModel.find({ region }).populate('recipes');
   }
 
   public async deleteOne(

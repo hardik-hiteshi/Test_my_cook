@@ -49,16 +49,8 @@ export class DiscountService {
     return { message: 'Delete Sucess' };
   }
 
-  public async fetchDiscounts(
-    pageNumber: number,
-    pageSize: number,
-    search?: string,
-  ): Promise<DiscountDocument[]> {
-    const discountsList = await this.discountRepo.fetchDiscounts(
-      pageNumber,
-      pageSize,
-      search,
-    );
+  public async fetchDiscounts(search?: string): Promise<DiscountDocument[]> {
+    const discountsList = await this.discountRepo.fetchDiscounts(search);
     if (discountsList.length > 0) {
       return discountsList;
     }

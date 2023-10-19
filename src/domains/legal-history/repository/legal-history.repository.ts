@@ -14,15 +14,9 @@ export class LegalHistoryRepository {
 
   public async fetchAllLH(
     region: string,
-    pageNumber: number,
-    pageSize: number,
   ): Promise<Partial<LegalHistoryDocument>[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
     return await this.lhModel
       .find({ region })
-      .skip(skipAmount)
-      .limit(pageSize)
       .select('region version uniqueId');
   }
 

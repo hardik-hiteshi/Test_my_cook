@@ -51,14 +51,8 @@ export class DiscountController {
 
   @Get('discounts')
   public async fetchDiscounts(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<DiscountDocument[]> {
-    return await this.discountServices.fetchDiscounts(
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.discountServices.fetchDiscounts(search);
   }
 }

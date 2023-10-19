@@ -38,12 +38,8 @@ export class NewsService {
     return news;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<NewsDocument[]> {
-    const news = await this.newsRepo.findAll(region, pageNumber, pageSize);
+  public async findAll(region: string): Promise<NewsDocument[]> {
+    const news = await this.newsRepo.findAll(region);
     if (news.length > 0) {
       return news;
     }

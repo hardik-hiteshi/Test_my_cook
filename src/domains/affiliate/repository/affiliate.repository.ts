@@ -60,15 +60,10 @@ export class AffiliateRepository {
     return deletedAffiliate;
   }
 
-  public async fetchAffiliates(
-    pageNumber: number,
-    pageSize: number,
-    search?: string,
-  ): Promise<AffiliateDocument[]> {
+  public async fetchAffiliates(search?: string): Promise<AffiliateDocument[]> {
     const query: AffiliateQueryInterface = {
       isActive: true,
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { niceName: { $regex: search.toString(), $options: 'i' } },
@@ -104,12 +99,9 @@ export class AffiliateRepository {
       ];
     }
 
-    const affiliates = await this.affiliateModel
-      .find({
-        $and: [query, { isActive: true }],
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const affiliates = await this.affiliateModel.find({
+      $and: [query, { isActive: true }],
+    });
 
     return affiliates;
   }

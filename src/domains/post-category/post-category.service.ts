@@ -77,14 +77,10 @@ export class PostCategoryService {
 
   public async fetchPostCategories(
     region: string,
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<PostCategoryDocument[]> {
     const postCategorysList = await this.postCategoryRepo.fetchPostCategories(
       region,
-      pageNumber,
-      pageSize,
       search,
     );
     if (postCategorysList.length > 0) {

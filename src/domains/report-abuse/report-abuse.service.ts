@@ -31,12 +31,8 @@ export class ReportAbuseService {
     return report;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<ReportAbuseDocument[]> {
-    const reports = await this.reportRepo.findAll(region, pageNumber, pageSize);
+  public async findAll(region: string): Promise<ReportAbuseDocument[]> {
+    const reports = await this.reportRepo.findAll(region);
     if (reports.length > 0) {
       return reports;
     }

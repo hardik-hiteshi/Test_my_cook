@@ -60,16 +60,9 @@ export class PostPageController {
   @Get('posts')
   public async fetchPostPages(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<PostPageDocument[]> {
-    return await this.postPageServices.fetchPostPages(
-      region,
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.postPageServices.fetchPostPages(region, search);
   }
 
   @Get('post/export/:type')

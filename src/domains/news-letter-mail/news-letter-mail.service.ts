@@ -39,16 +39,8 @@ export class NewsLetterMailService {
     return newsLetter;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<NewsLetterMailDocument[]> {
-    const newsLetter = await this.newsLetterRepo.findAll(
-      region,
-      pageNumber,
-      pageSize,
-    );
+  public async findAll(region: string): Promise<NewsLetterMailDocument[]> {
+    const newsLetter = await this.newsLetterRepo.findAll(region);
     if (newsLetter.length > 0) {
       return newsLetter;
     }

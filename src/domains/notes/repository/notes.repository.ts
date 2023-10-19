@@ -82,16 +82,8 @@ export class NotesRepository {
     return deletedNote;
   }
 
-  public async fetchNotes(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<NotesDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-    const notesList = await this.notesModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchNotes(region: string): Promise<NotesDocument[]> {
+    const notesList = await this.notesModel.find({ region, isActive: true });
 
     return notesList;
   }

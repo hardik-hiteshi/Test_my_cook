@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { AUTH } from '../../auth/decorator/auth.decorator';
 import { CreateFactoryDTO } from '../dto/createfactory.dto';
@@ -16,11 +15,11 @@ import { FactoryService } from '../factory.service';
 import { Role } from '../../auth/roles/permission.roles';
 import { UpdateFactoryDTO } from '../dto/updatefactory.dto';
 @AUTH(Role.admin)
-@Controller()
+@Controller('factory')
 export class FactoryController {
   public constructor(private factoryServices: FactoryService) {}
 
-  @Post('factory')
+  @Post()
   private async createFactory(
     @Headers('region') region: string,
     @Body() body: CreateFactoryDTO,
@@ -28,7 +27,7 @@ export class FactoryController {
     return await this.factoryServices.createFactory(region, body);
   }
 
-  @Get('factory/:uniqueId')
+  @Get(':uniqueId')
   private async findAll(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -36,7 +35,7 @@ export class FactoryController {
     return await this.factoryServices.findFactory(region, uniqueId);
   }
 
-  @Put('factory/:uniqueId')
+  @Put(':uniqueId')
   private async updateFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -45,7 +44,7 @@ export class FactoryController {
     return await this.factoryServices.updateFactory(region, uniqueId, body);
   }
 
-  @Delete('factory/:uniqueId')
+  @Delete(':uniqueId')
   private async deleteFactory(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
@@ -53,20 +52,11 @@ export class FactoryController {
     return await this.factoryServices.deleteFactory(region, uniqueId);
   }
 
-  @Get('factory/:uniqueId/machineType')
+  @Get(':uniqueId/machineType')
   private async fetchFactoryMachineType(
     @Headers('region') region: string,
     @Param('uniqueId') uniqueId: string,
   ): Promise<Partial<FactoryDocument>> {
     return await this.factoryServices.fetchFactoryMachineType(region, uniqueId);
-  }
-
-  @Get('factories')
-  private async fetchFactories(
-    @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-  ): Promise<FactoryDocument[]> {
-    return await this.factoryServices.find(region, pageNumber, pageSize);
   }
 }

@@ -56,14 +56,8 @@ export class AffiliateContactController {
 
   @Get('affiliatecontacts')
   public async fetchAffiliateContacts(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<AffiliateContactDocument[]> {
-    return await this.affiliateContactServices.fetchAffiliateContacts(
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.affiliateContactServices.fetchAffiliateContacts(search);
   }
 }

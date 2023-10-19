@@ -33,16 +33,8 @@ export class FactoryRepository {
 
     return factory;
   }
-  public async fetchFactories(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<FactoryDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-    const factories = await this.factoryModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async fetchFactories(region: string): Promise<FactoryDocument[]> {
+    const factories = await this.factoryModel.find({ region, isActive: true });
 
     return factories;
   }

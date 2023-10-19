@@ -31,12 +31,12 @@ export class AuthController {
     @Headers('rate') rate?: number,
     @Headers('commentId') commentId?: string,
     @Headers('legalType') legalType?: string,
-    @Headers('type') type?: string,
   ): Promise<object> {
     return this.authService.signIn(
       body,
       agent,
       region,
+      request,
       ip,
       redirect,
       forwarded,
@@ -44,7 +44,6 @@ export class AuthController {
       rate,
       commentId,
       legalType,
-      type,
     );
   }
 }

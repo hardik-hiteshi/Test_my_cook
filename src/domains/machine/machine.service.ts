@@ -47,16 +47,8 @@ export class MachineService {
 
     return machine;
   }
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<MachineDocument[]> {
-    const machine = await this.machineRepo.findAll(
-      { region },
-      pageNumber,
-      pageSize,
-    );
+  public async findAll(region: string): Promise<MachineDocument[]> {
+    const machine = await this.machineRepo.findAll({ region });
     if (machine.length > 0) {
       return machine;
     }

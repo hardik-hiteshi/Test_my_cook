@@ -6,7 +6,6 @@ import {
   Headers,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { CreateLegalTermsDTO } from './dto/createLegal-terms/legal-terms.create.dto';
@@ -53,13 +52,7 @@ export class LegalTermsController {
   @Get('legaltermss')
   public async fetchLegalTerms(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<LegalTermsDocument[]> {
-    return await this.legaltermsServices.fetchLegalTerms(
-      region,
-      pageNumber,
-      pageSize,
-    );
+    return await this.legaltermsServices.fetchLegalTerms(region);
   }
 }

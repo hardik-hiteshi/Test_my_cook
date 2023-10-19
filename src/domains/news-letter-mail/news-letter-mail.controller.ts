@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Headers,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
 import { CreateManyNewsLetterDto, CreateNewsLetterDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { NewsLetterMailDocument } from './schema/news.letter-mail.schema';
@@ -43,9 +35,7 @@ export class NewsLetterMailController {
   @Get('newslettermails')
   private async getAllNewsLetter(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<NewsLetterMailDocument[]> {
-    return await this.newsLetterService.findAll(region, pageNumber, pageSize);
+    return await this.newsLetterService.findAll(region);
   }
 }

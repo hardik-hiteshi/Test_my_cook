@@ -22,20 +22,11 @@ export class EbookRepository {
     });
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<EbookDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.ebookModel
-      .find({
-        region,
-        isActive: true,
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAll(region: string): Promise<EbookDocument[]> {
+    return await this.ebookModel.find({
+      region,
+      isActive: true,
+    });
   }
 
   public async findDuplicate(

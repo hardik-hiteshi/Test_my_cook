@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { CreateProductDto, UpdateProductDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -50,10 +49,7 @@ export class ProductController {
   }
 
   @Get('products')
-  private async getAllProducts(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-  ): Promise<ProductDocument[]> {
-    return await this.productService.findAll(pageNumber, pageSize);
+  private async getAllProducts(): Promise<ProductDocument[]> {
+    return await this.productService.findAll();
   }
 }

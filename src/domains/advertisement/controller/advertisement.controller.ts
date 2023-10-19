@@ -64,16 +64,9 @@ export class AdvertisementController {
   @Get('Advertisements')
   public async fetchAdvertisements(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-    @Query('search') search?: string,
+    @Query('search') search: string,
   ): Promise<AdvertisementDocument[]> {
-    return await this.adverstimentServices.fetchAdvertisements(
-      region,
-      pageNumber,
-      pageSize,
-      search,
-    );
+    return await this.adverstimentServices.fetchAdvertisements(region, search);
   }
 
   @Get('Advertisement/cat/:category')

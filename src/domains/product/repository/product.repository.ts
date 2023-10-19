@@ -27,17 +27,8 @@ export class ProductRepository {
     return await this.productModel.findOne(query).populate('relatedProducts');
   }
 
-  public async findAll(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<ProductDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.productModel
-      .find()
-      .populate('relatedProducts')
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAll(): Promise<ProductDocument[]> {
+    return await this.productModel.find().populate('relatedProducts');
     //will add field below when ProductCategory available
     // .populate('category');
   }

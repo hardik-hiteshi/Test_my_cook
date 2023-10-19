@@ -9,11 +9,13 @@ import { UpdatePasswordDto, UserCreateDto, UserUpdateDto } from './dto';
 import { json2csv } from 'json-2-csv';
 import { RecipeRepository } from '../recipe/repository/recipe.repository';
 // import { Role } from '../auth/roles/permission.roles';
-import hasher from 'wordpress-hash-node';
+import {
+  CheckPassword,
+  HashPassword,
+} from 'src/common/config/wordPressHasher/hash';
 import { TransactionService } from 'src/common/services/transaction.service';
 import { UserDocument } from './schema/user.schema';
 import { UserRepository } from './repository/user.repository';
-
 @Injectable()
 export class UserService {
   public constructor(
@@ -35,7 +37,7 @@ export class UserService {
       throw new BadRequestException('user email or nicename already exist');
     }
     // body.password = await bcrypt.hash(body.password, 10);
-    body.password = await hasher.HashPassword(body.password);
+    body.password = await HashPassword(body.password);
 
     return await this.userRepo.create(body, region);
   }
@@ -54,16 +56,8 @@ export class UserService {
     return user;
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<UserDocument[]> {
-    const users = await this.userRepo.findAll(
-      { isActive: true, region },
-      pageNumber,
-      pageSize,
-    );
+  public async findAll(region: string): Promise<UserDocument[]> {
+    const users = await this.userRepo.findAll({ isActive: true, region });
     if (users.length > 0) {
       return users;
     }
@@ -78,7 +72,7 @@ export class UserService {
     body: UserUpdateDto,
     region: string,
   ): Promise<Partial<UserDocument>> {
-    body.password = await hasher.HashPassword(body.password);
+    body.password = await HashPassword(body.password);
     // body.password = await bcrypt.hash(body.password, 10);
     const updateUser = await this.userRepo.findOneAndUpdate(
       { niceName, isActive: true, region },
@@ -119,7 +113,7 @@ export class UserService {
     });
     if (!currentUser) throw new NotFoundException('user not found');
 
-    const pwMatched = await hasher.CheckPassword(
+    const pwMatched = await CheckPassword(
       body.currentPassword,
       currentUser.password,
     );
@@ -130,7 +124,7 @@ export class UserService {
     // );
     if (!pwMatched) throw new BadRequestException('invalid password');
 
-    currentUser.password = await hasher.HashPassword(body.newPassword);
+    currentUser.password = await HashPassword(body.newPassword);
     //currentUser.password = await bcrypt.hash(body.newPassword, 10);
 
     await currentUser.save();

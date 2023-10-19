@@ -79,16 +79,10 @@ export class AffiliateConfigService {
   }
 
   public async fetchAffiliateConfigs(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<AffiliateConfigDocument[]> {
     const affiliateConfigsList =
-      await this.affiliateConfigRepo.fetchAffiliateConfigs(
-        pageNumber,
-        pageSize,
-        search,
-      );
+      await this.affiliateConfigRepo.fetchAffiliateConfigs(search);
     if (affiliateConfigsList.length > 0) {
       return affiliateConfigsList;
     }

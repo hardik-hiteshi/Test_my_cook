@@ -27,12 +27,8 @@ export class MachineRepository {
 
   public async findAll(
     query: RecursivePartial<Machine> | object,
-    pageNumber?: number,
-    pageSize?: number,
   ): Promise<MachineDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.machineModel.find(query).skip(skipAmount).limit(pageSize);
+    return await this.machineModel.find(query);
   }
 
   public async deleteOne(

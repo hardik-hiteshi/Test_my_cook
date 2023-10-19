@@ -20,11 +20,8 @@ export class AliasService {
     return alias;
   }
 
-  public async findAll(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<AliasDocument[]> {
-    const alias = await this.aliasRepo.findAll(pageNumber, pageSize);
+  public async findAll(): Promise<AliasDocument[]> {
+    const alias = await this.aliasRepo.findAll();
     if (alias.length > 0) {
       return alias;
     }

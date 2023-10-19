@@ -48,14 +48,8 @@ export class NutritionalDisclaimerRepository {
 
   public async fetchAllND(
     region: string,
-    pageNumber: number,
-    pageSize: number,
   ): Promise<NutritionalDisclaimerDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-    const ndDocList = await this.ndModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const ndDocList = await this.ndModel.find({ region, isActive: true });
 
     return ndDocList;
   }

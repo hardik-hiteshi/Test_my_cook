@@ -66,13 +66,9 @@ export class ConversionService {
   }
 
   public async fetchConversions(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<ConversionDocument[]> {
     const conversionssList = await this.conversionsRepo.fetchConversions(
-      pageNumber,
-      pageSize,
       search,
     );
     if (conversionssList.length > 0) {

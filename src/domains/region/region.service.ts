@@ -23,11 +23,8 @@ export class RegionService {
     return regionData;
   }
 
-  public async findAll(
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<RegionDocument[]> {
-    const regions = await this.regionRepo.findAll(pageNumber, pageSize);
+  public async findAll(): Promise<RegionDocument[]> {
+    const regions = await this.regionRepo.findAll();
     if (regions.length > 0) {
       return regions;
     }

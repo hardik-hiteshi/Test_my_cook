@@ -65,24 +65,18 @@ export class ConversionRepository {
   }
 
   public async fetchConversions(
-    pageNumber: number,
-    pageSize: number,
     search?: string,
   ): Promise<ConversionDocument[]> {
     const query: ConversionQueryInterface = {
       isActive: true,
     };
-    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [{ uniqueId: { $regex: search.toString(), $options: 'i' } }];
     }
 
-    const conversions = await this.conversionModel
-      .find({
-        $and: [query, { isActive: true }],
-      })
-      .skip(skipAmount)
-      .limit(pageSize);
+    const conversions = await this.conversionModel.find({
+      $and: [query, { isActive: true }],
+    });
     //.populate('conversion', 'niceName');
 
     return conversions;

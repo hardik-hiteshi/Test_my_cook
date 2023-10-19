@@ -20,17 +20,8 @@ export class ContactRepository {
       isActive: true,
     });
   }
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<ContactDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.contactModel
-      .find({ region, isActive: true })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAll(region: string): Promise<ContactDocument[]> {
+    return await this.contactModel.find({ region, isActive: true });
   }
   public async createOne(
     region: string,

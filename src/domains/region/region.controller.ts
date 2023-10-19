@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { ContextFields } from './schema/subSchema/contextFields.subSchema';
@@ -52,11 +51,8 @@ export class RegionController {
   }
 
   @Get('regions')
-  private async getAllRegion(
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
-  ): Promise<RegionDocument[]> {
-    return await this.regionService.findAll(pageNumber, pageSize);
+  private async getAllRegion(): Promise<RegionDocument[]> {
+    return await this.regionService.findAll();
   }
 
   @Get('region/:niceName/adminUser')

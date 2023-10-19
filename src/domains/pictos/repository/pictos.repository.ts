@@ -22,17 +22,8 @@ export class PictosRepository {
     return await this.pictosModel.find(query);
   }
 
-  public async findAllByRegion(
-    region: string,
-    pageNumber,
-    pageSize,
-  ): Promise<PictosDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.pictosModel
-      .find({ isDeleted: false, region })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAllByRegion(region: string): Promise<PictosDocument[]> {
+    return await this.pictosModel.find({ isDeleted: false, region });
   }
   public async createOne(
     body: CreatePictosDto,

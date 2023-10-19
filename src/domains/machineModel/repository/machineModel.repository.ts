@@ -16,16 +16,8 @@ export class MachineModelRepository {
 
   public async findAll(
     query: RecursivePartial<MachineModel> | object,
-    pageNumber?: number,
-    pageSize?: number,
   ): Promise<MachineModelDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.machineModel
-      .find(query)
-      .skip(skipAmount)
-      .limit(pageSize)
-      .lean();
+    return await this.machineModel.find(query).lean();
   }
   public async findOne(
     query: RecursivePartial<MachineModel>,

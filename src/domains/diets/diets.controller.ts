@@ -8,7 +8,6 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import { CreateDietDto, CreateManyDietDto, UpdateDietDto } from './dtos';
 import { AUTH } from '../auth/decorator/auth.decorator';
@@ -57,10 +56,8 @@ export class DietsController {
   @Get('diets')
   private async findAll(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<DietDocument[]> {
-    return await this.dietService.findAll(region, pageNumber, pageSize);
+    return await this.dietService.findAll(region);
   }
 
   // using hard delete might use soft delete in future

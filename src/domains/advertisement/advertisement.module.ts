@@ -4,6 +4,7 @@ import {
 } from './schemas/advertisement.schema';
 import { AdvertisementController } from './controller/advertisement.controller';
 import { AdvertisementRepository } from './repository/advertisement.repository';
+import { AdvertisementsController } from './controller/advertisements.controller';
 import { AdvertisementService } from './advertisement.service';
 import { CategoryModule } from '../category/category.module';
 import { Module } from '@nestjs/common';
@@ -16,7 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ]),
     CategoryModule,
   ],
-  controllers: [AdvertisementController],
+  controllers: [AdvertisementController, AdvertisementsController],
   providers: [AdvertisementService, AdvertisementRepository],
 })
 export class AdvertisementModule {}

@@ -25,17 +25,8 @@ export class NewsLetterMailRepository {
     return await this.newsLetterModel.findOne(query);
   }
 
-  public async findAll(
-    region: string,
-    pageNumber: number,
-    pageSize: number,
-  ): Promise<NewsLetterMailDocument[]> {
-    const skipAmount = (pageNumber - 1) * pageSize;
-
-    return await this.newsLetterModel
-      .find({ region })
-      .skip(skipAmount)
-      .limit(pageSize);
+  public async findAll(region: string): Promise<NewsLetterMailDocument[]> {
+    return await this.newsLetterModel.find({ region });
   }
   public async findAllByQuery(
     query: RecursivePartial<NewsLetterMail> | object,

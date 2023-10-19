@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 import {
   CreateFoodGroupDto,
@@ -75,10 +74,8 @@ export class FoodGroupController {
   @Get('foodgroups')
   private async getAllFoodGroup(
     @Headers('region') region: string,
-    @Query('skip') pageNumber: number,
-    @Query('limit') pageSize: number,
   ): Promise<FoodGroupDocument[]> {
-    return await this.foodGroupService.findAll(region, pageNumber, pageSize);
+    return await this.foodGroupService.findAll(region);
   }
 
   @Post('foodgroups')
