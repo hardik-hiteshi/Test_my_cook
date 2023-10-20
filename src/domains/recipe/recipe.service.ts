@@ -65,9 +65,16 @@ export class RecipeService {
 
   public async fetchAllRecipes(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<Array<RecipeDocument>> {
-    const recipeList = await this.recipeRepo.fetchRecipes(region, search);
+    const recipeList = await this.recipeRepo.fetchRecipes(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (recipeList.length > 0) {
       return recipeList;
     }
@@ -94,7 +101,7 @@ export class RecipeService {
     niceName: string,
   ): Promise<RecipeDocument> {
     //if (body.categories && !body.category && !body.categoryNiceName) {
-    if (body.categories && body.categories.length > 0) {
+    if (body.categories.length > 0) {
       body.category = body.categories[0].name;
       body.categoryNiceName = body.categories[0].niceName;
     } else {
@@ -103,7 +110,7 @@ export class RecipeService {
     }
     //}
     if (body.category && body.categoryNiceName) {
-      if (!body.categories) {
+      if (!body.categories && body.category && body.categoryNiceName) {
         body.categories = [];
         const obj = {
           id: body.catId,

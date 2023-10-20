@@ -64,8 +64,16 @@ export class NotesService {
     return { message: 'Deleted Success' };
   }
 
-  public async fetchNotes(region: string): Promise<NotesDocument[]> {
-    const notesList = await this.notesRepo.fetchNotes(region);
+  public async fetchNotes(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<NotesDocument[]> {
+    const notesList = await this.notesRepo.fetchNotes(
+      region,
+      pageNumber,
+      pageSize,
+    );
     if (notesList.length > 0) {
       return notesList;
     }

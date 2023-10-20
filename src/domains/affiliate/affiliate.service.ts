@@ -7,7 +7,7 @@ import {
 import { AffiliateDocument } from './schema/affiliate.schema';
 import { AffiliateRepository } from './repository/affiliate.repository';
 import { CreateAffiliateDTO } from './dto/createDto/createAffiliate.dto';
-import { HashPassword } from 'src/common/config/wordPressHasher/hash';
+import hasher from 'wordpress-hash-node';
 import { UpdateAffiliateDTO } from './dto/updateDto/updateAffiliate.dto';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AffiliateService {
     const affiliate = await this.affiliateRepo.findOne(body);
 
     if (!affiliate) {
-      body.password = await HashPassword(body.password);
+      body.password = await hasher.HashPassword(body.password);
       //body.password = await bcrypt.hash(body.password, 10);
       const affiliate = await this.affiliateRepo.createAffiliate(body);
 
@@ -73,8 +73,16 @@ export class AffiliateService {
     return { message: 'Deleted Success' };
   }
 
-  public async fetchAffiliates(search?: string): Promise<AffiliateDocument[]> {
-    const affiliatesList = await this.affiliateRepo.fetchAffiliates(search);
+  public async fetchAffiliates(
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
+  ): Promise<AffiliateDocument[]> {
+    const affiliatesList = await this.affiliateRepo.fetchAffiliates(
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (affiliatesList.length > 0) {
       return affiliatesList;
     }

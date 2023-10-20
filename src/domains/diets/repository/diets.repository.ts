@@ -25,8 +25,12 @@ export class DietsRepository {
   }
   public async findAll(
     query: RecursivePartial<Diet> | object,
+    pageNumber?: number,
+    pageSize?: number,
   ): Promise<DietDocument[]> {
-    return await this.dietModel.find(query);
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    return await this.dietModel.find(query).skip(skipAmount).limit(pageSize);
   }
   public async updateOne(
     body: UpdateDietDto,

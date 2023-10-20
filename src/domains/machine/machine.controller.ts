@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -47,8 +48,10 @@ export class MachineController {
   @Get('machines')
   private async getAllMachine(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<MachineDocument[]> {
-    return await this.machineService.findAll(region);
+    return await this.machineService.findAll(region, pageNumber, pageSize);
   }
 
   @Put('machine/:unique_id')

@@ -34,7 +34,5 @@ export const regions = [
   'IT-ICOOKIN',
   'NL-ICOOKIN',
   'MACHINE',
-  'test-cmsdrive',
-  'localhost:3000',
 ];
 export default regions;

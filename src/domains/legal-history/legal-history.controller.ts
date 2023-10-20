@@ -1,4 +1,4 @@
-import { Controller, Get, Headers, Param } from '@nestjs/common';
+import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
 import { AUTH } from '../auth/decorator/auth.decorator';
 import { LegalHistoryDocument } from './schema/legal-history.schema';
 import { LegalHistoryService } from './legal-history.service';
@@ -20,7 +20,9 @@ export class LegalHistoryController {
   @Get('legalhistorys')
   public async fetchAllLH(
     @Headers('region') region: string,
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
   ): Promise<Partial<LegalHistoryDocument>[]> {
-    return await this.lhServices.fetchAllLH(region);
+    return await this.lhServices.fetchAllLH(region, pageNumber, pageSize);
   }
 }

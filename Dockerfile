@@ -8,20 +8,16 @@ RUN mkdir -p /app
 WORKDIR /app
 
 # Update the package repository and install necessary dependencies
-#RUN apt-get update && apt-get install -y vim graphicsmagick optipng jpegoptim libvips-dev && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-COPY package*.json ./
-
-RUN npm install
+RUN apt-get update && apt-get install -y vim graphicsmagick optipng jpegoptim libvips-dev && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy the application code into the container
-# COPY src/config/env.json ./env.json
 COPY . /app
 
 # Install the required Node.js packages
-#RUN rm -rf node_modules/sharp && npm install sharp && npm install --force canvas && npm rebuild
+RUN rm -rf node_modules/sharp && npm install sharp && npm install --force canvas && npm rebuild
 
 # Create a symbolic link for the images directory
-#RUN cd /app/public && rm -rf ./uploads && ln -s /data/images uploads
+RUN cd /app/public && rm -rf ./uploads && ln -s /data/images uploads
 
 # Expose port 8080 for the application
 EXPOSE 8080

@@ -73,9 +73,16 @@ export class CategoryService {
 
   public async fetchCategories(
     region: string,
+    pageNumber?: number,
+    pageSize?: number,
     search?: string,
   ): Promise<CategoryDocument[]> {
-    const categories = await this.categoryRepo.fetchCategories(region, search);
+    const categories = await this.categoryRepo.fetchCategories(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (categories.length > 0) {
       return categories;
     }

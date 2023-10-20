@@ -32,8 +32,12 @@ export class EbookService {
     return ebook;
   }
 
-  public async findAll(region: string): Promise<EbookDocument[]> {
-    const ebooks = await this.ebookRepo.findAll(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<EbookDocument[]> {
+    const ebooks = await this.ebookRepo.findAll(region, pageNumber, pageSize);
     if (ebooks.length > 0) {
       return ebooks;
     }

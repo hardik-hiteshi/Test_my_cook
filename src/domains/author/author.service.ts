@@ -52,8 +52,14 @@ export class AuthorService {
     return { message: 'Deleted Success' };
   }
 
-  public async fetchAllAuthors(): Promise<AuthorDocument[]> {
-    const authorsList = await this.authorRepo.fetchAllAuthors();
+  public async fetchAllAuthors(
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<AuthorDocument[]> {
+    const authorsList = await this.authorRepo.fetchAllAuthors(
+      pageNumber,
+      pageSize,
+    );
     if (authorsList.length > 0) {
       return authorsList;
     }

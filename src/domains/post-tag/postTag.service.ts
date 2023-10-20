@@ -85,9 +85,16 @@ export class PostTagService {
 
   public async fetchPostTags(
     region: string,
+    pageNumber: number,
+    pageSize: number,
     search?: string,
   ): Promise<PostTagDocument[]> {
-    const postTagsList = await this.postTagRepo.fetchPostTags(region, search);
+    const postTagsList = await this.postTagRepo.fetchPostTags(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (postTagsList.length > 0) {
       return postTagsList;
     }

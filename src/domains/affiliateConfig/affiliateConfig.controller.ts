@@ -54,8 +54,14 @@ export class AffiliateConfigController {
 
   @Get('configs')
   public async fetchAffiliateConfigs(
+    @Query('skip') pageNumber: number,
+    @Query('limit') pageSize: number,
     @Query('search') search?: string,
   ): Promise<AffiliateConfigDocument[]> {
-    return await this.affiliateConfigServices.fetchAffiliateConfigs(search);
+    return await this.affiliateConfigServices.fetchAffiliateConfigs(
+      pageNumber,
+      pageSize,
+      search,
+    );
   }
 }

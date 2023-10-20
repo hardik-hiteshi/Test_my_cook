@@ -61,9 +61,17 @@ export class RankService {
 
   public async fetchRanks(
     region: string,
+    pageNumber: number,
+    pageSize: number,
+
     search?: string,
   ): Promise<RankDocument[]> {
-    const ranksList = await this.rankRepo.fetchRanks(region, search);
+    const ranksList = await this.rankRepo.fetchRanks(
+      region,
+      pageNumber,
+      pageSize,
+      search,
+    );
     if (ranksList.length > 0) {
       return ranksList;
     }

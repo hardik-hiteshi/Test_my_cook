@@ -33,8 +33,16 @@ export class MachineLogService {
     return machineLog;
   }
 
-  public async findAll(region: string): Promise<MachineLogDocument[]> {
-    const machineLog = await this.machineLogRepo.findAll(region);
+  public async findAll(
+    region: string,
+    pageNumber: number,
+    pageSize: number,
+  ): Promise<MachineLogDocument[]> {
+    const machineLog = await this.machineLogRepo.findAll(
+      region,
+      pageNumber,
+      pageSize,
+    );
 
     if (machineLog.length > 0) {
       return machineLog;
@@ -72,6 +80,7 @@ export class MachineLogService {
     body: CreateManyMachineLogDTO,
   ): Promise<MachineLogDocument[]> {
     for (let i = 0; i < body.data.length; i++) {
+      // console.log(i)
       body.data[i]['uniqueId'] = uuid();
     }
     const bulkData = await this.machineLogRepo.createManyMachineLogs(body);
@@ -88,6 +97,7 @@ export class MachineLogService {
     if (machineLogs.length <= 0) {
       throw new NotFoundException('machine_models not found');
     }
+    // console.log(machineLogs);
     const csv = await json2csv(machineLogs, { unwindArrays: true });
     const data = Buffer.from(csv);
 

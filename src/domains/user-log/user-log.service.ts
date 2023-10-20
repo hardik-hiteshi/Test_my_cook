@@ -13,15 +13,13 @@ import { UserLogDocument } from './schema/user-log.schema';
 import { UserLogRepository } from './repository/UserLog.repository';
 import { UserRepository } from '../user/repository/user.repository';
 
+
 @Injectable()
 export class UserLogService {
   public exists = 'UserLog Already exists';
   public notfound = 'UserLog not found';
-  public constructor(
-    public ulRepo: UserLogRepository,
-    public userRepo: UserRepository,
-    public recipeRepo: RecipeRepository,
-  ) {}
+  public constructor(public ulRepo: UserLogRepository,
+  public userRepo:UserRepository, public recipeRepo:RecipeRepository) {}
 
   public async createIncomingUserLog(
     user: UserDocument,
@@ -34,7 +32,7 @@ export class UserLogService {
     rate?: number,
     commentId?: string,
     legalType?: string,
-    loginLog?: object,
+    type?: string,
   ): Promise<object> {
     const incomingLogObj = {};
     incomingLogObj['user'] = 'anonymous';
@@ -68,14 +66,14 @@ export class UserLogService {
     if (legalType) {
       incomingLogObj['legalType'] = legalType;
     }
-    if (loginLog['type']) {
-      incomingLogObj['type'] = loginLog['type'];
+    if (type) {
+      incomingLogObj['type'] = type;
     }
-    incomingLogObj['date'] = new Date(loginLog['date']);
+    incomingLogObj['date'] = new Date(date);
     incomingLogObj['region'] = region;
     incomingLogObj['agent'] = agent;
     incomingLogObj['machine'] = undefined;
-    if (incomingLogObj[loginLog['type']] == 'recipe/cooked') {
+    if(incomingLogObj[type] == 'recipe/cooked') { 
       let flag = false;
       const recipe = await this.ulRepo.checkRepeatedRecipeCooked(
         incomingLogObj,
@@ -97,7 +95,7 @@ export class UserLogService {
           : 0;
         const minimumTime = seconds
           ? parseInt(String(seconds + seconds / 2))
-          : 5400;
+          : 5400; // Hora y media de default /;
         const mom = moment(incomingLogObj['date']).subtract(
           minimumTime,
           'seconds',
@@ -112,13 +110,9 @@ export class UserLogService {
           return newUserLog;
         }
       }
-    } else {
-   
-      const newUserLog = await this.ulRepo.createnewlog(incomingLogObj);
-
-      return newUserLog;
     }
-  
+
+
     return incomingLogObj;
   }
 
@@ -147,8 +141,10 @@ export class UserLogService {
     return userLog;
   }
 
-  public async fetchAllUserLog(region: string): Promise<UserLogDocument[]> {
-    const userLogList = await this.ulRepo.fetchAll(region);
+  public async fetchAllUserLog(region: string,
+    pageNumber: number,
+    pageSize: number,): Promise<UserLogDocument[]> {
+    const userLogList = await this.ulRepo.fetchAll(region,pageNumber,pageSize);
     if (userLogList.length > 0) {
       return userLogList;
     }
@@ -176,9 +172,7 @@ export class UserLogService {
     return { message: 'Deleted Success' };
   }
 
-  public async incrementDoneCount(
-    incomingLogObj: Partial<UserLogDocument>,
-  ): Promise<void> {
+  public async incrementDoneCount(incomingLogObj:Partial<UserLogDocument>): Promise<void>{
     const region = incomingLogObj.region;
     const niceName = incomingLogObj.user;
     const recipeNiceName = incomingLogObj.niceName;
@@ -201,22 +195,26 @@ export class UserLogService {
           niceName,
           done: { $elemMatch: { niceName: recipeNiceName } },
         };
-        const body = {
+        const body={
           'done.$.lastTime': Date.now(),
           'done.$.cooked': cookedCount,
         };
         await this.ulRepo.findUserandUpdate(query, body);
-      } else {
-        const query = { region, niceName };
-        const body = {
+      }
+      else{
+        const query={region,niceName};
+        const body= {
           'done.$.niceName': recipeNiceName,
           'done.$.firstTime': Date.now(),
           'done.$.lastTime': Date.now(),
           'done.$.cooked': 1,
         };
         await this.ulRepo.findUserandUpdate(query, body);
-      }
-    } else {
+      };
+
+
+    }
+    else{
       throw new NotFoundException('Recipe not found');
     }
   }

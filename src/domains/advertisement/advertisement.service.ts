@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   BadRequestException,
   Injectable,
@@ -84,10 +83,14 @@ export class AdvertisementService {
 
   public async fetchAdvertisements(
     region: string,
-    search: string,
+    pageNumber: number,
+    pageSize: number,
+    search?: string,
   ): Promise<AdvertisementDocument[]> {
     const advertisementList = await this.adRepo.fetchAdvertisements(
       region,
+      pageNumber,
+      pageSize,
       search,
     );
     if (advertisementList.length > 0) {
@@ -159,8 +162,7 @@ export class AdvertisementService {
     const query = body;
     query['region'] = region;
 
-    query.profile;
-    // const profile = query.profile;
+    const profile = query.profile;
     let skipItems = 0;
     let limitItems = 20;
     let orderBy;
@@ -177,8 +179,7 @@ export class AdvertisementService {
       limitItems = parseInt(query.limit);
     }
 
-    this.handleSort(query['sortBy'], query['orderBy']);
-    // const sortedBy = this.handleSort(query['sortBy'], query['orderBy']);
+    const sortedBy = this.handleSort(query['sortBy'], query['orderBy']);
     const options = {};
     options['limit'] = limitItems;
     options['skip'] = skipItems;

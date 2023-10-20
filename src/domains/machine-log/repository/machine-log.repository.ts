@@ -33,8 +33,18 @@ export class MachineLogRepository {
     });
   }
 
-  public async findAll(region: string): Promise<MachineLogDocument[]> {
-    return await this.machineLogModel.find({ region, isActive: true }).lean();
+  public async findAll(
+    region: string,
+    pageNumber?: number,
+    pageSize?: number,
+  ): Promise<MachineLogDocument[]> {
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    return await this.machineLogModel
+      .find({ region, isActive: true })
+      .skip(skipAmount)
+      .limit(pageSize)
+      .lean();
   }
 
   public async deleteOne(

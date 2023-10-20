@@ -1,27 +1,26 @@
 // import * as bcrypt from 'bcrypt';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CheckPassword } from 'src/common/config/wordPressHasher/hash';
-import { CommonService } from 'src/common/services/common.service';
+import { ConfigService } from '@nestjs/config';
+import hasher from 'wordpress-hash-node';
 import { JwtService } from '@nestjs/jwt';
-import { RecursivePartial } from 'src/common/interface';
-import { Request } from 'express';
+import mongoose from 'mongoose';
 import { SignInUserDto } from './dtos';
-import { User } from '../user/schema/user.schema';
+import { UserLogService } from '../user-log/user-log.service';
 import { UserRepository } from '../user/repository/user.repository';
 
 @Injectable()
 export class AuthService {
   public constructor(
+    private configService: ConfigService,
     private jwtService: JwtService,
     private userRepo: UserRepository,
-    private commonService: CommonService,
+    private ulServices: UserLogService,
   ) {}
 
   public async signIn(
     body: SignInUserDto,
     agent: string,
     region: string,
-    request: Request,
     ip?: string,
     redirect?: string,
     forwarded?: string,
@@ -29,102 +28,57 @@ export class AuthService {
     rate?: number,
     commentId?: string,
     legalType?: string,
+    type?: string,
   ): Promise<object> {
-    const user = await this.userRepo.findOne({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      $or: [{ login: body.login }, { 'contact.email': body.login }],
-      // region,
-    });
+    const user = await this.userRepo.findOne({ login: body.login });
 
-    if (!user) throw new BadRequestException('invalid user');
+    // await this.ulServices.createIncomingUserLog(
+    //   user,
+    //   agent,
+    //   region,
+    //   ip,
+    //   redirect,
+    //   forwarded,
+    //   date,
+    //   rate,
+    //   commentId,
+    //   legalType,
+    //   type,
+    // );
+    // await this.ulServices.createIncomingUserLog()
+
+    if (!user) throw new BadRequestException('invalid user or password');
 
     // const pwMatched = await bcrypt.compare(body.password, user.password);
-    const pwMatched = await CheckPassword(body.password, user.password);
+    const pwMatched = await hasher.CheckPassword(body.password, user.password);
 
-    if (!pwMatched) throw new BadRequestException('invalid password');
+    if (!pwMatched) throw new BadRequestException('invalid user or password');
 
-    request['user'] = user;
-
-    const payload = {
-      niceName: user.niceName,
-      displayName: user.name ? user.name.displayName : '',
-      email: user.contact.mail ? user.contact.mail : '',
-      rank: user.rank,
-      ip,
-      role: user.role,
-      allowedRegions: user.allowedRegions,
-    };
-
-    const token = await this.signJwt(payload);
-    const response = {
+    const token = await this.signJwt(user._id);
+    const data = {
       token,
       niceName: user.niceName,
       displayName: user.name.displayName,
       email: user.contact.mail,
-      allowedRegions: user.allowedRegions,
       role: user.role,
+      rank: user.rank,
+      // eslint-disable-next-line object-shorthand
+      ip: ip,
+      allowedRegions: user.allowedRegions,
     };
 
-    //Starts Updating user login history========================================='
-
-    const { geo, ip: geoip } = await this.commonService.getGeos(request, ip);
-
-    user.history.lastLoginCMS = {
-      date: new Date(),
-      ip: geoip,
-      userAgent: request.headers['user-agent'],
-      geo: {
-        lat: geo ? geo.ll[0] : 'UNKNOWN',
-        lng: geo ? geo.ll[1] : 'UNKNOWN',
-      },
-    };
-
-    const userQuery: RecursivePartial<User> = {
-      niceName: user.niceName,
-      region,
-    };
-
-    await this.userRepo.findOneAndUpdate(userQuery, user);
-
-    //Ends Updating user login history========================================='
-
-    //Starts add Cms Login User Log========================================='
-    const loginLog = {
-      agent: request.headers['user-agent'],
-      type: 'cmsuser/login',
-    };
-
-    await this.commonService.addUserLog(
-      loginLog,
-      request,
-      ip,
-      region,
-      redirect,
-      forwarded,
-      date,
-      rate,
-      commentId,
-      legalType,
-    );
-
-    //Ends add Cms Login User Log==========================================='
-
-    //Check response:
-
-    if (response.role === 'user') {
-      delete response.allowedRegions;
-    }
-
-    return response;
+    return data;
   }
 
-  public async signJwt(data: object, expiresIn?: string): Promise<string> {
-    // const payload = {
-    //   sub: id,
-    // };
-    const token = await this.jwtService.signAsync(data, {
-      secret: 'prod_secret',
-      //secret: this.configService.get<string>('JWT_SECRET'),
+  public async signJwt(
+    id: mongoose.Types.ObjectId,
+    expiresIn?: string,
+  ): Promise<string> {
+    const payload = {
+      sub: id,
+    };
+    const token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: expiresIn ?? '24h',
     });
 

@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import logtypes from '../../../common/elements/logtypes';
 import regions from 'src/common/enum/region.enum';
+import value from '../../../common/elements/logtypes';
 
 export type UserLogDocument = HydratedDocument<UserLog>;
 
@@ -13,9 +13,14 @@ export class UserLog {
   @Prop()
   public agent?: string;
 
-  @Prop({ enum: logtypes })
-  public type: string;
+  @Prop({ enum: value })
+  public type?: string;
 
+  //  {
+  //   type: String,
+  //   map: require("./../elements/logtypes.json"),
+  //   readonly: true,
+  // }
   @Prop()
   public legalType?: string;
 

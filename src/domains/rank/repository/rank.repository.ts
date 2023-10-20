@@ -73,11 +73,15 @@ export class RankRepository {
 
   public async fetchRanks(
     region: string,
+    pageNumber: number,
+    pageSize: number,
+
     search?: string,
   ): Promise<RankDocument[]> {
     const query: RankQueryInterface = {
       region,
     };
+    const skipAmount = (pageNumber - 1) * pageSize;
     if (search) {
       query.$or = [
         { name: { $regex: search.toString(), $options: 'i' } },
@@ -100,9 +104,12 @@ export class RankRepository {
       ];
     }
 
-    const ranks = await this.rankModel.find({
-      $and: [query, { isActive: true }],
-    });
+    const ranks = await this.rankModel
+      .find({
+        $and: [query, { isActive: true }],
+      })
+      .skip(skipAmount)
+      .limit(pageSize);
 
     return ranks;
   }
